@@ -56,7 +56,11 @@ namespace RandomchaosMGUIBase.UIBaseClasses
         public Color HoverBorderColor = Color.Cyan;
         public Color SelctedBorderColor = Color.Blue;
 
+        protected float HorizontalTextScroll = 0;
+
         int CursorHeight = 0;
+
+        
 
         public TextBoxBase(Game game, Rectangle sizeRect, string fontAsset, string backgroundAsset = null) : base(game, sizeRect, backgroundAsset)
         {
@@ -138,7 +142,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                                 {
                                     text = Text.Substring(0, CursorPos - 1) + Text.Substring(CursorPos);
 
-                                    CursorPos--;
+                                    MoveCursorPosition(-1);
                                 }
                                 break;
                             case Keys.BrowserBack:
@@ -277,7 +281,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                             case Keys.Left:
                                 // Move curso left..
                                 if (CursorPos >= 1)
-                                    CursorPos--;
+                                    MoveCursorPosition(-1);
                                 break;
                             case Keys.LeftAlt:
                             case Keys.LeftControl:
@@ -386,7 +390,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                             case Keys.Right:
                                 // Move cursor right
                                 if (CursorPos < Text.Length)
-                                    CursorPos++;
+                                    MoveCursorPosition(1);
                                 break;
                             case Keys.RightAlt:
                             case Keys.RightControl:
@@ -426,8 +430,30 @@ namespace RandomchaosMGUIBase.UIBaseClasses
         protected void AddTextAtCursor(string text)
         {
             Text = Text.Substring(0, CursorPos) + text + Text.Substring(CursorPos);
-            CursorPos++;
+            MoveCursorPosition(1);
         }
+
+        protected virtual void MoveCursorPosition(int moveBy)
+        {
+            CursorPos += moveBy;
+
+            Vector2 cursorPos = Vector2.Transform(Transform.Position2D + font.MeasureString(Text.Substring(0, CursorPos)), Matrix.Invert(Transform.World));
+            if (cursorPos.X + HorizontalTextScroll >= ScissorRectangle.Width - TextOffset.X)
+            {
+                float ch = font.MeasureString(" ").X;
+                // Move text back..
+                HorizontalTextScroll -= ch * 2;
+            }
+
+            if (cursorPos.X + HorizontalTextScroll <= -TextOffset.X)
+            {
+                float ch = font.MeasureString(" ").X;
+                // Move text back..
+                HorizontalTextScroll += ch * 2;
+            }
+        }
+
+        
 
         public override void Draw(GameTime gameTime)
         {
@@ -435,6 +461,10 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
             
             StartDraw(gameTime);
+
+            // Calcualte text statring position..
+            textRenderPos = new Vector2(HorizontalTextScroll, textRenderPos.Y);
+
 
             if (string.IsNullOrEmpty(Text))
                 spriteBatch.DrawString(font, PromptText, textRenderPos + TextOffset, ForePromptColor, Transform.Rotation.Z, Vector2.One * .5f, 1, SpriteEffects.None, 0);

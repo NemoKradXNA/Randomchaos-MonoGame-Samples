@@ -58,13 +58,14 @@ namespace RandomchaosMGUIBaseSandBox
 
         Point windowSp = new Point(0, 0);
         Point newWOffset = new Point(50, 50);
+        int n = 0;
 
         void ShowWindow(object sender, bool leftButton, Vector2 position)
         {
 
             //window.Visible = true;
 
-            WindowBase win = new WindowBase(this, new Rectangle(windowSp.X, windowSp.Y, 400, 200), "Fonts/Airel12", "Test Window");
+            WindowBase win = new WindowBase(this, new Rectangle(windowSp.X, windowSp.Y, 400, 200), "Fonts/Airel12", "Test Window" + n.ToString());
             win.OnCloseWindowEvent += CloseWindow;
             win.Initialize();
             Components.Add(win);
@@ -78,11 +79,13 @@ namespace RandomchaosMGUIBaseSandBox
                 windowSp.Y = 0;
             else
                 windowSp.Y += newWOffset.Y;
+            n++;
         }
 
         void CloseWindow(object sender)
         {
-           ((WindowBase)sender).Visible = false;
+            Components.Remove((WindowBase)sender);
+            sender = null;
         }
 
         /// <summary>

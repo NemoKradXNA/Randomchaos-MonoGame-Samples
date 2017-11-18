@@ -62,7 +62,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             OnMouseLeaveEvent += unsetHover;
             OnMouseButtonDownEvent += selecting;
             OnMouseClickEvent += clicked;
-        }        
+        }
 
         protected void setHover(object sender)
         {
@@ -72,11 +72,9 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
         protected void selecting(object sender, bool leftButton, Vector2 position)
         {
-            if (leftButton)
-            {
-                IsSelceted = true;
-                BackgroundColor = ButtonDownColor;
-            }
+
+            IsSelceted = true;
+            BackgroundColor = ButtonDownColor;
         }
 
         protected void unsetHover(object sender)
@@ -87,10 +85,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
         protected void clicked(object sender, bool leftButton, Vector2 position)
         {
-            if (leftButton)
-            {
-                BackgroundColor = orgBackgroundColor;
-            }
+            BackgroundColor = orgBackgroundColor;
         }
 
         protected override void LoadContent()

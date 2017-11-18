@@ -99,7 +99,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
             if (IsMoving)
             {
-                if (ControlBase.FocusControl == titleBar)
+                if (ControlBase.FocusControl == this.titleBar)
                     Moving();
             }
         }

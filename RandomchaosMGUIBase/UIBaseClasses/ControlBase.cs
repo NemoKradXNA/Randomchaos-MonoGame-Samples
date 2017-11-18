@@ -302,7 +302,10 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                 {
                     if (OnLostFocusEvent != null)
                         OnLostFocusEvent(this);
+                }
 
+                if (MouseManager.InitialLeftButtonDown)
+                {
                     if (HasFocus)
                     {
                         ControlBase.FocusControl = null;

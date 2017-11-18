@@ -44,7 +44,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
         protected virtual void MouseDown(object sender, bool leftButton, Vector2 pos)
         {
-            if (leftButton)
+            if (leftButton && (FocusControl == this || FocusControl == Transform.Parent || FocusControl==null))
             {
                 SetFocus(this);
             }
