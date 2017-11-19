@@ -56,7 +56,7 @@ namespace RandomchaosMGUIBaseSandBox
             Components.Add(mr);
         }
 
-        Point windowSp = new Point(0, 0);
+        Point windowSp = new Point(100, 100);
         Point newWOffset = new Point(50, 50);
         int n = 0;
 

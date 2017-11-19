@@ -151,7 +151,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
         /// <summary>
         /// The actual texture used to render as the background.
         /// </summary>
-        Texture2D BackgroundTexture;
+        protected Texture2D BackgroundTexture;
 
         /// <summary>
         /// List of the children to be rendered (if any)
@@ -225,7 +225,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             else
             {
                 BackgroundTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
-                BackgroundTexture   .SetData<Color>(new Color[] { Color.White });
+                BackgroundTexture.SetData<Color>(new Color[] { Color.White });
             }
 
         }

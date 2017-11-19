@@ -28,6 +28,14 @@ namespace RandomchaosMGBase.InputManagers
             }
         }
 
+        public bool CtrlIsDown
+        {
+            get
+            {
+                return State.IsKeyDown(Keys.LeftControl) || State.IsKeyDown(Keys.RightControl);
+            }
+        }
+
         public Keys[] KeysPressed()
         {
             return State.GetPressedKeys();
