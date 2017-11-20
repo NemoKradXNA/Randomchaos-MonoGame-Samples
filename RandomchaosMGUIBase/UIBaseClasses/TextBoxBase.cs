@@ -102,6 +102,8 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
                     CursorPos = (int)Math.Round(cp,0, MidpointRounding.ToEven);
                 }
+
+                resetSelectedStartEnd();
             }
         }
 
@@ -135,14 +137,22 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                 {
                     if ((int)key >= 65 && (int)key <= 90)
                     {
-                        if (key == Keys.P && KeyboardManager.CtrlIsDown)
+                        if (key == Keys.V && KeyboardManager.CtrlIsDown)
                         {
                             // Clipboard
+                            AddTextAtCursor(Clipboard.GetText());                            
                         }
-                        if (KeyboardManager.CapsLock || KeyboardManager.ShiftIsDown)
-                            AddTextAtCursor(key.ToString());
+                        else if (key == Keys.C && KeyboardManager.CtrlIsDown)
+                        {
+                            Clipboard.SetText(SelectedText);
+                        }
                         else
-                            AddTextAtCursor(key.ToString().ToLower());
+                        {
+                            if (KeyboardManager.CapsLock || KeyboardManager.ShiftIsDown)
+                                AddTextAtCursor(key.ToString());
+                            else
+                                AddTextAtCursor(key.ToString().ToLower());
+                        }
                     }
                     else
                     {
@@ -153,16 +163,14 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                                 break;
                             case Keys.Back:
                                 // Delete from curso pos back
-                                if (Text.Length > 0 && CursorPos != 0)
+                                if (Text.Length > 0 && (CursorPos != 0 || SelectedText.Length > 0))
                                 {
                                     if (!string.IsNullOrEmpty(SelectedText))
                                         cutSelectedText();
                                     else
                                         text = Text.Substring(0, CursorPos - 1) + Text.Substring(CursorPos);
 
-                                    MoveCursorPosition(-1);
-
-                                    
+                                    MoveCursorPosition(-1);                                    
                                 }
                                 break;
                             case Keys.BrowserBack:
@@ -238,10 +246,13 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                                     AddTextAtCursor(key.ToString().Substring(1));
                                 break;
                             case Keys.Delete:
-                                if (CursorPos != Text.Length)
+                                if (CursorPos != Text.Length || !string.IsNullOrWhiteSpace(SelectedText))
                                 {
-                                    if(!string.IsNullOrEmpty(SelectedText))
+                                    if (!string.IsNullOrEmpty(SelectedText))
+                                    {
+                                        CursorPos = SelectedStart;
                                         cutSelectedText();
+                                    }
                                     else
                                         text = Text.Substring(0, CursorPos) + Text.Substring(CursorPos + 1);
                                 }
@@ -253,6 +264,21 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                                 break;
                             case Keys.End:
                                 // Send cursor to end of line
+                                if (KeyboardManager.ShiftIsDown)
+                                {
+                                    if (SelectedStart == 0)
+                                        SelectedStart = CursorPos;
+
+                                    SelectedEnd = text.Length;
+
+                                    MoveCursorPosition(text.Length - CursorPos);
+                                }
+                                else
+                                {
+                                    CursorPos = Text.Length;
+                                    MoveCursorPosition(0);
+                                    resetSelectedStartEnd();
+                                }
                                 break;
                             case Keys.Enter:
                                 break;
@@ -288,6 +314,20 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                                 break;
                             case Keys.Home:
                                 // Sent cursor to start of line
+                                if (KeyboardManager.ShiftIsDown)
+                                {
+                                    if (SelectedEnd == 0)
+                                        SelectedEnd = CursorPos;
+
+                                    SelectedStart = 0;
+                                    MoveCursorPosition(-CursorPos);
+                                }
+                                else
+                                {
+                                    CursorPos = 0;
+                                    MoveCursorPosition(0);
+                                    resetSelectedStartEnd();
+                                }
                                 break;
                             case Keys.ImeConvert:
                             case Keys.ImeNoConvert:
@@ -492,6 +532,8 @@ namespace RandomchaosMGUIBase.UIBaseClasses
         {
             SelectedStart = 0;
             SelectedEnd = 0;
+
+            SelectedText = string.Empty;
         }
 
         bool cutSelectedText()
@@ -499,8 +541,6 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             if (!string.IsNullOrEmpty(SelectedText))
             {
                 text = Text.Substring(0, SelectedStart) + Text.Substring(SelectedEnd);
-                resetSelectedStartEnd();
-
                 resetSelectedStartEnd();
                 return true;
             }
@@ -514,7 +554,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
             Text = Text.Substring(0, CursorPos) + text + Text.Substring(CursorPos);
 
-            MoveCursorPosition(1);
+            MoveCursorPosition(text.Length);
         }
 
         protected virtual void MoveCursorPosition(int moveBy)
@@ -522,14 +562,14 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             CursorPos += moveBy;
 
             Vector2 cursorPos = Vector2.Transform(Transform.Position2D + font.MeasureString(Text.Substring(0, CursorPos)), Matrix.Invert(Transform.World));
-            if (cursorPos.X + HorizontalTextScroll >= ScissorRectangle.Width - TextOffset.X)
+            while (cursorPos.X + HorizontalTextScroll >= ScissorRectangle.Width - TextOffset.X)
             {
                 float ch = font.MeasureString(" ").X;
                 // Move text back..
                 HorizontalTextScroll -= ch * 2;
             }
 
-            if (cursorPos.X + HorizontalTextScroll <= -TextOffset.X)
+            while (cursorPos.X + HorizontalTextScroll <= -TextOffset.X)
             {
                 float ch = font.MeasureString(" ").X;
                 // Move text back..
