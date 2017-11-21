@@ -44,6 +44,8 @@ namespace RandomchaosMGUIBase.UIBaseClasses
         /// </summary>
         public event MouseClick OnMouseClickEvent;
 
+        public event MouseDoubleClick OnMouseDoubleClickEvent;
+
         /// <summary>
         /// Is called when the cotnrol has focus
         /// </summary>
@@ -172,6 +174,9 @@ namespace RandomchaosMGUIBase.UIBaseClasses
         /// Size of the border to be rendered.
         /// </summary>
         Rectangle borderRect;
+
+        double ClickTimer;
+        const double TimerDelay = 250;
         #endregion
 
         public ControlBase(Game game, Rectangle sizeRect, string backgroundAsset = null) : base(game)
@@ -280,14 +285,24 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
                 if (IsClickable)
                 {
+                    ClickTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
                     // Was the left button clicked?
                     if (MouseManager.LeftClicked)
                     {
                         if (OnGotFocusEvent != null)
                             OnGotFocusEvent(this);
 
-                        if (OnMouseClickEvent != null)
-                            OnMouseClickEvent(this, true, MouseManager.Position);
+                        if (ClickTimer < TimerDelay)
+                        {
+                            if (OnMouseDoubleClickEvent != null)
+                                OnMouseDoubleClickEvent(this, true, MouseManager.Position);
+                        }
+                        else
+                        {
+                            if (OnMouseClickEvent != null)
+                                OnMouseClickEvent(this, true, MouseManager.Position);
+                        }
+                        ClickTimer = 0;
                     }
 
                     // Was the right button clicked?
@@ -300,7 +315,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                 // Has the mose been clicked?
                 if (MouseManager.LeftClicked || MouseManager.RightClicked)
                 {
-                    if (OnLostFocusEvent != null)
+                    if (HasFocus && OnLostFocusEvent != null)
                         OnLostFocusEvent(this);
                 }
 

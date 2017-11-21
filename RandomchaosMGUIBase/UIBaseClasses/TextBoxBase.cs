@@ -591,7 +591,10 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
 
             if (string.IsNullOrEmpty(Text))
-                spriteBatch.DrawString(font, PromptText, textRenderPos + TextOffset, ForePromptColor, Transform.Rotation.Z, Vector2.One * .5f, 1, SpriteEffects.None, 0);
+            {
+                if (!string.IsNullOrWhiteSpace(PromptText))
+                    spriteBatch.DrawString(font, PromptText, textRenderPos + TextOffset, ForePromptColor, Transform.Rotation.Z, Vector2.One * .5f, 1, SpriteEffects.None, 0);
+            }
             else
             {
                 spriteBatch.DrawString(font, Text, textRenderPos + TextOffset, ForeColor, Transform.Rotation.Z, Vector2.One * .5f, 1, SpriteEffects.None, 0);

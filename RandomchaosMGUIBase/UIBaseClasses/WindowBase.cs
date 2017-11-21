@@ -17,8 +17,6 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
         ButtonBase btnScaleWindow;
 
-        public TextBoxBase txtTest;
-
         public bool IsSizable
         {
             get { return btnScaleWindow.Visible; }
@@ -68,15 +66,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             btnScaleWindow.OnMouseLeaveEvent += SizingStop;
 
             AddChild(btnScaleWindow);
-
-            txtTest = new TextBoxBase(game, new Rectangle(75, 50, 200, 32), fontAsset);
-            txtTest.BackgroundColor = Color.Ivory;
-            txtTest.TextColor = Color.Black;
-            txtTest.PromptText = "Enter some text...";
-
-
-            AddChild(txtTest);
-
+            
             Transform.LocalPosition2D = new Vector2(sizeRect.X, sizeRect.Y);
             Transform.Update();
         }
