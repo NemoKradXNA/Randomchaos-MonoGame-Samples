@@ -19,6 +19,15 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
         public bool IsSliding;
 
+        public Color SliderColor
+        {
+            get { return slider.BackgroundColor; }
+            set
+            {
+                slider.BackgroundColor = value;
+            }
+        }
+
         public ScrollBarBase(Game game, Rectangle sizeRect, string sliderAsset = null, string backgroundAsset = null) : base(game, sizeRect, backgroundAsset)
         {
             slider = new ButtonBase(game, sizeRect, "", "", null, null, sliderAsset);
@@ -60,28 +69,29 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                     case ScrollBarTypesEnum.Horizontal:
                         float absw = Math.Abs(ScrollRect.minScrollValue.X);
                         r = (RenderSize.Width / absw);
-                        int width = (int)(RenderSize.Width * r);
+                        int width = (int)(RenderSize.Width * r * .5f);
                         slider.RenderSize = new Rectangle(slider.RenderSize.X, slider.RenderSize.Y, width, slider.RenderSize.Height);
                         float x = Math.Max(0, MathHelper.Lerp(0, -(RenderSize.Width - width), ScrollRect.TotalScrollValue.X / absw));
                         slider.Transform.LocalPosition2D = new Vector2(x, slider.Transform.LocalPosition2D.Y);
-
-                        if (IsSliding)
+                        
+                        if (IsSliding && Visible)
                         {
-                            float delta = -MouseManager.PositionDelta.X * 4;
+                            float delta = -MouseManager.PositionDelta.X * 2;
                             ScrollRect.ScrollValue.X = delta;
                         }
+
                         break;
                     case ScrollBarTypesEnum.Vertical:
                         float absh = Math.Abs(ScrollRect.minScrollValue.Y);
                         r = (RenderSize.Height / absh);
-                        int height = (int)(RenderSize.Height *r);
+                        int height = (int)(RenderSize.Height * r * .5f);
                         slider.RenderSize = new Rectangle(slider.RenderSize.X, slider.RenderSize.Y, slider.RenderSize.Width, height);
                         float y = Math.Max(0, MathHelper.Lerp(0, -(RenderSize.Height - height), ScrollRect.TotalScrollValue.Y / absh));
                         slider.Transform.LocalPosition2D = new Vector2(slider.Transform.LocalPosition2D.X, y);
 
-                        if (IsSliding)
+                        if (IsSliding && Visible)
                         {
-                            float delta = -MouseManager.PositionDelta.Y * 4;
+                            float delta = -MouseManager.PositionDelta.Y * 2;
                             ScrollRect.ScrollValue.Y = delta;
                         }
                         break;

@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Linq;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 using RandomchaosMGBase;
@@ -8,6 +11,8 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 {
     public class ScrollRectangleBase : ControlBase
     {
+        KeyboardStateManager kbm { get { return Game.Services.GetService<KeyboardStateManager>(); } }
+
         public Vector2 ScrollValue = Vector2.Zero;
         protected Vector2 maxScrollValue;
         public Vector2 minScrollValue;
@@ -45,12 +50,21 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             base.Update(gameTime);
         }
 
-        void CalcMaxSize()
+        public override void AddChild(ControlBase control)
+        {
+            base.AddChild(control);
+
+            
+        }
+
+        protected void CalcMaxSize()
         {
             Point max = Point.Zero;
 
             foreach (ControlBase child in Children)
             {
+                //child.Update(gameTime); // Need acurate scisorrect..
+
                 if (child.RenderSize.Width > max.X)
                     max.X = child.RenderSize.Width;
 
@@ -58,7 +72,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                     max.Y = child.RenderSize.Height;
             }
 
-            minScrollValue = new Vector2(max.X - RenderSize.Width, max.Y - RenderSize.Height) * -1;
+            minScrollValue = Vector2.Clamp(new Vector2(max.X - RenderSize.Width, max.Y - RenderSize.Height) * -1, Vector2.One * -float.MaxValue,Vector2.Zero);
             maxScrollValue = Vector2.Zero;
         }
     }

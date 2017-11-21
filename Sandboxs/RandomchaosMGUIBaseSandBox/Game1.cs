@@ -53,25 +53,25 @@ namespace RandomchaosMGUIBaseSandBox
             screenCanvas = new ScreenCanvasBase(this, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
             Components.Add(screenCanvas);
 
-            scrollRect = new ScrollRectangleBase(this, new Rectangle(0, 0, 500, 256));
-            imgTest = new ImageBase(this, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), "Textures/map");
-            scrollRect.AddChild(imgTest);
-            screenCanvas.AddChild(scrollRect);
-            scrollRect.Transform.LocalPosition2D = new Vector2(128, 128);
+            //scrollRect = new ScrollRectangleBase(this, new Rectangle(0, 0, 500, 256));
+            //imgTest = new ImageBase(this, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), "Textures/map");
+            //scrollRect.AddChild(imgTest);
+            //screenCanvas.AddChild(scrollRect);
+            //scrollRect.Transform.LocalPosition2D = new Vector2(128, 128);
 
-            vScrollBar = new ScrollBarBase(this, new Rectangle(0, 0, 16, scrollRect.RenderSize.Height));
-            vScrollBar.ScrollBarType = RandomchaosMGUIBase.ScrollBarTypesEnum.Vertical;
-            vScrollBar.Transform.LocalPosition2D = new Vector2(630, 128);
-            vScrollBar.ScrollRect = scrollRect;
-            vScrollBar.BackgroundColor = new Color(100, 100, 100, 255);
-            screenCanvas.AddChild(vScrollBar);
+            //vScrollBar = new ScrollBarBase(this, new Rectangle(0, 0, 16, scrollRect.RenderSize.Height));
+            //vScrollBar.ScrollBarType = RandomchaosMGUIBase.ScrollBarTypesEnum.Vertical;
+            //vScrollBar.Transform.LocalPosition2D = new Vector2(630, 128);
+            //vScrollBar.ScrollRect = scrollRect;
+            //vScrollBar.BackgroundColor = new Color(100, 100, 100, 255);
+            //screenCanvas.AddChild(vScrollBar);
 
-            hScrollBar = new ScrollBarBase(this, new Rectangle(0, 0, scrollRect.RenderSize.Width, 16));
-            hScrollBar.ScrollBarType = RandomchaosMGUIBase.ScrollBarTypesEnum.Horizontal;
-            hScrollBar.Transform.LocalPosition2D = new Vector2(128, 386);
-            hScrollBar.ScrollRect = scrollRect;
-            hScrollBar.BackgroundColor = new Color(100, 100, 100, 255);
-            screenCanvas.AddChild(hScrollBar);
+            //hScrollBar = new ScrollBarBase(this, new Rectangle(0, 0, scrollRect.RenderSize.Width, 16));
+            //hScrollBar.ScrollBarType = RandomchaosMGUIBase.ScrollBarTypesEnum.Horizontal;
+            //hScrollBar.Transform.LocalPosition2D = new Vector2(128, 386);
+            //hScrollBar.ScrollRect = scrollRect;
+            //hScrollBar.BackgroundColor = new Color(100, 100, 100, 255);
+            //screenCanvas.AddChild(hScrollBar);
 
             btnShowWindow = new ButtonBase(this, new Rectangle(graphics.PreferredBackBufferWidth - 108, graphics.PreferredBackBufferHeight - 40, 100, 32), "Show Window", "Fonts/Airel12");
             btnShowWindow.TextColor = Color.Black;
@@ -212,27 +212,7 @@ namespace RandomchaosMGUIBaseSandBox
 
 
             // TODO: Add your update logic here
-
-            if (kbm.KeyDown(Keys.Up))
-            {
-                scrollRect.ScrollValue.Y -= 1;
-            }
-            if (kbm.KeyDown(Keys.Down))
-            {
-                scrollRect.ScrollValue.Y += 1;
-            }
-
-            if (kbm.KeyDown(Keys.Left))
-            {
-                scrollRect.ScrollValue.X -= 1;
-            }
-            if (kbm.KeyDown(Keys.Right))
-            {
-                scrollRect.ScrollValue.X += 1;
-            }
-
-            //Window.Title = $"{scrollRect.scrollDelta}";
-
+            
             base.Update(gameTime);
 
         }

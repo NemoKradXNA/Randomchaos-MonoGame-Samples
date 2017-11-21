@@ -63,6 +63,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             AddChild(txtFile);
 
             lstContent = new ListBoxBase(game, new Rectangle(0, 0, sizeRect.Width - 64, sizeRect.Height - 200), fontAsset);
+            lstContent.BackgroundColor = new Color(200,200,200,255);
             lstContent.Transform.LocalPosition2D = new Vector2(32, 120);
             AddChild(lstContent);
 
