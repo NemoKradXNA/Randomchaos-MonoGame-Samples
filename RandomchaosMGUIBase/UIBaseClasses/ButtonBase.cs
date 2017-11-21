@@ -92,8 +92,11 @@ namespace RandomchaosMGUIBase.UIBaseClasses
         {
             base.LoadContent();
 
-            font = Game.Content.Load<SpriteFont>(fontAsset);
-            textSize = font.MeasureString(text);
+            if (!string.IsNullOrEmpty(fontAsset))
+            {
+                font = Game.Content.Load<SpriteFont>(fontAsset);
+                textSize = font.MeasureString(text);
+            }
 
             if (!string.IsNullOrWhiteSpace(iconAsset))
                 Icon = Game.Content.Load<Texture2D>(iconAsset);
@@ -118,7 +121,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                 spriteBatch.Draw(Icon, IconRectangle.Value, IconColor);
             }
 
-            if (!string.IsNullOrEmpty(text))
+            if (!string.IsNullOrEmpty(text) && font != null)
             {
                 
                 if (TextOffset == null)

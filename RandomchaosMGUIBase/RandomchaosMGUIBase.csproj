@@ -46,15 +46,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Delegates\UIDelegates.cs" />
+    <Compile Include="Enums\ScrollBarTypesEnum.cs" />
     <Compile Include="Enums\WindowCloseStatesEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIBaseClasses\ButtonBase.cs" />
     <Compile Include="UIBaseClasses\ControlBase.cs" />
     <Compile Include="UIBaseClasses\FileWindowsBase.cs" />
+    <Compile Include="UIBaseClasses\ImageBase.cs" />
     <Compile Include="UIBaseClasses\LabelBase.cs" />
     <Compile Include="UIBaseClasses\ListBoxBase.cs" />
     <Compile Include="UIBaseClasses\ListItemBase.cs" />
     <Compile Include="UIBaseClasses\ScreenCanvasBase.cs" />
+    <Compile Include="UIBaseClasses\ScrollBarBase.cs" />
+    <Compile Include="UIBaseClasses\ScrollRectangleBase.cs" />
     <Compile Include="UIBaseClasses\TextBoxBase.cs" />
     <Compile Include="UIBaseClasses\WindowBase.cs" />
     <Compile Include="UIBaseClasses\WindowTitleBar.cs" />

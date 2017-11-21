@@ -53,12 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Textures\BluePrint.jpg" />
     <Content Include="Content\Textures\Icons\Back.png" />
     <Content Include="Content\Textures\Icons\CloseIcon.png" />
     <Content Include="Content\Textures\Icons\file.png" />
     <Content Include="Content\Textures\Icons\folder.png" />
     <Content Include="Content\Textures\Icons\Mouse.png" />
     <Content Include="Content\Textures\Icons\ScaleWindowIcon.png" />
+    <Content Include="Content\Textures\map.jpg" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

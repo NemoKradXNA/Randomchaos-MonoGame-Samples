@@ -255,13 +255,25 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             borderRect = new Rectangle((int)(p.X - BorderThickness.X), (int)(p.Y - BorderThickness.Y), RenderSize.Width + (int)(BorderThickness.X * 2), RenderSize.Height + (int)(BorderThickness.Y * 2));
 
             // Scissor Rect is not start x/y and height width, but screen coords
-            ScissorRectangle = new Rectangle((int)(Transform.Position2D.X - BorderThickness.X), (int)(Transform.Position2D.Y - BorderThickness.Y), RenderSize.Right + (int)(BorderThickness.X * 2), RenderSize.Bottom + (int)(BorderThickness.Y * 2));
+            ScissorRectangle = new Rectangle(
+                (int)(Transform.Position2D.X - BorderThickness.X), 
+                (int)(Transform.Position2D.Y - BorderThickness.Y), 
+                RenderSize.Right + (int)(BorderThickness.X * 2), 
+                RenderSize.Bottom + (int)(BorderThickness.Y * 2));
 
             // If we have a parent and it's a ControlBase too, then we need to make sure our scissor rectangle fits in it.
             if (Transform.Parent != null && Transform.Parent is ControlBase)
             {
                 ControlBase thisParent = (ControlBase)Transform.Parent;
-                ScissorRectangle = new Rectangle(MathHelper.Max(thisParent.ScissorRectangle.X + (int)thisParent.BorderThickness.X, ScissorRectangle.X), MathHelper.Max(thisParent.ScissorRectangle.Y + (int)thisParent.BorderThickness.Y, ScissorRectangle.Y), MathHelper.Min((thisParent.ScissorRectangle.Right - (int)thisParent.BorderThickness.X) - ScissorRectangle.X, ScissorRectangle.Width), MathHelper.Min((thisParent.ScissorRectangle.Bottom - (int)thisParent.BorderThickness.Y) - ScissorRectangle.Y, ScissorRectangle.Height));
+
+                // Check for over flow...
+                Point Offset = new Point(MathHelper.Min(thisParent.ScissorRectangle.Width, thisParent.ScissorRectangle.Width - (int)thisParent.BorderThickness.X - (ScissorRectangle.Left - thisParent.ScissorRectangle.Left)), MathHelper.Min(thisParent.ScissorRectangle.Height, thisParent.ScissorRectangle.Height - (int)thisParent.BorderThickness.Y - (ScissorRectangle.Top - thisParent.ScissorRectangle.Top)));
+
+                ScissorRectangle = new Rectangle(
+                    MathHelper.Max(thisParent.ScissorRectangle.X + (int)thisParent.BorderThickness.X, ScissorRectangle.X),
+                    MathHelper.Max(thisParent.ScissorRectangle.Y + (int)thisParent.BorderThickness.Y, ScissorRectangle.Y),
+                    MathHelper.Min(Offset.X, ScissorRectangle.Width),
+                    MathHelper.Min(Offset.Y, ScissorRectangle.Height));
             }
 
             // Check for mouse over events.
