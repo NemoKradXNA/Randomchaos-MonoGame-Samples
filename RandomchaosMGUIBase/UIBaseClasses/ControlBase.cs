@@ -177,6 +177,8 @@ namespace RandomchaosMGUIBase.UIBaseClasses
 
         double ClickTimer;
         const double TimerDelay = 250;
+        public static int MaxTabCnt = 0;
+        public int TabStop = 0;
         #endregion
 
         public ControlBase(Game game, Rectangle sizeRect, string backgroundAsset = null) : base(game)
@@ -199,6 +201,9 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             OnGotFocusEvent += SetFocus;
 
             IsClickable = true;
+
+
+            TabStop = MaxTabCnt++;
         }
 
         #region Override Methods
@@ -277,7 +282,7 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             }
 
             // Check for mouse over events.
-            if (BoundsRectangle.Intersects(MouseManager.PositionRect))
+            if (BoundsRectangle.Intersects(MouseManager.PositionRect) && ScissorRectangle.Intersects(MouseManager.PositionRect))
             {
                 if (!IsMouseOver)
                 {
@@ -458,8 +463,13 @@ namespace RandomchaosMGUIBase.UIBaseClasses
             if (Children.Contains(control))
                 Children.Remove(control);
         }
-        
+
+        public virtual void Focus()
+        {
+            FocusControl = this;
+        }
+
         #endregion
-        
+
     }
 }
