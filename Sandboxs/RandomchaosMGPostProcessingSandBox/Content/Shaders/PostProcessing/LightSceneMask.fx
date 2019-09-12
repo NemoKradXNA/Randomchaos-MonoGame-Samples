@@ -22,16 +22,14 @@ sampler2D DepthMap = sampler_state
 	MipFilter = None;
 };
 
-float4 LightSourceSceneMaskPS(float4 Position : SV_POSITION,
-	float4 Color : COLOR0,
-	float2 texCoord : TEXCOORD0) : COLOR0
+float4 LightSourceSceneMaskPS(VertexShaderOutput input) : COLOR0
 {
-	float4 scene = tex2D(Scene,texCoord);
+	float4 scene = tex2D(Scene,input.TexCoord);
 
-	float depthVal = 1 - (tex2D(DepthMap, texCoord).r);
+	float depthVal = 1 - (tex2D(DepthMap, input.TexCoord).r);
 	float4 position;
-	position.x = texCoord.x * 2.0f - 1.0f;
-	position.y = -(texCoord.y * 2.0f - 1.0f);
+	position.x = input.TexCoord.x * 2.0f - 1.0f;
+	position.y = -(input.TexCoord.y * 2.0f - 1.0f);
 	position.z = depthVal;
 	position.w = 1.0f;
 	

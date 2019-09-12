@@ -59,15 +59,15 @@
     <Content Include="Content\Shaders\PostProcessing\Blur.fx" />
     <Content Include="Content\Shaders\PostProcessing\BrightPass.fx" />
     <Content Include="Content\Shaders\PostProcessing\BumpMapDistort.fx" />
+    <Content Include="Content\Shaders\PostProcessing\GreyScale.fx" />
+    <Content Include="Content\Shaders\PostProcessing\Sepia.fx" />
     <Content Include="Content\Shaders\PostProcessing\DepthOfField.fx" />
-    <Content Include="Content\Shaders\PostProcessing\Flip.fx" />
     <Content Include="Content\Shaders\PostProcessing\Fog.fx" />
     <Content Include="Content\Shaders\PostProcessing\GaussianBlur.fx" />
     <Content Include="Content\Shaders\PostProcessing\InvertColor.fx" />
     <Content Include="Content\Shaders\PostProcessing\LightSceneMask.fx" />
     <Content Include="Content\Shaders\PostProcessing\LightSourceMask.fx" />
     <Content Include="Content\Shaders\PostProcessing\LigthRays.fx" />
-    <Content Include="Content\Shaders\PostProcessing\Monochrome.fx" />
     <Content Include="Content\Shaders\PostProcessing\PoissonDiscBlur.fx" />
     <Content Include="Content\Shaders\PostProcessing\RadialBlur.fx" />
     <Content Include="Content\Shaders\PostProcessing\Ripple.fx" />

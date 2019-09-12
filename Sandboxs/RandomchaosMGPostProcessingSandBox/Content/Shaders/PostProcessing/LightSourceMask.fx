@@ -20,13 +20,11 @@ sampler Flare = sampler_state
 
 
 
-float4 LightSourceMaskPS(float4 Position : SV_POSITION,
-float4 Color : COLOR0,
-float2 texCoord : TEXCOORD0 ) : COLOR0
+float4 LightSourceMaskPS(VertexShaderOutput input) : COLOR0
 {
-	float v = tex2D(screen,texCoord) * .001;
+	float v = tex2D(screen,input.TexCoord) * .001;
 
-	texCoord -= halfPixel;
+input.TexCoord -= halfPixel;
 
 	// Get the scene
 	float4 col = 0;
@@ -47,7 +45,7 @@ float2 texCoord : TEXCOORD0 ) : COLOR0
 					
 		float2 center = ScreenPosition.xy;
 
-		coord = .5 - (texCoord - center) / size * .5;
+		coord = .5 - (input.TexCoord - center) / size * .5;
 		col += (pow(tex2D(Flare,coord),2) * 1) * 2;						
 	}	
 

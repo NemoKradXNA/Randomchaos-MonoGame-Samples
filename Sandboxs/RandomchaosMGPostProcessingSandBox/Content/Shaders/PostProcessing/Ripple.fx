@@ -1,4 +1,4 @@
- 
+#include "PPVertexShader.fxh" 
 
 sampler ScreenS : register(s0);
 
@@ -6,11 +6,9 @@ float wave;                // pi/.75 is a good default
 float distortion;        // 1 is a good default
 float2 centerCoord;        // 0.5,0.5 is the screen center
 
-float4 RipplePS(float4 Position : SV_POSITION,
-float4 Color : COLOR0,
-float2 texCoord : TEXCOORD0) : COLOR
+float4 RipplePS(VertexShaderOutput input) : COLOR
 {
-    float2 distance = abs(texCoord - centerCoord);
+    float2 distance = abs(input.TexCoord - centerCoord);
     float scalar = length(distance);
 
     // invert the scale so 1 is centerpoint
@@ -28,7 +26,7 @@ float2 texCoord : TEXCOORD0) : COLOR
     
     // pick a pixel on the screen for this pixel, based on
     // the calculated offset and direction
-    float4 color = tex2D(ScreenS, texCoord+(sinoffset*sinsign));    
+    float4 color = tex2D(ScreenS, input.TexCoord +(sinoffset*sinsign));
             
     return color;
 }
@@ -36,6 +34,6 @@ technique
 {
     pass P0
     {
-        PixelShader = compile ps_4_0_level_9_1 RipplePS();
+        PixelShader = compile PS_SHADERMODEL RipplePS();
     }
 }

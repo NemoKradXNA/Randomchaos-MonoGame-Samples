@@ -152,12 +152,6 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/PostProcessing/DepthOfField.fx
 
-#begin Shaders/PostProcessing/Flip.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Shaders/PostProcessing/Flip.fx
-
 #begin Shaders/PostProcessing/Fog.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -193,12 +187,6 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Shaders/PostProcessing/LigthRays.fx
-
-#begin Shaders/PostProcessing/Monochrome.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Shaders/PostProcessing/Monochrome.fx
 
 #begin Shaders/PostProcessing/PoissonDiscBlur.fx
 /importer:EffectImporter
@@ -499,4 +487,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/WindmillTopNormal.dds
+
+#begin Shaders/PostProcessing/Sepia.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/PostProcessing/Sepia.fx
+
+#begin Shaders/PostProcessing/GreyScale.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/PostProcessing/GreyScale.fx
 

@@ -1,11 +1,4 @@
-#if OPENGL
-	#define SV_POSITION POSITION
-	#define VS_SHADERMODEL vs_3_0
-	#define PS_SHADERMODEL ps_3_0
-#else
-	#define VS_SHADERMODEL vs_4_0_level_9_1
-	#define PS_SHADERMODEL ps_4_0_level_9_1
-#endif
+#include "PPVertexShader.fxh"
 
 sampler screen : register(s0);
 
@@ -29,14 +22,8 @@ float4 fogColor;
 float fogMinThickness = .999f;
 float fogMaxThickness = 0.0f;
 
-struct PS_INPUT 
-{
-	float4 Position : SV_POSITION;
-	float4 Color : COLOR0;
-	float2 TexCoord : TEXCOORD0;
-};
 
-float4 FogPS(PS_INPUT Input) : COLOR0
+float4 FogPS(VertexShaderOutput Input) : COLOR0
 {
 	float4 s = tex2D(screen, Input.TexCoord);
 	float depth = 1 - tex2D(DepthMap,Input.TexCoord).r;

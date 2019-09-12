@@ -1,3 +1,4 @@
+#include "PPVertexShader.fxh"
 // Pixel shader applies a one dimensional gaussian blur filter.
 // This is used twice by the bloom postprocess, first to
 // blur horizontally, and then again to blur vertically.
@@ -20,17 +21,15 @@ sampler TextureSampler : register(s0);
 };*/
 
 
-float4 GaussianBlurPS(float4 Position : SV_POSITION,
-	float4 Color : COLOR0,
-	float2 texCoord : TEXCOORD0) : COLOR0
+float4 GaussianBlurPS(VertexShaderOutput input) : COLOR0
 {
-	texCoord-=halfPixel;
+	input.TexCoord-=halfPixel;
     float4 c = 0;
     
     // Combine a number of weighted image filter taps.
     for (int i = 0; i < SAMPLE_COUNT; i++)
     {
-        c += tex2D(TextureSampler, saturate(texCoord + SampleOffsets[i].xy)) * SampleWeights[i];
+        c += tex2D(TextureSampler, saturate(input.TexCoord + SampleOffsets[i].xy)) * SampleWeights[i];
     }
     
     return c;
@@ -41,7 +40,7 @@ technique GaussianBlur
 {
     pass P0
     {
-        PixelShader = compile ps_4_0_level_9_1 GaussianBlurPS();
+        PixelShader = compile PS_SHADERMODEL GaussianBlurPS();
         
     }
 }

@@ -1,3 +1,4 @@
+#include "PPVertexShader.fxh"
 // This distorts the image in the direction defined by the 
 // bumpmap. Used to create a gravitation field effect.
 // Includes two methods of distorting the image, 
@@ -32,29 +33,27 @@ sampler FractalSampler = sampler_state
 };
 
 //Costly distort - 8 texture reads
-float4 HighPS(float4 Position : SV_POSITION,
-float4 Color : COLOR0,
-float2 texC : TEXCOORD0) : COLOR0
+float4 HighPS(VertexShaderOutput input) : COLOR0
 {
-	float4 bc = tex2D(BackGroundSampler, texC);
+	float4 bc = tex2D(BackGroundSampler, input.TexCoord);
 
-	texC -= halfPixel;
-	float2 bgTexC = texC;
+	input.TexCoord -= halfPixel;
+	float2 bgTexC = input.TexCoord;
 	
-	texC.y += Offset;
-	float2 offset0 = tex2D(FractalSampler, texC).xy * .05f;
-	texC.y -= Offset;
+	input.TexCoord.y += Offset;
+	float2 offset0 = tex2D(FractalSampler, input.TexCoord).xy * .05f;
+	input.TexCoord.y -= Offset;
 	
-	texC.y -= Offset;
-	float2 offset1 = tex2D(FractalSampler, texC).xy * .05f;
-	texC.y += Offset;
+	input.TexCoord.y -= Offset;
+	float2 offset1 = tex2D(FractalSampler, input.TexCoord).xy * .05f;
+	input.TexCoord.y += Offset;
 	
-	texC.x += Offset;
-	float2 offset2 = tex2D(FractalSampler, texC).xy * .05f;
-	texC.x -= Offset;
+	input.TexCoord.x += Offset;
+	float2 offset2 = tex2D(FractalSampler, input.TexCoord).xy * .05f;
+	input.TexCoord.x -= Offset;
 	
-	texC.x -= Offset;
-	float2 offset3 = tex2D(FractalSampler, texC).xy * .05f;
+	input.TexCoord.x -= Offset;
+	float2 offset3 = tex2D(FractalSampler, input.TexCoord).xy * .05f;
 	
 	float4 c0 = tex2D(BackGroundSampler, bgTexC + (offset0 - .025f));
 	float4 c1 = tex2D(BackGroundSampler, bgTexC + (offset1 - .025f));
@@ -65,44 +64,42 @@ float2 texC : TEXCOORD0) : COLOR0
 }
 
 //Similar distort, not quite as blurry - 5 texture reads
-float4 LowPS(float4 Position : SV_POSITION,
-	float4 Color : COLOR0,
-	float2 texC : TEXCOORD0) : COLOR0
+float4 LowPS(VertexShaderOutput input) : COLOR0
 {
-	float4 bc = tex2D(BackGroundSampler, texC);
+	float4 bc = tex2D(BackGroundSampler, input.TexCoord);
 
-	texC -= halfPixel;
-	float2 bgTexC = texC;
+	input.TexCoord -= halfPixel;
+	float2 bgTexC = input.TexCoord;
 	
-	texC.y += Offset;
-	float2 offset0 = tex2D(FractalSampler, texC).xy * .05f;
-	texC.y -= Offset;
+	input.TexCoord.y += Offset;
+	float2 offset0 = tex2D(FractalSampler, input.TexCoord).xy * .05f;
+	input.TexCoord.y -= Offset;
 	
-	texC.y -= Offset;
-	float2 offset1 = tex2D(FractalSampler, texC).xy * .05f;
-	texC.y == Offset;
+	input.TexCoord.y -= Offset;
+	float2 offset1 = tex2D(FractalSampler, input.TexCoord).xy * .05f;
+	input.TexCoord.y == Offset;
 	
-	texC.x += Offset;
-	float2 offset2 = tex2D(FractalSampler, texC).xy * .05f;
-	texC.x -= Offset;
+	input.TexCoord.x += Offset;
+	float2 offset2 = tex2D(FractalSampler, input.TexCoord).xy * .05f;
+	input.TexCoord.x -= Offset;
 	
-	texC.x -= Offset;
-	float2 offset3 = tex2D(FractalSampler, texC).xy * .05f;
+	input.TexCoord.x -= Offset;
+	float2 offset3 = tex2D(FractalSampler, input.TexCoord).xy * .05f;
 	
 	offset0 = offset0 + offset1 + offset2 + offset3;
 	offset0 *= .25f;
 	
-	//if(texC.y > .5)
+	//if(input.TexCoord.y > .5)
 		return tex2D(BackGroundSampler, bgTexC + (offset0 - .025f));
 	//else
-		//return tex2D(BackGroundSampler, texC);
+		//return tex2D(BackGroundSampler, input.TexCoord);
 }
 
 technique High
 {
 	pass P0
     {
-        pixelShader  = compile ps_4_0_level_9_1 HighPS();
+        pixelShader  = compile PS_SHADERMODEL HighPS();
     }
 }
 
@@ -110,6 +107,6 @@ technique Low
 {
 	pass P0
     {
-        pixelShader  = compile ps_4_0_level_9_1 LowPS();
+        pixelShader  = compile PS_SHADERMODEL LowPS();
     }
 }

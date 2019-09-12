@@ -1,3 +1,4 @@
+#include "PPVertexShader.fxh"
 // Shader for creating a Depth of field postprocess.
 // Also includes a technique for rendering a depth
 // values of the scene.
@@ -33,22 +34,14 @@ sampler2D SceneDepthSampler = sampler_state
 	MipFilter = None;
 };
 
-struct OutputVS
-{
-    float4 posH    : POSITION0;
-    float2 depth   : TEXCOORD0;
-};
-
 ///Drawing the depth of field
-float4 DepthOfFieldPS_R32F(float4 Position : SV_POSITION,
-	float4 Color : COLOR0,
-	float2 texCoord : TEXCOORD0) : COLOR0
+float4 DepthOfFieldPS_R32F(VertexShaderOutput input) : COLOR0
 {
-	texCoord -= halfPixel;
+	input.TexCoord -= halfPixel;
 	
-	float4 vSceneBlurSampler = tex2D(SceneBlurSampler, texCoord);
-    float4 vSceneSampler      = tex2D( SceneSampler, texCoord );	
-	float vDepthTexel = 1 - tex2D(SceneDepthSampler, texCoord);
+	float4 vSceneBlurSampler = tex2D(SceneBlurSampler, input.TexCoord);
+    float4 vSceneSampler      = tex2D( SceneSampler, input.TexCoord);
+	float vDepthTexel = 1 - tex2D(SceneDepthSampler, input.TexCoord);
     
     
     // This is only required if using a floating-point depth buffer format
@@ -78,6 +71,6 @@ technique DepthOfField_R32F
 {
     pass P0
     {
-        PixelShader = compile ps_4_0_level_9_1 DepthOfFieldPS_R32F();
+        PixelShader = compile PS_SHADERMODEL DepthOfFieldPS_R32F();
     }
 }

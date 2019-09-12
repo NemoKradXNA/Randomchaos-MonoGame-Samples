@@ -53,9 +53,13 @@
     <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\CrepuscularRays.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\DepthOfFieldEffect.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\FogEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\GreyScaleEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\InvertColorEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\GreyScale.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\HeatHazeEffect.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\RadialBlurEffect.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\RippleEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\SepiaEffect.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\SunEffect.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcessingManager.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\Bloom.cs" />
@@ -65,6 +69,7 @@
     <Compile Include="BaseClasses\PostProcessing\PostProcess\Fog.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\GaussBlurH.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\GaussBlurV.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\InvertColor.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\LightRay.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\LightSceneMask.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\LightSourceMask.cs" />
@@ -72,6 +77,7 @@
     <Compile Include="BaseClasses\PostProcessing\PostProcess\RadialBlur.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\Ripple.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\SceneBlend.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\Sepia.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\Sun.cs" />
     <Compile Include="InputManagers\KeyboardStateManager.cs" />
     <Compile Include="InputManagers\MouseRenderer.cs" />

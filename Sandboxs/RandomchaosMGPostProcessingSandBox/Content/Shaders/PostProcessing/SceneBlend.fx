@@ -16,22 +16,18 @@ sampler2D orgScene = sampler_state
 };
 
 
-float4 BlendPS(float4 Position : SV_POSITION,
-	float4 Color : COLOR0,
-	float2 texCoord : TEXCOORD0) : COLOR0
+float4 BlendPS(VertexShaderOutput input) : COLOR0
 {
-	texCoord -= halfPixel;
-	float4 col = tex2D(Scene, texCoord) * tex2D(orgScene,texCoord);
+	input.TexCoord -= halfPixel;
+	float4 col = tex2D(Scene, input.TexCoord) * tex2D(orgScene, input.TexCoord);
 
 	return col;
 }
 
-float4 AditivePS(float4 Position : SV_POSITION,
-	float4 Color : COLOR0,
-	float2 texCoord : TEXCOORD0) : COLOR0
+float4 AditivePS(VertexShaderOutput input) : COLOR0
 {
-	texCoord -= halfPixel;
-	float4 col = tex2D(Scene, texCoord) + tex2D(orgScene,texCoord);
+	input.TexCoord -= halfPixel;
+	float4 col = tex2D(Scene, input.TexCoord) + tex2D(orgScene, input.TexCoord);
 
 	return col;
 }

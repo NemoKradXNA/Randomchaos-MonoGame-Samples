@@ -1,27 +1,26 @@
+#include "PPVertexShader.fxh"
 
-uniform extern texture sceneMap;
-sampler screen = sampler_state 
+
+sampler screen : register(s0)
 {
-    texture = <sceneMap>;    
+	MinFilter = Linear;
+	MagFilter = Linear;
+	AddressU = Wrap;
+	AddressV = Wrap;
 };
 
-struct PS_INPUT
+float4 Invert(VertexShaderOutput input) : COLOR0
 {
-	float4 Position : SV_POSITION;
-	float4 Color : COLOR0;
-	float2 TexCoord : TEXCOORD0;
-};
 
-float4 Invert(PS_INPUT Input) : COLOR0 
-{
-	float4 col = (float4)1.0f - tex2D(screen, Input.TexCoord);
+	float4 col = (float4)1 - tex2D(screen, input.TexCoord);
+
 	return col;
 }
 
-technique PostInvert 
+technique PostInvert
 {
 	pass P0
 	{
-		PixelShader = compile ps_4_0_level_9_1 Invert();
+		PixelShader = compile PS_SHADERMODEL Invert();
 	}
 }

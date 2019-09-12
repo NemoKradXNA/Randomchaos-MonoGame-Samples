@@ -1,11 +1,4 @@
-#if OPENGL
-	#define SV_POSITION POSITION
-	#define VS_SHADERMODEL vs_3_0
-	#define PS_SHADERMODEL ps_3_0
-#else
-	#define VS_SHADERMODEL vs_4_0_level_9_1
-	#define PS_SHADERMODEL ps_4_0_level_9_1
-#endif
+#include "PPVertexShader.fxh"
 
 // Pixel shader combines the bloom image with the original
 // scene, using tweakable intensity levels and saturation.
@@ -52,14 +45,12 @@ float4 AdjustSaturation(float4 color, float saturation)
     return lerp(grey, color, saturation);
 }		
 
-float4 BloomPS(float4 Position : SV_POSITION,
-float4 Color : COLOR0,
-float2 texCoord : TEXCOORD0) : COLOR0
+float4 BloomPS(VertexShaderOutput input) : COLOR0
 {
-	texCoord -= halfPixel;
+	input.TexCoord -= halfPixel;
     // Look up the bloom and original base image colors.
-    float4 bloom = tex2D(BloomSampler, texCoord);
-    float4 base = tex2D(BaseSampler, texCoord);
+    float4 bloom = tex2D(BloomSampler, input.TexCoord);
+    float4 base = tex2D(BaseSampler, input.TexCoord);
     
     // Adjust color saturation and intensity.
     bloom = AdjustSaturation(bloom, BloomSaturation) * BloomIntensity;
@@ -74,12 +65,12 @@ float2 texCoord : TEXCOORD0) : COLOR0
     
 }
 
-float4 GlarePixelShader(float2 texCoord : TEXCOORD0) : COLOR0
+float4 GlarePixelShader(VertexShaderOutput input) : COLOR0
 {
-	texCoord -= halfPixel;
+	input.TexCoord -= halfPixel;
     // Look up the bloom and original base image colors.
-    float4 bloom = tex2D(BloomSampler, texCoord) * BloomIntensity;
-    float4 base = tex2D(BaseSampler, texCoord) * BaseIntensity;
+    float4 bloom = tex2D(BloomSampler, input.TexCoord) * BloomIntensity;
+    float4 base = tex2D(BaseSampler, input.TexCoord) * BaseIntensity;
     
      // Adjust color saturation and intensity.
     bloom = AdjustSaturation(bloom, BloomSaturation) * BloomIntensity;

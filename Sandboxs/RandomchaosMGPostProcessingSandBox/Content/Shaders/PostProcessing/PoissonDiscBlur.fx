@@ -1,3 +1,4 @@
+#include "PPVertexShader.fxh"
 // Pixel shader that applies a Poisson disc blur filter.
 // Samples pixels within a circle. The good thing about this 
 // blur filter is that it is dynamic. You can grow/shrink the
@@ -34,19 +35,17 @@ sampler2D TextureSampler = sampler_state
     AddressV  = CLAMP;
 };
 
-float4 PoissonDiscBlurPS(float4 Position : SV_POSITION,
-	float4 Color : COLOR0,
-	float2 texCoord : TEXCOORD0) : COLOR0
+float4 PoissonDiscBlurPS(VertexShaderOutput input) : COLOR0
 {
 	// Take a sample at the disc’s center
-	float4 base = tex2D( TextureSampler, texCoord );
+	float4 base = tex2D( TextureSampler, input.TexCoord );
 	float4 sampleAccum = base;
 	
 	// Take 12 samples in disc
 	for ( int nTapIndex = 0; nTapIndex < SAMPLE_COUNT; nTapIndex++ )
 	{
 		// Compute new texture coord inside disc
-		float2 vTapCoord = texCoord - TexelSize * Taps[nTapIndex] * DiscRadius;
+		float2 vTapCoord = input.TexCoord - TexelSize * Taps[nTapIndex] * DiscRadius;
 		
 		// Accumulate samples
 		sampleAccum += tex2D( TextureSampler, saturate(vTapCoord) );
@@ -60,6 +59,6 @@ technique GaussianBlur
 {
     pass P0
     {
-        PixelShader = compile ps_4_0_level_9_1 PoissonDiscBlurPS();
+        PixelShader = compile PS_SHADERMODEL PoissonDiscBlurPS();
     }
 }

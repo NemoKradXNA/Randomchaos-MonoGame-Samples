@@ -44,6 +44,9 @@ namespace RandomchaosMGPostProcessingSandBox
         RadialBlurEffect radialBlur;
         RippleEffect ripple;
         SunEffect sun;
+        SepiaEffect sepia;
+        GreyScaleEffect greyScale;
+        InvertColorEffect invert;
         #endregion
 
         Vector3 LightPosition = new Vector3(50, 50, 1000);
@@ -135,7 +138,19 @@ namespace RandomchaosMGPostProcessingSandBox
 
             ripple = new RippleEffect(this);
             ripple.Enabled = false;
-            ppManager.AddEffect(ripple);            
+            ppManager.AddEffect(ripple);
+
+            sepia = new SepiaEffect(this);
+            sepia.Enabled = false;
+            ppManager.AddEffect(sepia);
+
+            greyScale = new GreyScaleEffect(this);
+            greyScale.Enabled = false;
+            ppManager.AddEffect(greyScale);
+
+            invert = new InvertColorEffect(this);
+            invert.Enabled = false;
+            ppManager.AddEffect(invert);
         }
 
         /// <summary>
@@ -238,6 +253,12 @@ namespace RandomchaosMGPostProcessingSandBox
                 ripple.Enabled = !ripple.Enabled;
             if (kbm.KeyPress(Keys.F8))
                 sun.Enabled = !sun.Enabled;
+            if (kbm.KeyPress(Keys.F9))
+                sepia.Enabled = !sepia.Enabled;
+            if (kbm.KeyPress(Keys.F10))
+                greyScale.Enabled = !greyScale.Enabled;
+            if (kbm.KeyPress(Keys.F11))
+                invert.Enabled = !invert.Enabled;
         }
 
         /// <summary>
@@ -259,14 +280,17 @@ namespace RandomchaosMGPostProcessingSandBox
 
             spriteBatch.Begin();
             spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), "Post Processing", new Vector2(8, 8), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F1] - Bloom On: {bloom.Enabled}", new Vector2(8, 20), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F2] - God Rays On: {GodRays.Enabled}", new Vector2(8, 32), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F3] - Depth of Field On: {dof.Enabled}", new Vector2(8, 44), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F4] - Fog On: {fog.Enabled}", new Vector2(8, 56), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F5] - Heat Haze On: {haze.Enabled}", new Vector2(8, 68), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F6] - Radial Blur On: {radialBlur.Enabled}", new Vector2(8, 80), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F7] - Ripple On: {ripple.Enabled}", new Vector2(8, 92), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F8] - Sun On: {sun.Enabled}", new Vector2(8, 104), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F1 ] - Bloom On: {bloom.Enabled}", new Vector2(8, 20), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F2 ] - God Rays On: {GodRays.Enabled}", new Vector2(8, 32), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F3 ] - Depth of Field On: {dof.Enabled}", new Vector2(8, 44), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F4 ] - Fog On: {fog.Enabled}", new Vector2(8, 56), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F5 ] - Heat Haze On: {haze.Enabled}", new Vector2(8, 68), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F6 ] - Radial Blur On: {radialBlur.Enabled}", new Vector2(8, 80), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F7 ] - Ripple On: {ripple.Enabled}", new Vector2(8, 92), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F8 ] - Sun On: {sun.Enabled}", new Vector2(8, 104), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F9 ] - Sepia On: {sepia.Enabled}", new Vector2(8, 118), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F10] - Grey Scale On: {greyScale.Enabled}", new Vector2(8, 130), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F11] - Invert Color On: {invert.Enabled}", new Vector2(8, 142), Color.Gold);
             spriteBatch.End();
         }
         public void SaveJpg(Texture2D texture, string name)

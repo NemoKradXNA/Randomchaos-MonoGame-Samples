@@ -1,3 +1,4 @@
+#include "PPVertexShader.fxh"
 float radialBlurScaleFactor = -0.004f;//0.96f;
 
 uniform extern float2 windowSize;
@@ -45,7 +46,7 @@ technique RadialBlur
 {
 	pass RadialBlur
 	{
-		PixelShader  = compile ps_4_0 PS_RadialBlur20();
+		PixelShader  = compile PS_SHADERMODEL PS_RadialBlur20();
 	}
 	
 }

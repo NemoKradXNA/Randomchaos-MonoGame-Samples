@@ -1,3 +1,4 @@
+#include "PPVertexShader.fxh"
 //////////////////////////////////////////////////////////////////
 //																//
 //	Sun and lens flare as a post process						//
@@ -49,13 +50,6 @@ sampler depthSampler = sampler_state
 };
 
 
-struct VertexShaderOutputToPS
-{
-	float4 Position : SV_POSITION;
-	float4 Color : COLOR0;
-	float2 texCoord : TEXCOORD0;
-};
-
 float4 DoLenseFlare(float4 ScreenLightPosition,float2 texCoord,bool fwd)
 {
 	// Calculate vector from pixel to light source in screen space.  
@@ -95,10 +89,10 @@ float4 DoLenseFlare(float4 ScreenLightPosition,float2 texCoord,bool fwd)
 	return float4(color,1);
 }
 
-float4 PixelShaderFunction(VertexShaderOutputToPS input) : COLOR0
+float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
 	// Get the scene
-	float4 col = tex2D(BackBuffer,input.texCoord);
+	float4 col = tex2D(BackBuffer,input.TexCoord);
 	
 	// Find the suns position in the world and map it to the screen space.
 	float4 ScreenPosition = mul(lightPosition - cameraPosition,VP);
@@ -108,7 +102,7 @@ float4 PixelShaderFunction(VertexShaderOutputToPS input) : COLOR0
 	ScreenPosition.y = (-ScreenPosition.y/2.0f+0.5f);
 	
 	// get the depth from the depth map
-	float depthVal = 1 - tex2D(depthSampler, input.texCoord).r;	 
+	float depthVal = 1 - tex2D(depthSampler, input.TexCoord).r;
 	
 	// Are we looking in the direction of the sun?
 	if(ScreenPosition.w > 0)
@@ -119,13 +113,13 @@ float4 PixelShaderFunction(VertexShaderOutputToPS input) : COLOR0
 					
 		float2 center = ScreenPosition.xy;
 
-		coord = .5 - (input.texCoord - center) / size * .5;
+		coord = .5 - (input.TexCoord - center) / size * .5;
 		
 		if (depthVal > ScreenPosition.z - .0003)
 			col += (pow(tex2D(Flare, coord) * float4(Color, 1), 2) * lightIntensity) * 2;
 		
 		// Lens flare
-		col += ((DoLenseFlare(ScreenPosition,input.texCoord,true) + DoLenseFlare(ScreenPosition,input.texCoord,false)) * float4(Color,1) * lightIntensity) * 5;
+		col += ((DoLenseFlare(ScreenPosition,input.TexCoord,true) + DoLenseFlare(ScreenPosition,input.TexCoord,false)) * float4(Color,1) * lightIntensity) * 5;
 	}
 	
 	return col;	
@@ -135,6 +129,6 @@ technique SunRender
 {
     pass Sun
     {
-        PixelShader = compile ps_4_0_level_9_1 PixelShaderFunction();
+        PixelShader = compile PS_SHADERMODEL PixelShaderFunction();
     }
 }

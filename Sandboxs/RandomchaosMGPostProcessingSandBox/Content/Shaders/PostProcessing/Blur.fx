@@ -1,12 +1,4 @@
-#if OPENGL
-	#define SV_POSITION POSITION
-	#define VS_SHADERMODEL vs_3_0
-	#define PS_SHADERMODEL ps_3_0
-#else
-	#define VS_SHADERMODEL vs_4_0_level_9_1
-	#define PS_SHADERMODEL ps_4_0_level_9_1
-#endif
-
+#include "PPVertexShader.fxh"
 //uniform extern texture g_texBlit;
 
 sampler g_sampBlit : register(s0);
@@ -32,13 +24,13 @@ static const float aBlurWeights[g_cKernelSize] =
   0.176033,0.120985,0.064759,0.026995,0.008764,0.002216
 };
 
-float4 BlurPSH(float2 vec2TC : TEXCOORD0) : COLOR
+float4 BlurPSH(VertexShaderOutput input) : COLOR
 {
-	float4 clrOrg = tex2D(g_sampBlit,vec2TC);
+	float4 clrOrg = tex2D(g_sampBlit,input.TexCoord);
     float4 clrBlurred = 0;
     for (int i=0; i<g_cKernelSize; i++)
     {
-		float2 vec2TexCoord = vec2TC;
+		float2 vec2TexCoord = input.TexCoord;
 		float fOffset = (aTexelKernel[i] / 256.0f) * g_BlurAmount;
 		
 		vec2TexCoord.x += fOffset;
@@ -48,13 +40,13 @@ float4 BlurPSH(float2 vec2TC : TEXCOORD0) : COLOR
     return clrBlurred;
 }
 
-float4 BlurPSV(float2 vec2TC : TEXCOORD0) : COLOR
+float4 BlurPSV(VertexShaderOutput input) : COLOR
 {
-	float4 clrOrg = tex2D(g_sampBlit,vec2TC);
+	float4 clrOrg = tex2D(g_sampBlit,input.TexCoord);
 	float4 clrBlurred = 0;
 	for (int i = 0; i < g_cKernelSize; i++)
 	{
-		float2 vec2TexCoord = vec2TC;
+		float2 vec2TexCoord = input.TexCoord;
 		float fOffset = (aTexelKernel[i] / 256.0f) * g_BlurAmount;
 		vec2TexCoord.y += fOffset;
 		clrBlurred += tex2D(g_sampBlit,vec2TexCoord) * aBlurWeights[i];

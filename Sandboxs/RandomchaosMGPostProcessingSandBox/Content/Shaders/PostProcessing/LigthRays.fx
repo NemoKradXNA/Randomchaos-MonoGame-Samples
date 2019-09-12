@@ -20,9 +20,7 @@ sampler2D Scene: register(s0){
 };
 
 
-float4 lightRayPS(float4 Position : SV_POSITION,
-	float4 Color : COLOR0,
-	float2 texCoord : TEXCOORD0) : COLOR0
+float4 lightRayPS(VertexShaderOutput input) : COLOR0
 {
 	// Find light pixel position
 	float4 ScreenPosition = mul(lightPosition, matVP);
@@ -30,7 +28,7 @@ float4 lightRayPS(float4 Position : SV_POSITION,
 	ScreenPosition.x = ScreenPosition.x/2.0f+0.5f;
 	ScreenPosition.y = (-ScreenPosition.y/2.0f+0.5f);
 
-	float2 TexCoord = texCoord - halfPixel;
+	float2 TexCoord = input.TexCoord - halfPixel;
 
 	float2 DeltaTexCoord = (TexCoord - ScreenPosition.xy);
 	DeltaTexCoord *= (1.0f / NUM_SAMPLES * Density);
@@ -60,6 +58,6 @@ technique LightRayFX
 	pass p0
 	{
 		//VertexShader = compile vs_4_0_level_9_1 VertexShaderFunction();
-		PixelShader = compile ps_4_0 lightRayPS();
+		PixelShader = compile PS_SHADERMODEL lightRayPS();
 	}
 }
