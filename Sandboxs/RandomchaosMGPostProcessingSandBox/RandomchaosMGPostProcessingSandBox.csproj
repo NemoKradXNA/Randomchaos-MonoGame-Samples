@@ -114,11 +114,11 @@
     <None Include="Content\Textures\WindmillTopNormal.dds" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RandomchaosMGBase\RandomchaosMGBase.csproj">
+    <ProjectReference Include="..\..\RandomchaosMGBase\RandomchaosMGBase.csproj">
       <Project>{8ac31ed1-b01b-4e3b-824a-d98430b5dc23}</Project>
       <Name>RandomchaosMGBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RandomchaosMGUIBase\RandomchaosMGUIBase.csproj">
+    <ProjectReference Include="..\..\RandomchaosMGUIBase\RandomchaosMGUIBase.csproj">
       <Project>{5abae2ee-2003-4fc7-85cd-bbed0e66d99d}</Project>
       <Name>RandomchaosMGUIBase</Name>
     </ProjectReference>

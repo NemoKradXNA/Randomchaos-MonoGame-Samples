@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGUIBaseSandBox"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGUIBase", "RandomchaosMGUIBase\RandomchaosMGUIBase.csproj", "{5ABAE2EE-2003-4FC7-85CD-BBED0E66D99D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGPostProcessingSandBox", "RandomchaosMGPostProcessingSandBox\RandomchaosMGPostProcessingSandBox.csproj", "{7C66B327-F412-4AD3-9B31-B324E1161461}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGPostProcessingSandBox", "Sandboxs\RandomchaosMGPostProcessingSandBox\RandomchaosMGPostProcessingSandBox.csproj", "{7C66B327-F412-4AD3-9B31-B324E1161461}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
