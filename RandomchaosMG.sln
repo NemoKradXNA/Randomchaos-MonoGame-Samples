@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGUIBaseSandBox"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGUIBase", "RandomchaosMGUIBase\RandomchaosMGUIBase.csproj", "{5ABAE2EE-2003-4FC7-85CD-BBED0E66D99D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGPostProcessingSandBox", "RandomchaosMGPostProcessingSandBox\RandomchaosMGPostProcessingSandBox.csproj", "{7C66B327-F412-4AD3-9B31-B324E1161461}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,12 +44,19 @@ Global
 		{5ABAE2EE-2003-4FC7-85CD-BBED0E66D99D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5ABAE2EE-2003-4FC7-85CD-BBED0E66D99D}.Release|x86.ActiveCfg = Release|Any CPU
 		{5ABAE2EE-2003-4FC7-85CD-BBED0E66D99D}.Release|x86.Build.0 = Release|Any CPU
+		{7C66B327-F412-4AD3-9B31-B324E1161461}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7C66B327-F412-4AD3-9B31-B324E1161461}.Debug|x86.ActiveCfg = Debug|x86
+		{7C66B327-F412-4AD3-9B31-B324E1161461}.Debug|x86.Build.0 = Debug|x86
+		{7C66B327-F412-4AD3-9B31-B324E1161461}.Release|Any CPU.ActiveCfg = Release|x86
+		{7C66B327-F412-4AD3-9B31-B324E1161461}.Release|x86.ActiveCfg = Release|x86
+		{7C66B327-F412-4AD3-9B31-B324E1161461}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4A78CF04-AB0A-45CB-815F-A81648EF3F46} = {5D791364-FEA6-4CB3-95DA-055B292F5306}
+		{7C66B327-F412-4AD3-9B31-B324E1161461} = {5D791364-FEA6-4CB3-95DA-055B292F5306}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E75E3A8-AD26-4818-AD83-243C17C79F04}

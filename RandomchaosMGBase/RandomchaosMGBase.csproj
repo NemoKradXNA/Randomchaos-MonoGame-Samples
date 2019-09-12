@@ -44,6 +44,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseClasses\Base3DCamera.cs" />
+    <Compile Include="BaseClasses\Base3DObject.cs" />
+    <Compile Include="BaseClasses\BaseSkyBox.cs" />
+    <Compile Include="BaseClasses\PostProcessing\BasePostProcess.cs" />
+    <Compile Include="BaseClasses\PostProcessing\BasePostProcessingEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\BloomEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\CrepuscularRays.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\DepthOfFieldEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\FogEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\HeatHazeEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\RadialBlurEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\RippleEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingEffects\SunEffect.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcessingManager.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\Bloom.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\BrightPass.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\BumpmapDistort.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\DepthOfField.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\Fog.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\GaussBlurH.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\GaussBlurV.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\LightRay.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\LightSceneMask.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\LightSourceMask.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\PoissonDiscBlur.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\RadialBlur.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\Ripple.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\SceneBlend.cs" />
+    <Compile Include="BaseClasses\PostProcessing\PostProcess\Sun.cs" />
     <Compile Include="InputManagers\KeyboardStateManager.cs" />
     <Compile Include="InputManagers\MouseRenderer.cs" />
     <Compile Include="InputManagers\MouseStateManager.cs" />
@@ -51,5 +80,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transform.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

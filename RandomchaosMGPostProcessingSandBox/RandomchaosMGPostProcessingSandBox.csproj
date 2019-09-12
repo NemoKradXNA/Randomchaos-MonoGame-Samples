@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7C66B327-F412-4AD3-9B31-B324E1161461}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RandomchaosMGPostProcessingSandBox</RootNamespace>
+    <AssemblyName>RandomchaosMGPostProcessingSandBox</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>Windows</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Game1.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Models\Speeder_bump.jpg" />
+    <Content Include="Content\Models\Speeder_diff.jpg" />
+    <Content Include="Content\Shaders\PostProcessing\Bloom.fx" />
+    <Content Include="Content\Shaders\PostProcessing\Blur.fx" />
+    <Content Include="Content\Shaders\PostProcessing\BrightPass.fx" />
+    <Content Include="Content\Shaders\PostProcessing\BumpMapDistort.fx" />
+    <Content Include="Content\Shaders\PostProcessing\DepthOfField.fx" />
+    <Content Include="Content\Shaders\PostProcessing\Flip.fx" />
+    <Content Include="Content\Shaders\PostProcessing\Fog.fx" />
+    <Content Include="Content\Shaders\PostProcessing\GaussianBlur.fx" />
+    <Content Include="Content\Shaders\PostProcessing\InvertColor.fx" />
+    <Content Include="Content\Shaders\PostProcessing\LightSceneMask.fx" />
+    <Content Include="Content\Shaders\PostProcessing\LightSourceMask.fx" />
+    <Content Include="Content\Shaders\PostProcessing\LigthRays.fx" />
+    <Content Include="Content\Shaders\PostProcessing\Monochrome.fx" />
+    <Content Include="Content\Shaders\PostProcessing\PoissonDiscBlur.fx" />
+    <Content Include="Content\Shaders\PostProcessing\RadialBlur.fx" />
+    <Content Include="Content\Shaders\PostProcessing\Ripple.fx" />
+    <Content Include="Content\Shaders\PostProcessing\SceneBlend.fx" />
+    <Content Include="Content\Shaders\PostProcessing\Sun.fx" />
+    <Content Include="Content\Shaders\RenderObject.fx" />
+    <Content Include="Content\Shaders\SkyBoxShader.fx" />
+    <Content Include="Content\Shaders\Test.fx" />
+    <Content Include="Content\Textures\flare.png" />
+    <Content Include="Content\Textures\h2mcpCube.jpg" />
+    <Content Include="Content\Textures\h2mcpCubeNormal.jpg" />
+    <Content Include="Content\Textures\HUD\HUDBackground.png" />
+    <Content Include="Content\Textures\HUD\HUDButtonDown.png" />
+    <Content Include="Content\Textures\HUD\HUDButtonUp.png" />
+    <Content Include="Content\Textures\HUD\HUDSliderBackground.png" />
+    <Content Include="Content\Textures\HUD\HUDSliderToggle.png" />
+    <Content Include="Content\Textures\HUD\HUSChkBoxOff.png" />
+    <Content Include="Content\Textures\HUD\HUSChkBoxOn.png" />
+    <Content Include="Content\Textures\rock.bmp" />
+    <Content Include="Content\Textures\Speeder_bump.jpg" />
+    <Content Include="Content\Textures\Speeder_diff.jpg" />
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="app.manifest" />
+    <None Include="Content\Fonts\hudFont.spritefont" />
+    <None Include="Content\Fonts\TestFont.spritefont" />
+    <None Include="Content\Models\bigship1.x" />
+    <None Include="Content\Models\Cube.x" />
+    <None Include="Content\Models\engine_diff_tex.tga" />
+    <None Include="Content\Models\LandShark.x" />
+    <None Include="Content\Models\SkyBox.x" />
+    <None Include="Content\Models\sphere.x" />
+    <None Include="Content\Models\turret_alt_diff_tex.tga" />
+    <None Include="Content\Shaders\PostProcessing\PPVertexShader.fxh" />
+    <None Include="Content\Textures\bumpmap.tga" />
+    <None Include="Content\Textures\Earth_Diffuse.dds" />
+    <None Include="Content\Textures\Earth_NormalMap.dds" />
+    <None Include="Content\Textures\SkyBox\HMcubemap.dds" />
+    <None Include="Content\Textures\SkyBox\NebulaBlue.dds" />
+    <None Include="Content\Textures\SkyBox\Stars.dds" />
+    <None Include="Content\Textures\WindmillTopColor.dds" />
+    <None Include="Content\Textures\WindmillTopNormal.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RandomchaosMGBase\RandomchaosMGBase.csproj">
+      <Project>{8ac31ed1-b01b-4e3b-824a-d98430b5dc23}</Project>
+      <Name>RandomchaosMGBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RandomchaosMGUIBase\RandomchaosMGUIBase.csproj">
+      <Project>{5abae2ee-2003-4fc7-85cd-bbed0e66d99d}</Project>
+      <Name>RandomchaosMGUIBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
