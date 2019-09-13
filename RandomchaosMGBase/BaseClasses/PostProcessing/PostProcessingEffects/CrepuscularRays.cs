@@ -29,6 +29,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
         public float LightSourceSize
         {
             set { lsMask.lightSize = value; }
+            get { return lsMask.lightSize; }
         }
 
         public float Density
@@ -74,7 +75,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             AddPostProcess(lsMask);
             AddPostProcess(mask);
             AddPostProcess(rays);
-            //AddPostProcess(bp);
+            AddPostProcess(bp);
             AddPostProcess(blend);
         }
 

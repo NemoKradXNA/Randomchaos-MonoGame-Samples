@@ -230,12 +230,6 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/SkyBoxShader.fx
 
-#begin Shaders/Test.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Shaders/Test.fx
-
 #begin Textures/HUD/HUDBackground.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -337,11 +331,11 @@
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
+/processorParam:GenerateMipmaps=True
 /processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
+/processorParam:ResizeToPowerOfTwo=True
+/processorParam:MakeSquare=True
+/processorParam:TextureFormat=DxtCompressed
 /build:Textures/SkyBox/NebulaBlue.dds
 
 #begin Textures/SkyBox/Stars.dds

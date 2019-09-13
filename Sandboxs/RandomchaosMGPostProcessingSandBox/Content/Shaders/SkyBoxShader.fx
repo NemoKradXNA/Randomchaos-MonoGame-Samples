@@ -1,13 +1,14 @@
-Texture surfaceTexture;
+texture surfaceTexture;
 samplerCUBE TextureSampler = sampler_state 
 { 
-    texture = <surfaceTexture> ; 
+	texture = <surfaceTexture>;
+	AddressU = Mirror;
+	AddressV = Mirror;
     magfilter = LINEAR; 
     minfilter = LINEAR; 
     mipfilter = LINEAR; 
-    AddressU = Mirror;
-    AddressV = Mirror;
 };
+
 
 float4x4 World : World;
 float4x4 View : View;
@@ -24,12 +25,11 @@ struct VS_INPUT
     float3 Normal : NORMAL0;    
 };
 
-struct VS_OUTPUT 
+struct PS_INPUT
 {
 	float4 Position : SV_POSITION;
 	float2 TexCoord : TEXCORD0;
-    float3 ViewDirection : TEXCOORD1;
-        
+	float3 ViewDirection : TEXCOORD2;
 };
 
 struct PixelShaderOutput
@@ -43,30 +43,26 @@ float4 CubeMapLookup(float3 CubeTexcoord)
     return texCUBE(TextureSampler, CubeTexcoord);
 }
 
-VS_OUTPUT Transform(VS_INPUT Input)
+PS_INPUT Transform(VS_INPUT Input)
 {
     float4x4 WorldViewProjection = mul(mul(World, View), Projection);
     float3 ObjectPosition = mul(Input.Position, World);
     
-    VS_OUTPUT Output;
+	PS_INPUT Output;
+	Output.TexCoord = Input.TexCoord;
     Output.Position = mul(Input.Position, WorldViewProjection);
-    Output.ViewDirection = normalize(ObjectPosition - EyePosition);
+	Output.ViewDirection = normalize(ObjectPosition - EyePosition);
     
     return Output;
 }
-
-struct PS_INPUT 
-{    
-    float3 ViewDirection : TEXCOORD2;
-};
 
 PixelShaderOutput BasicShader(PS_INPUT Input) : COLOR0
 {    
 	PixelShaderOutput output = (PixelShaderOutput)0;
 
-    float3 ViewDirection = normalize(Input.ViewDirection);    
+	float3  ViewDirection = normalize(Input.ViewDirection);
     ViewDirection.x *= -1;
-	output.Color = float4(ViewDirection,1) + CubeMapLookup(ViewDirection) * alpha;
+	output.Color = CubeMapLookup(ViewDirection) * alpha;
 	output.Depth = 0;
 
 	return output;
@@ -76,7 +72,7 @@ technique Sky
 {
     pass P0
     {
-        VertexShader = compile vs_4_0_level_9_1 Transform();
-        PixelShader  = compile ps_4_0_level_9_1 BasicShader();
+        VertexShader = compile vs_4_0 Transform();
+        PixelShader  = compile ps_4_0 BasicShader();
     }
 }

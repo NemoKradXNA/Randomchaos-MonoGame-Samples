@@ -27,6 +27,8 @@ namespace RandomchaosMGBase.BaseClasses
             base.Update(gameTime);
         }
 
+        TextureCube cube = null;
+
         public override void Draw(GameTime gameTime)
         {
             if (Enabled && Visible)
@@ -34,14 +36,21 @@ namespace RandomchaosMGBase.BaseClasses
 
                 Game.GraphicsDevice.BlendState = BlendState.Opaque;
 
-                //Matrix World = Matrix.CreateScale(Scale) *
-                //                Matrix.CreateFromQuaternion(Rotation) *
-                //                Matrix.CreateTranslation(camera.Position);
+                if (cube == null)
+                {
+                    cube = Game.Content.Load<TextureCube>(textureAsset);
+
+                    //cube = new TextureCube(Game.GraphicsDevice, 128, false, SurfaceFormat.Rg32);
+                }
+
+                Matrix World = Matrix.CreateScale(Scale) *
+                                Matrix.CreateFromQuaternion(Rotation) *
+                                Matrix.CreateTranslation(camera.Position);
 
                 Effect.Parameters["World"].SetValue(World);
                 Effect.Parameters["View"].SetValue(camera.View);
                 Effect.Parameters["Projection"].SetValue(camera.Projection);
-                Effect.Parameters["surfaceTexture"].SetValue(Game.Content.Load<TextureCube>(textureAsset));
+                Effect.Parameters["surfaceTexture"].SetValue(cube);
 
                 Effect.Parameters["EyePosition"].SetValue(camera.Position);
 

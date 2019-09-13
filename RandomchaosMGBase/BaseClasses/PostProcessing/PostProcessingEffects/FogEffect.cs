@@ -18,6 +18,12 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             set { fog.FogRange = MathHelper.Clamp(value, camera.Viewport.MinDepth, camera.Viewport.MaxDepth); }
         }
 
+        public Color FogColor
+        {
+            get { return fog.FogColor; }
+            set { fog.FogColor = value; }
+        }
+
         public FogEffect(Game game, float distance, float range, Color color) : base(game)
         {
             fog = new Fog(game, distance, range, color);

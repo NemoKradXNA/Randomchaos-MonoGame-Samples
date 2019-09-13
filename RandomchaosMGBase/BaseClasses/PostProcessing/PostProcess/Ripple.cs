@@ -5,8 +5,22 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 {
     public class Ripple : BasePostProcess
     {
-        float divisor = .5f;
-        float distortion = 2.5f;
+        protected float divisor = .5f;
+        protected float distortion = 2.5f;
+        protected Vector2 pos = new Vector2(.5f, .5f);
+
+
+        public float Distortion
+        {
+            get { return distortion; }
+            set { distortion = value; }
+        }
+
+        public Vector2 ScreenPosition
+        {
+            get { return pos; }
+            set { pos = value; }
+        }
 
         public Ripple(Game game) : base(game)
         { }
@@ -23,7 +37,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 
             effect.Parameters["wave"].SetValue(MathHelper.Pi / divisor);
             effect.Parameters["distortion"].SetValue(distortion);
-            effect.Parameters["centerCoord"].SetValue(new Vector2(.5f, .5f));
+            effect.Parameters["centerCoord"].SetValue(pos);
 
             // Set Params.
             base.Draw(gameTime);

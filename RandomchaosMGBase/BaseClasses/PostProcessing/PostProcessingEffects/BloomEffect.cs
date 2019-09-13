@@ -9,6 +9,18 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
         GaussBlurH gbh;
         Bloom b;
 
+        public bool Glare
+        {
+            get { return b.Glare; }
+            set { b.Glare = value; }
+        }
+
+        public float BloomThreshold
+        {
+            get { return bp.BloomThreshold; }
+            set { bp.BloomThreshold = value; }
+        }
+
         public float BloomIntensity
         {
             get { return b.BloomIntensity; }

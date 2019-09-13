@@ -238,27 +238,179 @@ namespace RandomchaosMGPostProcessingSandBox
                 camera.Rotate(Vector3.Right, -speedRot);
 
             if (kbm.KeyPress(Keys.F1))
-                bloom.Enabled = !bloom.Enabled;
+                selectedEffect = bloom;
+
             if (kbm.KeyPress(Keys.F2))
-                GodRays.Enabled = !GodRays.Enabled;
+                selectedEffect = GodRays;
+            
             if (kbm.KeyPress(Keys.F3))
-                dof.Enabled = !dof.Enabled;
+                selectedEffect = dof;
+
             if (kbm.KeyPress(Keys.F4))
-                fog.Enabled = !fog.Enabled;
+                selectedEffect = fog;
+
             if (kbm.KeyPress(Keys.F5))
-                haze.Enabled = !haze.Enabled;
+                selectedEffect = haze;
+
             if (kbm.KeyPress(Keys.F6))
-                radialBlur.Enabled = !radialBlur.Enabled;
+                selectedEffect = radialBlur;
+
             if (kbm.KeyPress(Keys.F7))
-                ripple.Enabled = !ripple.Enabled;
+                selectedEffect = ripple;
+
             if (kbm.KeyPress(Keys.F8))
-                sun.Enabled = !sun.Enabled;
+                selectedEffect = sun;
+
             if (kbm.KeyPress(Keys.F9))
-                sepia.Enabled = !sepia.Enabled;
+                selectedEffect = sepia;
+
             if (kbm.KeyPress(Keys.F10))
-                greyScale.Enabled = !greyScale.Enabled;
+                selectedEffect = greyScale;
+
             if (kbm.KeyPress(Keys.F11))
-                invert.Enabled = !invert.Enabled;
+                selectedEffect = invert;
+
+            if (selectedEffect != null)
+            {
+                if (kbm.KeyPress(Keys.Space))
+                    selectedEffect.Enabled = !selectedEffect.Enabled;
+
+                if (selectedEffect == bloom)
+                {
+                    if (kbm.KeyPress(Keys.G))
+                        bloom.Glare = !bloom.Glare;
+
+                    if (kbm.KeyDown(Keys.Y))
+                        bloom.BloomThreshold = MathHelper.Min(bloom.BloomThreshold + .001f, 1f);
+                    if (kbm.KeyDown(Keys.H))
+                        bloom.BloomThreshold = MathHelper.Max(bloom.BloomThreshold - .001f, 0.0f);
+
+                    if (kbm.KeyDown(Keys.U))
+                        bloom.BlurAmount = MathHelper.Min(bloom.BlurAmount + .1f, 4);
+                    if (kbm.KeyDown(Keys.J))
+                        bloom.BlurAmount = MathHelper.Max(bloom.BlurAmount - .1f, 0.1f);
+                }
+                else if (selectedEffect == GodRays)
+                {
+                    if (kbm.KeyDown(Keys.R))
+                        GodRays.LightSourceSize = MathHelper.Min(GodRays.LightSourceSize + .5f, 10000);
+                    if (kbm.KeyDown(Keys.F))
+                        GodRays.LightSourceSize = MathHelper.Max(GodRays.LightSourceSize - .5f, .5f);
+
+                    if (kbm.KeyDown(Keys.T))
+                        GodRays.Density = MathHelper.Min(GodRays.Density + .01f, 1);
+                    if (kbm.KeyDown(Keys.G))
+                        GodRays.Density = MathHelper.Max(GodRays.Density - .01f, 0);
+
+                    if (kbm.KeyDown(Keys.Y))
+                        GodRays.Decay = MathHelper.Min(GodRays.Decay + .0001f, 1);
+                    if (kbm.KeyDown(Keys.H))
+                        GodRays.Decay = MathHelper.Max(GodRays.Decay - .0001f, 0);
+
+                    if (kbm.KeyDown(Keys.U))
+                        GodRays.Weight = MathHelper.Min(GodRays.Weight + .001f, 1);
+                    if (kbm.KeyDown(Keys.J))
+                        GodRays.Weight = MathHelper.Max(GodRays.Weight - .001f, 0);
+
+                    if (kbm.KeyDown(Keys.I))
+                        GodRays.Exposure = MathHelper.Min(GodRays.Exposure + .001f, 1);
+                    if (kbm.KeyDown(Keys.K))
+                        GodRays.Exposure = MathHelper.Max(GodRays.Exposure - .001f, 0);
+
+                    if (kbm.KeyDown(Keys.O))
+                        GodRays.BrightThreshold = MathHelper.Min(GodRays.BrightThreshold + .01f, .999f);
+                    if (kbm.KeyDown(Keys.L))
+                        GodRays.BrightThreshold = MathHelper.Max(GodRays.BrightThreshold - .01f, 0);
+                }
+                else if (selectedEffect == dof)
+                {
+                    if (kbm.KeyDown(Keys.R))
+                        dof.DiscRadius = MathHelper.Min(dof.DiscRadius + .1f, camera.Viewport.MaxDepth);
+                    if (kbm.KeyDown(Keys.F))
+                        dof.DiscRadius = MathHelper.Max(dof.DiscRadius - .1f, 0);
+
+                    if (kbm.KeyDown(Keys.T))
+                        dof.FocalDistance = MathHelper.Min(dof.FocalDistance + .1f, camera.Viewport.MaxDepth);
+                    if (kbm.KeyDown(Keys.G))
+                        dof.FocalDistance = MathHelper.Max(dof.FocalDistance - .1f, 0);
+
+                    if (kbm.KeyDown(Keys.Y))
+                        dof.FocalRange = MathHelper.Min(dof.FocalRange + .1f, camera.Viewport.MaxDepth);
+                    if (kbm.KeyDown(Keys.H))
+                        dof.FocalRange = MathHelper.Max(dof.FocalRange - .1f, 0);
+                }
+                else if (selectedEffect == fog)
+                {
+                    if (kbm.KeyDown(Keys.R))
+                        fog.FogDistance = MathHelper.Min(fog.FogDistance + .1f, camera.Viewport.MaxDepth);
+                    if (kbm.KeyDown(Keys.F))
+                        fog.FogDistance = MathHelper.Max(fog.FogDistance - .1f, 1);
+
+                    if (kbm.KeyDown(Keys.T))
+                        fog.FogRange = MathHelper.Min(fog.FogRange + .1f, camera.Viewport.MaxDepth);
+                    if (kbm.KeyDown(Keys.G))
+                        fog.FogRange = MathHelper.Max(fog.FogRange - .1f, 1);
+
+                    if (kbm.KeyDown(Keys.Y))
+                        fog.FogColor = SetColor(fog.FogColor.ToVector4() + new Vector4(.01f, 0, 0, 0));
+                    if (kbm.KeyDown(Keys.H))
+                        fog.FogColor = SetColor(fog.FogColor.ToVector4() - new Vector4(.01f, 0, 0, 0));
+
+                    if (kbm.KeyDown(Keys.U))
+                        fog.FogColor = SetColor(fog.FogColor.ToVector4() + new Vector4(0, .01f, 0, 0));
+                    if (kbm.KeyDown(Keys.J))
+                        fog.FogColor = SetColor(fog.FogColor.ToVector4() - new Vector4(0, .01f, 0, 0));
+
+                    if (kbm.KeyDown(Keys.I))
+                        fog.FogColor = SetColor(fog.FogColor.ToVector4() + new Vector4(0, 0, .01f, 0));
+                    if (kbm.KeyDown(Keys.K))
+                        fog.FogColor = SetColor(fog.FogColor.ToVector4() - new Vector4(0, 0, .01f, 0));
+
+                    if (kbm.KeyDown(Keys.O))
+                        fog.FogColor = SetColor(fog.FogColor.ToVector4() + new Vector4(0, 0, 0, .01f));
+                    if (kbm.KeyDown(Keys.L))
+                        fog.FogColor = SetColor(fog.FogColor.ToVector4() - new Vector4(0, 0, 0, .01f));
+                }
+                else if (selectedEffect == haze)
+                {
+                    if (kbm.KeyPress(Keys.H))
+                        haze.High = !haze.High;
+                }
+                else if (selectedEffect == radialBlur)
+                {
+                    if (kbm.KeyDown(Keys.R))
+                        radialBlur.Scale = MathHelper.Min(radialBlur.Scale + .001f, 1);
+                    if (kbm.KeyDown(Keys.F))
+                        radialBlur.Scale = MathHelper.Max(radialBlur.Scale - .001f, 0);
+                }
+                else if (selectedEffect == ripple)
+                {
+                    if (kbm.KeyDown(Keys.T))
+                        ripple.Distortion = MathHelper.Min(ripple.Distortion + .01f, 100);
+                    if (kbm.KeyDown(Keys.G))
+                        ripple.Distortion = MathHelper.Max(ripple.Distortion - .01f, 0);
+
+                    if (kbm.KeyDown(Keys.Y))
+                        ripple.ScreenPosition = SetVector2(ripple.ScreenPosition + new Vector2(.001f, 0)); 
+                    if (kbm.KeyDown(Keys.H))
+                        ripple.ScreenPosition = SetVector2(ripple.ScreenPosition - new Vector2(.001f, 0));
+
+                    if (kbm.KeyDown(Keys.U))
+                        ripple.ScreenPosition = SetVector2(ripple.ScreenPosition + new Vector2(0, .001f));
+                    if (kbm.KeyDown(Keys.J))
+                        ripple.ScreenPosition = SetVector2(ripple.ScreenPosition + new Vector2(0, .001f));
+                }
+            }
+        }
+
+        protected Color SetColor(Vector4 newC)
+        {
+            return new Color(Vector4.Clamp(newC, Vector4.Zero, Vector4.One));
+        }
+
+        protected Vector2 SetVector2(Vector2 v)
+        {
+            return v;
         }
 
         /// <summary>
@@ -278,21 +430,106 @@ namespace RandomchaosMGPostProcessingSandBox
 
             ppManager.Draw(gameTime, backBuffer, depthBuffer);
 
+            line = 0;
+            int x = 8;
+
             spriteBatch.Begin();
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), "Post Processing", new Vector2(8, 8), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F1 ] - Bloom On: {bloom.Enabled}", new Vector2(8, 20), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F2 ] - God Rays On: {GodRays.Enabled}", new Vector2(8, 32), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F3 ] - Depth of Field On: {dof.Enabled}", new Vector2(8, 44), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F4 ] - Fog On: {fog.Enabled}", new Vector2(8, 56), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F5 ] - Heat Haze On: {haze.Enabled}", new Vector2(8, 68), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F6 ] - Radial Blur On: {radialBlur.Enabled}", new Vector2(8, 80), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F7 ] - Ripple On: {ripple.Enabled}", new Vector2(8, 92), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F8 ] - Sun On: {sun.Enabled}", new Vector2(8, 104), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F9 ] - Sepia On: {sepia.Enabled}", new Vector2(8, 118), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F10] - Grey Scale On: {greyScale.Enabled}", new Vector2(8, 130), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), $"[F11] - Invert Color On: {invert.Enabled}", new Vector2(8, 142), Color.Gold);
+            spriteBatch.Draw(Content.Load<Texture2D>("Textures/HUD/HUDBackground"), new Rectangle(0, 0, 250, lineHeight * lineCount), Color.White);
+            WriteLine("Post Processing", x, Color.Gold);
+            WriteLine($"[F1 ] - Bloom On: {bloom.Enabled}",x, bloom.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F2 ] - God Rays On: {GodRays.Enabled}", x, GodRays.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F3 ] - Depth of Field On: {dof.Enabled}", x, dof.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F4 ] - Fog On: {fog.Enabled}", x, fog.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F5 ] - Heat Haze On: {haze.Enabled}", x, haze.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F6 ] - Radial Blur On: {radialBlur.Enabled}", x,radialBlur.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F7 ] - Ripple On: {ripple.Enabled}", x, ripple.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F8 ] - Sun On: {sun.Enabled}", x, sun.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F9 ] - Sepia On: {sepia.Enabled}", x, sepia.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F10] - Grey Scale On: {greyScale.Enabled}", x, greyScale.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F11] - Invert Color On: {invert.Enabled}", x, invert.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"", x, Color.Gold);
+            WriteLine($"", x, Color.Gold);
+            WriteLine($"[ESC] - Exit", x, Color.Gold);
+
+            line = 0;
+            x += 255;
+
+            if (selectedEffect != null)
+            {
+                
+                spriteBatch.Draw(Content.Load<Texture2D>("Textures/HUD/HUDBackground"), new Rectangle(255, 0, 250, lineHeight * lineCount), Color.White);
+                WriteLine($"{selectedEffect.GetType().Name}", x, Color.Gold);
+                WriteLine($"[SPC] - Toggle Enabled", x, selectedEffect.Enabled ? Color.LimeGreen : Color.Green);
+
+                if (selectedEffect.Enabled)
+                {
+                    if (selectedEffect == bloom)
+                    {
+                        WriteLine($"[G  ] Galre On: {bloom.Glare}", x, bloom.Glare ? Color.LimeGreen : Color.Green);
+                        WriteLine($"[Y/H] Bloom Threshold +- : {bloom.BloomThreshold}", x, Color.LimeGreen);
+                        WriteLine($"[U/J] Blur Amount +- : {bloom.BlurAmount}", x, Color.LimeGreen);
+                    }
+
+                    if (selectedEffect == GodRays)
+                    {
+                        WriteLine($"[R/F] Light Source Size +-: {GodRays.LightSourceSize}", x, Color.LimeGreen);
+                        WriteLine($"[T/G] Density +-: {GodRays.Density}", x, Color.LimeGreen);
+                        WriteLine($"[Y/H] Decay +-: {GodRays.Decay}", x, Color.LimeGreen);
+                        WriteLine($"[U/J] Weight +-: {GodRays.Weight}", x, Color.LimeGreen);
+                        WriteLine($"[I/K] Exposure +-: {GodRays.Exposure}", x, Color.LimeGreen);
+                        WriteLine($"[O/L] Bright Threshold +-: {GodRays.BrightThreshold}", x, Color.LimeGreen);
+                    }
+
+                    if (selectedEffect == dof)
+                    {
+                        WriteLine($"[R/F] Disc Radius +- : {dof.DiscRadius}", x, Color.LimeGreen);
+                        WriteLine($"[T/G] Focal Distance +- : {dof.FocalDistance}", x, Color.LimeGreen);
+                        WriteLine($"[Y/H] Focal Range +- : {dof.FocalRange}", x, Color.LimeGreen);
+                    }
+
+                    if (selectedEffect == fog)
+                    {
+                        WriteLine($"[R/F] Fog Distance +- : {fog.FogDistance}", x, Color.LimeGreen);
+                        WriteLine($"[T/G] Fog Range +- : {fog.FogRange}", x, Color.LimeGreen);
+                        WriteLine($"[Y/H] Fog Color (R) +- : {fog.FogColor.ToVector4().X}", x, Color.LimeGreen);
+                        WriteLine($"[U/J] Fog Color (G) +- : {fog.FogColor.ToVector4().Y}", x, Color.LimeGreen);
+                        WriteLine($"[I/K] Fog Color (B) +- : {fog.FogColor.ToVector4().Z}", x, Color.LimeGreen);
+                        WriteLine($"[O/L] Fog Color (A) +- : {fog.FogColor.ToVector4().W}", x, Color.LimeGreen);
+                    }
+
+                    if (selectedEffect == haze)
+                    {
+                        WriteLine($"[H  ] - High On: {haze.High}", x, haze.High ? Color.LimeGreen : Color.Green);
+                    }
+
+                    if (selectedEffect == radialBlur)
+                    {
+                        WriteLine($"[R/F] - Sale +=: {radialBlur.Scale}", x, Color.LimeGreen);
+                    }
+
+                    if (selectedEffect == ripple)
+                    {
+                        WriteLine($"[T/G] - Distortion +=: {ripple.Distortion}", x, Color.LimeGreen);
+                        WriteLine($"[Y/H] - Screen Position X +=: {ripple.ScreenPosition.X}", x, Color.LimeGreen);
+                        WriteLine($"[U/J] - Screen Position Y +=: {ripple.ScreenPosition.Y}", x, Color.LimeGreen);
+                    }
+                }
+            }
             spriteBatch.End();
         }
+
+        int line = 8;
+        const int lineHeight = 16;
+        const int lineCount = 16;
+
+        BasePostProcessingEffect selectedEffect = null;
+
+        protected void WriteLine(string str,float x, Color color)
+        {
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/hudFont"), str, new Vector2(x, line), color);
+            line += lineHeight;
+        }
+
         public void SaveJpg(Texture2D texture, string name)
         {
             FileStream s = new FileStream(name, FileMode.Create);

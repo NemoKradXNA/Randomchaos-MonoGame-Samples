@@ -7,6 +7,13 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
     {
         private Vector2[] taps;
 
+        protected float _DiscRadius = 15;
+        public float DiscRadius
+        {
+            get { return _DiscRadius; }
+            set { _DiscRadius = value; }
+        }
+
         public PoissonDiscBlur(Game game) : base(game)
         {
             taps = new Vector2[]{
@@ -24,7 +31,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
                 effect = Game.Content.Load<Effect>("Shaders/PostProcessing/PoissonDiscBlur");
 
             effect.Parameters["Taps"].SetValue(taps);
-            effect.Parameters["DiscRadius"].SetValue(15f);
+            effect.Parameters["DiscRadius"].SetValue(_DiscRadius);
             effect.Parameters["TexelSize"].SetValue(HalfPixel);
 
             // Set Params.

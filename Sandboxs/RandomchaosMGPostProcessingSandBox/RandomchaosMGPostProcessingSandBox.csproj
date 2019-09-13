@@ -75,7 +75,6 @@
     <Content Include="Content\Shaders\PostProcessing\Sun.fx" />
     <Content Include="Content\Shaders\RenderObject.fx" />
     <Content Include="Content\Shaders\SkyBoxShader.fx" />
-    <Content Include="Content\Shaders\Test.fx" />
     <Content Include="Content\Textures\flare.png" />
     <Content Include="Content\Textures\h2mcpCube.jpg" />
     <Content Include="Content\Textures\h2mcpCubeNormal.jpg" />

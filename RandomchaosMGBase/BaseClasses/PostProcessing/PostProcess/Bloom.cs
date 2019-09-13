@@ -9,6 +9,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
         public float BloomSaturation;
         public float BaseIntensity;
         public float BaseSaturation;
+        public bool Glare { get; set; }
 
         public Bloom(Game game, float intensity, float saturation, float baseIntensity, float baseSatration) : base(game)
         {
@@ -25,6 +26,12 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
                 effect = Game.Content.Load<Effect>("Shaders/PostProcessing/Bloom");
                 effect.CurrentTechnique = effect.Techniques["BloomComposite"];
             }
+
+            if(Glare)
+                effect.CurrentTechnique = effect.Techniques["GlareComposite"];
+            else
+                effect.CurrentTechnique = effect.Techniques["BloomComposite"];
+
             effect.Parameters["SceneTex"].SetValue(orgBuffer);
 
             effect.Parameters["BloomIntensity"].SetValue(BloomIntensity);

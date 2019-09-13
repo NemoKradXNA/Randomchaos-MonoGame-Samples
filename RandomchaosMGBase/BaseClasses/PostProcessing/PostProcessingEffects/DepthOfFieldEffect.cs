@@ -7,6 +7,8 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
         public PoissonDiscBlur pdb;
         public DepthOfField dof;
 
+        public float DiscRadius { get { return pdb.DiscRadius; } set { pdb.DiscRadius = value; } }
+
         public DepthOfFieldEffect(Game game, float startFocusDistance, float startFocusRange) : base(game)
         {
             pdb = new PoissonDiscBlur(game);
