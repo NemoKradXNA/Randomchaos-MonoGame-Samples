@@ -49,6 +49,15 @@ namespace RandomchaosMGPostProcessingSandBox
         InvertColorEffect invert;
         #endregion
 
+        #region UI bits
+        protected int line = 8;
+
+        protected const int lineHeight = 16;
+        protected const int lineCount = 16;
+
+        protected BasePostProcessingEffect selectedEffect = null;
+        #endregion
+
         Vector3 LightPosition = new Vector3(50, 50, 1000);
 
         public Game1()
@@ -457,8 +466,8 @@ namespace RandomchaosMGPostProcessingSandBox
             if (selectedEffect != null)
             {
                 
-                spriteBatch.Draw(Content.Load<Texture2D>("Textures/HUD/HUDBackground"), new Rectangle(255, 0, 250, lineHeight * lineCount), Color.White);
-                WriteLine($"{selectedEffect.GetType().Name}", x, Color.Gold);
+                spriteBatch.Draw(Content.Load<Texture2D>("Textures/HUD/HUDBackground"), new Rectangle(255, 0, 250, lineHeight * 9), Color.White);
+                WriteLine($"[{selectedEffect.GetType().Name}]", x, Color.Gold);
                 WriteLine($"[SPC] - Toggle Enabled", x, selectedEffect.Enabled ? Color.LimeGreen : Color.Green);
 
                 if (selectedEffect.Enabled)
@@ -515,14 +524,12 @@ namespace RandomchaosMGPostProcessingSandBox
                     }
                 }
             }
+
+            line = 16 * lineHeight;
+            WriteLine("", 8, Color.Gold);
+            WriteLine("Camera Controls: [WASD - Translate] [Arrow Keys - Rotate]", 8, Color.Gold);
             spriteBatch.End();
         }
-
-        int line = 8;
-        const int lineHeight = 16;
-        const int lineCount = 16;
-
-        BasePostProcessingEffect selectedEffect = null;
 
         protected void WriteLine(string str,float x, Color color)
         {
