@@ -8,6 +8,8 @@ using RandomchaosMGBase.BaseClasses;
 using RandomchaosMGBase.BaseClasses.PostProcessing;
 using RandomchaosMGBase.InputManagers;
 
+
+// source of bunny mesh https://casual-effects.com/data/
 namespace RandomchaosMGPostProcessingSandBox
 {
     /// <summary>
@@ -28,9 +30,11 @@ namespace RandomchaosMGPostProcessingSandBox
         BaseSkyBox skyBox;
 
         Base3DObject cube;
-        Base3DObject[] bigShip;
+        Base3DObject[] bunnies;
         Base3DObject landShark;
         Base3DObject earth;
+
+        Base3DObject bunny;
         #endregion
 
         #region Post Processing Elements
@@ -87,6 +91,11 @@ namespace RandomchaosMGPostProcessingSandBox
             skyBox = new BaseSkyBox(this, "Textures/SkyBox/NebulaBlue");
             Components.Add(skyBox);
 
+            bunny = new Base3DObject(this, "Models/Bunny");
+            bunny.Position = new Vector3(2, -1.5f, -20);
+            bunny.LightPosition = LightPosition;
+            Components.Add(bunny);
+
             cube = new Base3DObject(this, "Models/cube");
             cube.Position = new Vector3(0, 0, -10);
             cube.ColorAsset = "Textures/h2mcpCube";
@@ -94,15 +103,15 @@ namespace RandomchaosMGPostProcessingSandBox
             cube.LightPosition = LightPosition;
             Components.Add(cube);
 
-            bigShip = new Base3DObject[10];
+            bunnies = new Base3DObject[10];
             for (int s = 0; s < 10; s++)
             {
-                bigShip[s] = new Base3DObject(this, "Models/bigship1");
-                bigShip[s].Position = new Vector3(20 + (s * 12), 0, -10 - (s * 12));
-                bigShip[s].ColorAsset = "Textures/WindmillTopColor";
-                bigShip[s].BumpAsset = "Textures/WindmillTopNormal";
-                bigShip[s].LightPosition = LightPosition;
-                Components.Add(bigShip[s]);
+                bunnies[s] = new Base3DObject(this, "Models/Bunny");
+                bunnies[s].Position = new Vector3(20 + (s * 12), -1.5f, -10 - (s * 12));
+                bunnies[s].ColorAsset = "Textures/WindmillTopColor";
+                bunnies[s].BumpAsset = "Textures/WindmillTopNormal";
+                bunnies[s].LightPosition = LightPosition;
+                Components.Add(bunnies[s]);
             }
 
             landShark = new Base3DObject(this, "Models/landShark");

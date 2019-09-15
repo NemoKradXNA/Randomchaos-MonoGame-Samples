@@ -45,6 +45,9 @@ namespace RandomchaosMGBase.BaseClasses
         public string ColorAsset;
         public string BumpAsset;
 
+        Texture2D defaultTexture;
+        Texture2D defaultBump;
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -66,6 +69,12 @@ namespace RandomchaosMGBase.BaseClasses
         public override void Initialize()
         {
             base.Initialize();
+
+            defaultTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
+            defaultTexture.SetData<Color>(new Color[] { Color.White });
+
+            defaultBump =  new Texture2D(Game.GraphicsDevice, 1, 1);
+            defaultBump.SetData<Color>(new Color[] { new Color(180, 180, 232, 255) });
         }
 
         /// <summary>
@@ -119,8 +128,16 @@ namespace RandomchaosMGBase.BaseClasses
 
                 effect.Parameters["world"].SetValue(meshWorld);
                 effect.Parameters["wvp"].SetValue(meshWorld * camera.View * camera.Projection);
-                effect.Parameters["textureMat"].SetValue(Game.Content.Load<Texture2D>(ColorAsset));
-                effect.Parameters["BumpMap"].SetValue(Game.Content.Load<Texture2D>(BumpAsset));
+                if (!string.IsNullOrEmpty(ColorAsset))
+                    effect.Parameters["textureMat"].SetValue(Game.Content.Load<Texture2D>(ColorAsset));
+                else
+                    effect.Parameters["textureMat"].SetValue(defaultTexture);
+
+                if (!string.IsNullOrEmpty(BumpAsset))
+                    effect.Parameters["BumpMap"].SetValue(Game.Content.Load<Texture2D>(BumpAsset));
+                else
+                    effect.Parameters["BumpMap"].SetValue(defaultBump);
+
                 effect.Parameters["lightDirection"].SetValue(Position - LightPosition);
 
                 effect.CurrentTechnique.Passes[0].Apply();

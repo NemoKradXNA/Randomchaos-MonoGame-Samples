@@ -98,7 +98,7 @@
     <None Include="app.manifest" />
     <None Include="Content\Fonts\hudFont.spritefont" />
     <None Include="Content\Fonts\TestFont.spritefont" />
-    <None Include="Content\Models\bigship1.x" />
+    <None Include="Content\Models\bunny.obj" />
     <None Include="Content\Models\Cube.x" />
     <None Include="Content\Models\engine_diff_tex.tga" />
     <None Include="Content\Models\LandShark.x" />
