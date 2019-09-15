@@ -47,13 +47,18 @@ namespace RandomchaosMGPostProcessingSandBox
         SepiaEffect sepia;
         GreyScaleEffect greyScale;
         InvertColorEffect invert;
+        DeRezedEffect deRezed;
+
+        ColorFilterEffect colorFilter;
+        BleachEffect bleach;
+        ScanLinesEffect scanLines;
         #endregion
 
         #region UI bits
         protected int line = 8;
 
         protected const int lineHeight = 16;
-        protected const int lineCount = 16;
+        protected const int lineCount = 21;
 
         protected BasePostProcessingEffect selectedEffect = null;
         #endregion
@@ -160,6 +165,22 @@ namespace RandomchaosMGPostProcessingSandBox
             invert = new InvertColorEffect(this);
             invert.Enabled = false;
             ppManager.AddEffect(invert);
+
+            colorFilter = new ColorFilterEffect(this, Color.White, .5f, .5f, .5f);
+            colorFilter.Enabled = false;
+            ppManager.AddEffect(colorFilter);
+
+            bleach = new BleachEffect(this, 1);
+            bleach.Enabled = false;
+            ppManager.AddEffect(bleach);
+
+            scanLines = new ScanLinesEffect(this, .001f, .001f, 128);
+            scanLines.Enabled = false;
+            ppManager.AddEffect(scanLines);
+
+            deRezed = new DeRezedEffect(this, 128);
+            deRezed.Enabled = false;
+            ppManager.AddEffect(deRezed);
         }
 
         /// <summary>
@@ -278,6 +299,19 @@ namespace RandomchaosMGPostProcessingSandBox
 
             if (kbm.KeyPress(Keys.F11))
                 selectedEffect = invert;
+
+            if (kbm.KeyPress(Keys.F12))
+                selectedEffect = deRezed;
+
+            if (kbm.KeyPress(Keys.D1))
+                selectedEffect = colorFilter;
+
+            if (kbm.KeyPress(Keys.D2))
+                selectedEffect = bleach;
+
+            if (kbm.KeyPress(Keys.D3))
+                selectedEffect = scanLines;
+
 
             if (selectedEffect != null)
             {
@@ -400,7 +434,7 @@ namespace RandomchaosMGPostProcessingSandBox
                         ripple.Distortion = MathHelper.Max(ripple.Distortion - .01f, 0);
 
                     if (kbm.KeyDown(Keys.Y))
-                        ripple.ScreenPosition = SetVector2(ripple.ScreenPosition + new Vector2(.001f, 0)); 
+                        ripple.ScreenPosition = SetVector2(ripple.ScreenPosition + new Vector2(.001f, 0));
                     if (kbm.KeyDown(Keys.H))
                         ripple.ScreenPosition = SetVector2(ripple.ScreenPosition - new Vector2(.001f, 0));
 
@@ -408,6 +442,70 @@ namespace RandomchaosMGPostProcessingSandBox
                         ripple.ScreenPosition = SetVector2(ripple.ScreenPosition + new Vector2(0, .001f));
                     if (kbm.KeyDown(Keys.J))
                         ripple.ScreenPosition = SetVector2(ripple.ScreenPosition + new Vector2(0, .001f));
+
+                }
+                else if (selectedEffect == colorFilter)
+                {
+                    if (kbm.KeyDown(Keys.R))
+                        colorFilter.Bright = MathHelper.Min(colorFilter.Bright + .001f, 1);
+                    if (kbm.KeyDown(Keys.F))
+                        colorFilter.Bright = MathHelper.Max(colorFilter.Bright - .001f, 0);
+
+                    if (kbm.KeyDown(Keys.T))
+                        colorFilter.Saturation = MathHelper.Min(colorFilter.Saturation + .001f, 1);
+                    if (kbm.KeyDown(Keys.G))
+                        colorFilter.Saturation = MathHelper.Max(colorFilter.Saturation - .001f, 0);
+
+                    if (kbm.KeyDown(Keys.Y))
+                        colorFilter.Burn = MathHelper.Min(colorFilter.Burn + .001f, 1);
+                    if (kbm.KeyDown(Keys.H))
+                        colorFilter.Burn = MathHelper.Max(colorFilter.Burn - .001f, 0);
+
+                    if (kbm.KeyDown(Keys.U))
+                        colorFilter.Color = SetColor(colorFilter.Color.ToVector4() + new Vector4(.01f, 0, 0, 0));
+                    if (kbm.KeyDown(Keys.J))
+                        colorFilter.Color = SetColor(colorFilter.Color.ToVector4() - new Vector4(.01f, 0, 0, 0));
+
+                    if (kbm.KeyDown(Keys.I))
+                        colorFilter.Color = SetColor(colorFilter.Color.ToVector4() + new Vector4(0, .01f, 0, 0));
+                    if (kbm.KeyDown(Keys.K))
+                        colorFilter.Color = SetColor(colorFilter.Color.ToVector4() - new Vector4(0, .01f, 0, 0));
+
+                    if (kbm.KeyDown(Keys.O))
+                        colorFilter.Color = SetColor(colorFilter.Color.ToVector4() + new Vector4(0, 0, .01f, 0));
+                    if (kbm.KeyDown(Keys.L))
+                        colorFilter.Color = SetColor(colorFilter.Color.ToVector4() - new Vector4(0, 0, .01f, 0));
+                }
+                else if (selectedEffect == bleach)
+                {
+                    if (kbm.KeyDown(Keys.R))
+                        bleach.Opacity = MathHelper.Min(bleach.Opacity + .001f, 1);
+                    if (kbm.KeyDown(Keys.F))
+                        bleach.Opacity = MathHelper.Max(bleach.Opacity - .001f, 0);
+                }
+                else if (selectedEffect == scanLines)
+                {
+                    if (kbm.KeyDown(Keys.R))
+                        scanLines.NoiseIntensity = MathHelper.Min(scanLines.NoiseIntensity + .001f, 1);
+                    if (kbm.KeyDown(Keys.F))
+                        scanLines.NoiseIntensity = MathHelper.Max(scanLines.NoiseIntensity - .001f, 0);
+
+                    if (kbm.KeyDown(Keys.T))
+                        scanLines.LineIntensity = MathHelper.Min(scanLines.LineIntensity + .001f, 1);
+                    if (kbm.KeyDown(Keys.G))
+                        scanLines.LineIntensity = MathHelper.Max(scanLines.LineIntensity - .001f, 0);
+
+                    if (kbm.KeyDown(Keys.Y))
+                        scanLines.LineCount = MathHelper.Min(scanLines.LineCount + 1, 20000);
+                    if (kbm.KeyDown(Keys.H))
+                        scanLines.LineCount = MathHelper.Max(scanLines.LineCount - 1, 0);
+                }
+                else if (selectedEffect == deRezed)
+                {
+                    if (kbm.KeyDown(Keys.R))
+                        deRezed.NumberOfTiles = MathHelper.Min(deRezed.NumberOfTiles + 1, 1024);
+                    if (kbm.KeyDown(Keys.F))
+                        deRezed.NumberOfTiles = MathHelper.Max(deRezed.NumberOfTiles - 1, 1);                    
                 }
             }
         }
@@ -456,6 +554,11 @@ namespace RandomchaosMGPostProcessingSandBox
             WriteLine($"[F9 ] - Sepia On: {sepia.Enabled}", x, sepia.Enabled ? Color.Yellow : Color.Gold);
             WriteLine($"[F10] - Grey Scale On: {greyScale.Enabled}", x, greyScale.Enabled ? Color.Yellow : Color.Gold);
             WriteLine($"[F11] - Invert Color On: {invert.Enabled}", x, invert.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[F12] - DeRezed On: {deRezed.Enabled}", x, deRezed.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[D1 ] - Color Filter ON: {colorFilter.Enabled}", x, colorFilter.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[D2 ] - Bleach ON: {bleach.Enabled}", x, bleach.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[D3 ] - Scan Lines ON: {scanLines.Enabled}", x, scanLines.Enabled ? Color.Yellow : Color.Gold);
+
             WriteLine($"", x, Color.Gold);
             WriteLine($"", x, Color.Gold);
             WriteLine($"[ESC] - Exit", x, Color.Gold);
@@ -498,12 +601,12 @@ namespace RandomchaosMGPostProcessingSandBox
 
                     if (selectedEffect == fog)
                     {
-                        WriteLine($"[R/F] Fog Distance +- : {fog.FogDistance}", x, Color.LimeGreen);
-                        WriteLine($"[T/G] Fog Range +- : {fog.FogRange}", x, Color.LimeGreen);
-                        WriteLine($"[Y/H] Fog Color (R) +- : {fog.FogColor.ToVector4().X}", x, Color.LimeGreen);
-                        WriteLine($"[U/J] Fog Color (G) +- : {fog.FogColor.ToVector4().Y}", x, Color.LimeGreen);
-                        WriteLine($"[I/K] Fog Color (B) +- : {fog.FogColor.ToVector4().Z}", x, Color.LimeGreen);
-                        WriteLine($"[O/L] Fog Color (A) +- : {fog.FogColor.ToVector4().W}", x, Color.LimeGreen);
+                        WriteLine($"[R/F] - Fog Distance +- : {fog.FogDistance}", x, Color.LimeGreen);
+                        WriteLine($"[T/G] -  Fog Range +- : {fog.FogRange}", x, Color.LimeGreen);
+                        WriteLine($"[Y/H] - Fog Color (R) +- : {fog.FogColor.ToVector4().X}", x, Color.LimeGreen);
+                        WriteLine($"[U/J] -  Fog Color (G) +- : {fog.FogColor.ToVector4().Y}", x, Color.LimeGreen);
+                        WriteLine($"[I/K] -  Fog Color (B) +- : {fog.FogColor.ToVector4().Z}", x, Color.LimeGreen);
+                        WriteLine($"[O/L] -  Fog Color (A) +- : {fog.FogColor.ToVector4().W}", x, Color.LimeGreen);
                     }
 
                     if (selectedEffect == haze)
@@ -522,10 +625,36 @@ namespace RandomchaosMGPostProcessingSandBox
                         WriteLine($"[Y/H] - Screen Position X +=: {ripple.ScreenPosition.X}", x, Color.LimeGreen);
                         WriteLine($"[U/J] - Screen Position Y +=: {ripple.ScreenPosition.Y}", x, Color.LimeGreen);
                     }
+
+                    if (selectedEffect == colorFilter)
+                    {
+                        WriteLine($"[R/F] - Bright +=: {colorFilter.Bright}", x, Color.LimeGreen);
+                        WriteLine($"[T/G] - Saturation +=: {colorFilter.Saturation}", x, Color.LimeGreen);
+                        WriteLine($"[Y/H] - Burn +=: {colorFilter.Burn}", x, Color.LimeGreen);
+                        WriteLine($"[U/J] - Color (R) +- : {colorFilter.Color.ToVector3().X}", x, Color.LimeGreen);
+                        WriteLine($"[I/K] - Color (G) +- : {colorFilter.Color.ToVector3().Y}", x, Color.LimeGreen);
+                        WriteLine($"[O/L] - Color (B) +- : {colorFilter.Color.ToVector3().Z}", x, Color.LimeGreen);
+                    }
+                    if (selectedEffect == bleach)
+                    {
+                        WriteLine($"[R/F] - Opacity +=: {bleach.Opacity}", x, Color.LimeGreen);
+                    }
+
+                    if (selectedEffect == scanLines)
+                    {
+                        WriteLine($"[R/F] - Noise Intensity +=: {scanLines.NoiseIntensity}", x, Color.LimeGreen);
+                        WriteLine($"[T/G] - Line Intensity +=: {scanLines.LineIntensity}", x, Color.LimeGreen);
+                        WriteLine($"[Y/H] - Line Count +=: {scanLines.LineCount}", x, Color.LimeGreen);
+                    }
+
+                    if (selectedEffect == deRezed)
+                    {
+                        WriteLine($"[R/F] - Number Of Tiles +=: {deRezed.NumberOfTiles}", x, Color.LimeGreen);
+                    }
                 }
             }
 
-            line = 16 * lineHeight;
+            line = (lineCount + 2) * lineHeight;
             WriteLine("", 8, Color.Gold);
             WriteLine("Camera Controls: [WASD - Translate] [Arrow Keys - Rotate]", 8, Color.Gold);
             spriteBatch.End();

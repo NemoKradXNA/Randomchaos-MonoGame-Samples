@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Content\Shaders\PostProcessing\DeRezed.fx" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,10 +56,12 @@
   <ItemGroup>
     <Content Include="Content\Models\Speeder_bump.jpg" />
     <Content Include="Content\Models\Speeder_diff.jpg" />
+    <Content Include="Content\Shaders\PostProcessing\BleachBypass.fx" />
     <Content Include="Content\Shaders\PostProcessing\Bloom.fx" />
     <Content Include="Content\Shaders\PostProcessing\Blur.fx" />
     <Content Include="Content\Shaders\PostProcessing\BrightPass.fx" />
     <Content Include="Content\Shaders\PostProcessing\BumpMapDistort.fx" />
+    <Content Include="Content\Shaders\PostProcessing\ColourFilter.fx" />
     <Content Include="Content\Shaders\PostProcessing\GreyScale.fx" />
     <Content Include="Content\Shaders\PostProcessing\Sepia.fx" />
     <Content Include="Content\Shaders\PostProcessing\DepthOfField.fx" />
