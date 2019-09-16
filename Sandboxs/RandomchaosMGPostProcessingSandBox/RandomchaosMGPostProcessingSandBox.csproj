@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Content\Shaders\PostProcessing\DeRezed.fx" />
+    <Content Include="Content\Shaders\RenderObjectNotTangentsOrTexCoords.fx" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,6 +78,7 @@
     <Content Include="Content\Shaders\PostProcessing\SceneBlend.fx" />
     <Content Include="Content\Shaders\PostProcessing\Sun.fx" />
     <Content Include="Content\Shaders\RenderObject.fx" />
+    <Content Include="Content\Shaders\RenderObjectNoTangents.fx" />
     <Content Include="Content\Shaders\SkyBoxShader.fx" />
     <Content Include="Content\Textures\flare.png" />
     <Content Include="Content\Textures\h2mcpCube.jpg" />

@@ -518,3 +518,15 @@
 /processorParam:TextureFormat=Compressed
 /build:Models/bunny.obj
 
+#begin Shaders/RenderObjectNoTangents.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/RenderObjectNoTangents.fx
+
+#begin Shaders/RenderObjectNotTangentsOrTexCoords.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/RenderObjectNotTangentsOrTexCoords.fx
+

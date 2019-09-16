@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace RandomchaosMGBase.BaseClasses
@@ -48,6 +49,21 @@ namespace RandomchaosMGBase.BaseClasses
         Texture2D defaultTexture;
         Texture2D defaultBump;
 
+        public bool NoTangentData = false;
+        public bool NoTexCoords = false;
+
+        public Color Color = Color.White;
+
+        public BoundingSphere BoundingSphere;
+        public Color BoundsBoxColor = Color.Red;
+        public BoundingBox BoundingBox;
+
+        public bool DrawBoxBounds;        
+
+        protected BasicEffect basicEffect;
+
+        public string Name;
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -75,6 +91,9 @@ namespace RandomchaosMGBase.BaseClasses
 
             defaultBump =  new Texture2D(Game.GraphicsDevice, 1, 1);
             defaultBump.SetData<Color>(new Color[] { new Color(180, 180, 232, 255) });
+
+            //BoundingBox = new BoundingBox(-Vector3.One*.5f, Vector3.One*.5f);
+            //BoundingSphere = new BoundingSphere(Vector3.Zero, 1);
         }
 
         /// <summary>
@@ -96,7 +115,17 @@ namespace RandomchaosMGBase.BaseClasses
             }
 
             if (Effect == null)
-                Effect = Game.Content.Load<Effect>("Shaders/RenderObject");
+            {
+                if (!NoTangentData && !NoTexCoords)
+                    Effect = Game.Content.Load<Effect>("Shaders/RenderObject");
+                else
+                {
+                    if (!NoTexCoords)
+                        Effect = Game.Content.Load<Effect>("Shaders/RenderObjectNoTangents");
+                    else
+                        Effect = Game.Content.Load<Effect>("Shaders/RenderObjectNotTangentsOrTexCoords");
+                }
+            }
         }
 
 
@@ -128,15 +157,25 @@ namespace RandomchaosMGBase.BaseClasses
 
                 effect.Parameters["world"].SetValue(meshWorld);
                 effect.Parameters["wvp"].SetValue(meshWorld * camera.View * camera.Projection);
-                if (!string.IsNullOrEmpty(ColorAsset))
-                    effect.Parameters["textureMat"].SetValue(Game.Content.Load<Texture2D>(ColorAsset));
-                else
-                    effect.Parameters["textureMat"].SetValue(defaultTexture);
 
-                if (!string.IsNullOrEmpty(BumpAsset))
-                    effect.Parameters["BumpMap"].SetValue(Game.Content.Load<Texture2D>(BumpAsset));
-                else
-                    effect.Parameters["BumpMap"].SetValue(defaultBump);
+                if (effect.Parameters["color"] != null)
+                    effect.Parameters["color"].SetValue(Color.ToVector4());
+
+                if (effect.Parameters["textureMat"] != null)
+                {
+                    if (!string.IsNullOrEmpty(ColorAsset))
+                        effect.Parameters["textureMat"].SetValue(Game.Content.Load<Texture2D>(ColorAsset));
+                    else
+                        effect.Parameters["textureMat"].SetValue(defaultTexture);
+                }
+
+                if (effect.Parameters["BumpMap"] != null)
+                {
+                    if (!string.IsNullOrEmpty(BumpAsset))
+                        effect.Parameters["BumpMap"].SetValue(Game.Content.Load<Texture2D>(BumpAsset));
+                    else
+                        effect.Parameters["BumpMap"].SetValue(defaultBump);
+                }
 
                 effect.Parameters["lightDirection"].SetValue(Position - LightPosition);
 
@@ -151,7 +190,11 @@ namespace RandomchaosMGBase.BaseClasses
                 }
             }
 
+            if (DrawBoxBounds)
+                DrawBoundsBoxs(gameTime);
+
         }
+
         /// <summary>
         /// Draw method
         /// </summary>
@@ -161,5 +204,28 @@ namespace RandomchaosMGBase.BaseClasses
             Draw(gameTime, Effect);
             //DrawBox(bounds);
         }
+
+        /// <summary>
+        /// Method to draw bounding box's
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public virtual void DrawBoundsBoxs(GameTime gameTime)
+        {
+            VertexPositionColor[] points;
+            short[] index;
+
+            GameComponentHelper.BuildBoxCorners(new List<BoundingBox>() { BoundingBox }, new List<Matrix>() { Matrix.Identity }, BoundsBoxColor, out points, out index);
+
+            if (basicEffect == null)
+                basicEffect = new BasicEffect(GraphicsDevice);
+
+            basicEffect.World = World;
+            basicEffect.View = camera.View;
+            basicEffect.Projection = camera.Projection;
+            basicEffect.VertexColorEnabled = true;
+
+            basicEffect.CurrentTechnique.Passes[0].Apply();
+            GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineList, points, 0, points.Length, index, 0, 12 * 1);
+        }       
     }
 }

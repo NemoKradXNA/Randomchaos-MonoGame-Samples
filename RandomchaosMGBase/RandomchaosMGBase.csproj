@@ -87,6 +87,7 @@
     <Compile Include="BaseClasses\PostProcessing\PostProcess\SceneBlend.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\Sepia.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\Sun.cs" />
+    <Compile Include="GameComponentHelper.cs" />
     <Compile Include="InputManagers\KeyboardStateManager.cs" />
     <Compile Include="InputManagers\MouseRenderer.cs" />
     <Compile Include="InputManagers\MouseStateManager.cs" />

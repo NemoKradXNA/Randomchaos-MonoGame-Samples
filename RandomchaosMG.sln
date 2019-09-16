@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Terrain", "Terrain", "{5062
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosGeoClipMapping", "Sandboxs\Terrain\RandomchaosGeoClipMapping\RandomchaosGeoClipMapping.csproj", "{478122A6-1F35-4A23-8B96-D5FAF77EF131}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGRayPicking", "Sandboxs\RandomchaosMGRayPicking\RandomchaosMGRayPicking.csproj", "{03303D5C-5D8F-4B09-8F6E-BA26A3980797}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,13 @@ Global
 		{478122A6-1F35-4A23-8B96-D5FAF77EF131}.Release|Any CPU.ActiveCfg = Release|x86
 		{478122A6-1F35-4A23-8B96-D5FAF77EF131}.Release|x86.ActiveCfg = Release|x86
 		{478122A6-1F35-4A23-8B96-D5FAF77EF131}.Release|x86.Build.0 = Release|x86
+		{03303D5C-5D8F-4B09-8F6E-BA26A3980797}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{03303D5C-5D8F-4B09-8F6E-BA26A3980797}.Debug|Any CPU.Build.0 = Debug|x86
+		{03303D5C-5D8F-4B09-8F6E-BA26A3980797}.Debug|x86.ActiveCfg = Debug|x86
+		{03303D5C-5D8F-4B09-8F6E-BA26A3980797}.Debug|x86.Build.0 = Debug|x86
+		{03303D5C-5D8F-4B09-8F6E-BA26A3980797}.Release|Any CPU.ActiveCfg = Release|x86
+		{03303D5C-5D8F-4B09-8F6E-BA26A3980797}.Release|x86.ActiveCfg = Release|x86
+		{03303D5C-5D8F-4B09-8F6E-BA26A3980797}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +80,7 @@ Global
 		{7C66B327-F412-4AD3-9B31-B324E1161461} = {5D791364-FEA6-4CB3-95DA-055B292F5306}
 		{506258E5-3FDE-4A11-AB8E-D02BED3531D6} = {5D791364-FEA6-4CB3-95DA-055B292F5306}
 		{478122A6-1F35-4A23-8B96-D5FAF77EF131} = {506258E5-3FDE-4A11-AB8E-D02BED3531D6}
+		{03303D5C-5D8F-4B09-8F6E-BA26A3980797} = {5D791364-FEA6-4CB3-95DA-055B292F5306}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E75E3A8-AD26-4818-AD83-243C17C79F04}
