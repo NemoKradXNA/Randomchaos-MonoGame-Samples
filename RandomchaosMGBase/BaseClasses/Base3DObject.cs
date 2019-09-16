@@ -219,7 +219,8 @@ namespace RandomchaosMGBase.BaseClasses
             if (basicEffect == null)
                 basicEffect = new BasicEffect(GraphicsDevice);
 
-            basicEffect.World = World;
+            basicEffect.World = Matrix.CreateScale(Scale) *
+                      Matrix.CreateTranslation(Position);
             basicEffect.View = camera.View;
             basicEffect.Projection = camera.Projection;
             basicEffect.VertexColorEnabled = true;
