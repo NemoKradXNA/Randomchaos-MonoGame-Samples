@@ -37,17 +37,17 @@ namespace RandomchaosMGBase.BaseClasses
 
         public Effect Effect;
 
-        Matrix[] transforms;
-        Matrix meshWorld;
-        Matrix meshWVP;
+        protected Matrix[] transforms;
+        protected Matrix meshWorld;
+        protected Matrix meshWVP;
 
         public Vector3 LightPosition = new Vector3(50, 50, 100);
 
         public string ColorAsset;
         public string BumpAsset;
 
-        Texture2D defaultTexture;
-        Texture2D defaultBump;
+        protected Texture2D defaultTexture;
+        protected Texture2D defaultBump;
 
         public bool NoTangentData = false;
         public bool NoTexCoords = false;
@@ -152,7 +152,11 @@ namespace RandomchaosMGBase.BaseClasses
             {
                 // Do the world stuff. 
                 // Scale * transform * pos * rotation
-                meshWorld = transforms[meshM.ParentBone.Index] * World;
+                if (meshM.ParentBone != null)
+                    meshWorld = transforms[meshM.ParentBone.Index] * World;
+                else
+                    meshWorld = transforms[0] * World;
+
                 meshWVP = meshWorld * camera.View * camera.Projection;
 
                 effect.Parameters["world"].SetValue(meshWorld);

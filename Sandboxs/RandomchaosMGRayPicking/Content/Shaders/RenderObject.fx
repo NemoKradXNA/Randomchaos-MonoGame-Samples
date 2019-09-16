@@ -74,11 +74,14 @@ PixelShaderOutput PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float4 Color = tex2D(textureSample,input.TexCoord);
 		
 	// Get value in the range of -1 to 1
-	float3 n = 2.0f * tex2D(BumpMapSampler,input.TexCoord) - 1.0f;
-	float3 ld = mul(input.Tangent,normalize(-lightDirection));	
-	float dif = clamp(saturate(dot(n,ld)),.25,1);
-	
-	output.Color = Color * dif;
+	float3 n = 2.0f * tex2D(BumpMapSampler, input.TexCoord) - 1.0f;
+	n = mul(n, input.Tangent);
+
+	float3 lightVector = normalize(-lightDirection);
+
+	float NdL = saturate(dot(lightVector, n));
+
+	output.Color = Color * NdL;
 
 	// Depth
 	output.Depth.r = 1-(input.SPos.z/input.SPos.w); 

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseClasses\Base3DTerrain.cs" />
     <Compile Include="BaseClasses\Base3DCamera.cs" />
     <Compile Include="BaseClasses\Base3DObject.cs" />
     <Compile Include="BaseClasses\BaseSkyBox.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Interfaces\IHasTransform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transform.cs" />
+    <Compile Include="VertexTypes\VertexPositionColorNormalTextureTangent.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
