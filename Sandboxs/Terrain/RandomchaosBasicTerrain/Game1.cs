@@ -126,6 +126,7 @@ namespace RandomchaosBasicTerrain
         {
             msm.PreUpdate(gameTime);
             kbm.PreUpdate(gameTime);
+
             base.Update(gameTime);
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kbm.KeyDown(Keys.Escape))

@@ -143,7 +143,7 @@ namespace RandomchaosMGBase.BaseClasses
 
         public virtual void Draw(GameTime gameTime, Effect effect)
         {
-            Game.GraphicsDevice.BlendState = BlendState.Opaque;
+            Game.GraphicsDevice.BlendState = BlendState.Opaque;            
             Game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             Game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
             Game.GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
@@ -160,7 +160,7 @@ namespace RandomchaosMGBase.BaseClasses
                 meshWVP = meshWorld * camera.View * camera.Projection;
 
                 effect.Parameters["world"].SetValue(meshWorld);
-                effect.Parameters["wvp"].SetValue(meshWorld * camera.View * camera.Projection);
+                effect.Parameters["wvp"].SetValue(meshWVP);
 
                 if (effect.Parameters["color"] != null)
                     effect.Parameters["color"].SetValue(Color.ToVector4());
@@ -181,7 +181,8 @@ namespace RandomchaosMGBase.BaseClasses
                         effect.Parameters["BumpMap"].SetValue(defaultBump);
                 }
 
-                effect.Parameters["lightDirection"].SetValue(Position - LightPosition);
+                if (effect.Parameters["lightDirection"] != null)
+                    effect.Parameters["lightDirection"].SetValue(Position - LightPosition);
 
                 effect.CurrentTechnique.Passes[0].Apply();
 

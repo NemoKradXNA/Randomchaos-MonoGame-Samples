@@ -242,19 +242,8 @@ namespace RandomchaosMGBase.BaseClasses
             {
                 verts.Add(new VertexPositionColorNormalTextureTangent(VertexList[v], NormalList[v], TangentList[v], TexCoordList[v], ColorList[v]));
 
-                if (VertexList[v].X > max.X)
-                    max.X = VertexList[v].X;
-                if (VertexList[v].Y > max.Y)
-                    max.Y = VertexList[v].Y;
-                if (VertexList[v].Z > max.Z)
-                    max.Z = VertexList[v].Z;
-
-                if (VertexList[v].X < min.X)
-                    min.X = VertexList[v].X;
-                if (VertexList[v].Y < min.Y)
-                    min.Y = VertexList[v].Y;
-                if (VertexList[v].Z < min.Z)
-                    min.Z = VertexList[v].Z;
+                min = Vector3.Min(min, VertexList[v]);
+                max = Vector3.Max(max, VertexList[v]);
             }
 
 
