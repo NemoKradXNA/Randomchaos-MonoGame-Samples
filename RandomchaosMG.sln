@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XNA Blog Ports", "XNA Blog 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGBasicWater", "Sandboxs\XNA Blog Ports\RandomchaosMGBasicWater\RandomchaosMGBasicWater.csproj", "{0E12F12C-ABD9-4666-9142-2978F37ABA3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGSkySphere", "Sandboxs\XNA Blog Ports\RandomchaosMGSkySphere\RandomchaosMGSkySphere.csproj", "{D8B50A45-D87E-499B-AF24-073FAD23670E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,13 @@ Global
 		{0E12F12C-ABD9-4666-9142-2978F37ABA3D}.Release|Any CPU.ActiveCfg = Release|x86
 		{0E12F12C-ABD9-4666-9142-2978F37ABA3D}.Release|x86.ActiveCfg = Release|x86
 		{0E12F12C-ABD9-4666-9142-2978F37ABA3D}.Release|x86.Build.0 = Release|x86
+		{D8B50A45-D87E-499B-AF24-073FAD23670E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D8B50A45-D87E-499B-AF24-073FAD23670E}.Debug|Any CPU.Build.0 = Debug|x86
+		{D8B50A45-D87E-499B-AF24-073FAD23670E}.Debug|x86.ActiveCfg = Debug|x86
+		{D8B50A45-D87E-499B-AF24-073FAD23670E}.Debug|x86.Build.0 = Debug|x86
+		{D8B50A45-D87E-499B-AF24-073FAD23670E}.Release|Any CPU.ActiveCfg = Release|x86
+		{D8B50A45-D87E-499B-AF24-073FAD23670E}.Release|x86.ActiveCfg = Release|x86
+		{D8B50A45-D87E-499B-AF24-073FAD23670E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +113,7 @@ Global
 		{2CA04BDA-C4B4-4E91-9756-9B2FABCBAEAC} = {506258E5-3FDE-4A11-AB8E-D02BED3531D6}
 		{648484BF-CD5F-403F-94E9-0941105F9B50} = {5D791364-FEA6-4CB3-95DA-055B292F5306}
 		{0E12F12C-ABD9-4666-9142-2978F37ABA3D} = {648484BF-CD5F-403F-94E9-0941105F9B50}
+		{D8B50A45-D87E-499B-AF24-073FAD23670E} = {648484BF-CD5F-403F-94E9-0941105F9B50}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E75E3A8-AD26-4818-AD83-243C17C79F04}

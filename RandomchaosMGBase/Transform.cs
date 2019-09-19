@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 
+
+
 namespace RandomchaosMGBase
 {
-    public class Transform
+    public class Transform 
     {
         public static Transform EmptyTransform { get { return new Transform(); } }
 
@@ -200,5 +202,17 @@ namespace RandomchaosMGBase
         {
             get { return new Transform(); }
         }
+
+        public void Translate(Vector3 distance)
+        {
+            Position += Vector3.Transform(distance, Matrix.CreateFromQuaternion(Rotation));
+        }
+
+        public void Rotate(Vector3 axis, float angle)
+        {
+            axis = Vector3.Transform(axis, Matrix.CreateFromQuaternion(Rotation));
+            Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * Rotation);
+        }
+
     }
 }

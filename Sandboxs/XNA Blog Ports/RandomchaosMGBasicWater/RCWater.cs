@@ -158,9 +158,7 @@ namespace RandomchaosMGBasicWater
 
         public override void Update(GameTime gameTime)
         {
-            World = Matrix.CreateScale(Scale) *
-                      Matrix.CreateFromQuaternion(Rotation) *
-                      Matrix.CreateTranslation(Position);
+            Transform.Update();
 
             if (Effect == null)
             {

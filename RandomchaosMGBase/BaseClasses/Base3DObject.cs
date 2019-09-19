@@ -4,37 +4,48 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RandomchaosMGBase.BaseClasses
 {
-    public class Base3DObject : DrawableGameComponent
+    public class Base3DObject : DrawableGameComponent, IHasTransform
     {
-        string modelName;
+        protected string modelName;
 
         public Base3DCamera camera
         {
             get { return (Base3DCamera)Game.Services.GetService(typeof(Base3DCamera)); }
         }
 
-        /// <summary>
-        /// Position
-        /// </summary>
-        public Vector3 Position;
-
-        /// <summary>
-        /// Scale
-        /// </summary>
-        public Vector3 Scale;
-
-        /// <summary>
-        /// Rotation
-        /// </summary>
-        public Quaternion Rotation;
-
-        protected Model mesh;
+        public Transform Transform { get; set; }
 
         /// <summary>
         /// World
         /// </summary>
-        public Matrix World;
+        public Matrix World
+        {
+            get { return Transform.World; }
+        }
 
+
+        public Vector3 Scale
+        {
+            get { return Transform.Scale; }
+            set { Transform.Scale = value; }
+        }
+
+
+        public Vector3 Position
+        {
+            get { return Transform.Position; }
+            set { Transform.Position = value; }
+        }
+
+        public Quaternion Rotation
+        {
+            get { return Transform.Rotation; }
+            set { Transform.Rotation = value; }
+        }
+
+        protected Model mesh;
+
+        
         public Effect Effect;
 
         protected Matrix[] transforms;
@@ -72,9 +83,7 @@ namespace RandomchaosMGBase.BaseClasses
         /// <param name="shaderAssetName"></param>
         public Base3DObject(Game game, string modelAssetName) : base(game)
         {
-            Position = Vector3.Zero;
-            Scale = Vector3.One;
-            Rotation = Quaternion.Identity;
+            Transform = new Transform();
             modelName = modelAssetName;
         }
 
@@ -102,9 +111,7 @@ namespace RandomchaosMGBase.BaseClasses
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            World = Matrix.CreateScale(Scale) *
-                      Matrix.CreateFromQuaternion(Rotation) *
-                      Matrix.CreateTranslation(Position);
+            Transform.Update();
 
             if (mesh == null && modelName != string.Empty)
             {

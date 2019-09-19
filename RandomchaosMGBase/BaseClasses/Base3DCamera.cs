@@ -3,65 +3,37 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RandomchaosMGBase.BaseClasses
 {
-    public class Base3DCamera : GameComponent
+    public class Base3DCamera : GameComponent, IHasTransform
     {
-        /// <summary>
-        /// Position
-        /// </summary>
-        protected Vector3 position;
-        /// <summary>
-        /// Scale
-        /// </summary>
-        protected Vector3 scale;
-        /// <summary>
-        /// Rotation
-        /// </summary>
-        protected Quaternion rotation;
-        /// <summary>
-        /// World
-        /// </summary>
-        protected Matrix world;
-        #region I3DCamera Members
+        public Transform Transform { get; set; }
 
-        /// <summary>
-        /// Position
-        /// </summary>
-        public Vector3 Position
-        {
-            get
-            { return position; }
-            set
-            { position = value; }
-        }
-        /// <summary>
-        /// Scale
-        /// </summary>
-        public Vector3 Scale
-        {
-            get
-            { return scale; }
-            set
-            { scale = value; }
-        }
-        /// <summary>
-        /// Rotation
-        /// </summary>
-        public Quaternion Rotation
-        {
-            get
-            { return rotation; }
-            set
-            { rotation = value; }
-        }
         /// <summary>
         /// World
         /// </summary>
         public Matrix World
         {
-            get { return world; }
+            get { return Transform.World; }
         }
 
-        #endregion
+
+        public Vector3 Scale
+        {
+            get { return Transform.Scale; }
+            set { Transform.Scale = value; }
+        }
+
+
+        public Vector3 Position
+        {
+            get { return Transform.Position; }
+            set { Transform.Position = value; }
+        }
+
+        public Quaternion Rotation
+        {
+            get { return Transform.Rotation; }
+            set { Transform.Rotation = value; }
+        }
 
         /// <summary>
         /// View
@@ -120,9 +92,7 @@ namespace RandomchaosMGBase.BaseClasses
         public Base3DCamera(Game game, float minDepth, float maxDepth)
             : base(game)
         {
-            position = Vector3.Zero;
-            scale = Vector3.One;
-            rotation = Quaternion.Identity;
+            Transform = new Transform();
             this.minDepth = minDepth;
             this.maxDepth = maxDepth;
         }
@@ -142,21 +112,20 @@ namespace RandomchaosMGBase.BaseClasses
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            world = Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(Position);
-            view = Matrix.Invert(world);
+            Transform.Update();
+            view = Matrix.Invert(World);
 
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.Pi / 4, (float)Viewport.Width / (float)Viewport.Height, Viewport.MinDepth, Viewport.MaxDepth);
             base.Update(gameTime);
         }
         public void Translate(Vector3 distance)
         {
-            Position += Vector3.Transform(distance, Matrix.CreateFromQuaternion(Rotation));
+            Transform.Translate(distance);
         }
 
         public void Rotate(Vector3 axis, float angle)
         {
-            axis = Vector3.Transform(axis, Matrix.CreateFromQuaternion(Rotation));
-            Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * Rotation);
+            Transform.Rotate(axis, angle);
         }
 
     }
