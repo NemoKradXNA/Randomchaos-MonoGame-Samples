@@ -82,6 +82,7 @@ namespace RandomchaosGeoClipMapping.Terrain.GeoClipMapping
 
             block.Update(gameTime);
         }
+
         public override void Draw(GameTime gameTime)
         {
             effect.Parameters["world"].SetValue(World);

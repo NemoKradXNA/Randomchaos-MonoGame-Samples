@@ -60,9 +60,6 @@ namespace RandomchaosMGBase.BaseClasses
         protected Texture2D defaultTexture;
         protected Texture2D defaultBump;
 
-        public bool NoTangentData = false;
-        public bool NoTexCoords = false;
-
         public Color Color = Color.White;
 
         public BoundingSphere BoundingSphere;
@@ -75,14 +72,17 @@ namespace RandomchaosMGBase.BaseClasses
 
         public string Name;
 
+        public string EffectAsset = "Shaders/RenderObject";
+
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="game"></param>
         /// <param name="modelAssetName"></param>
         /// <param name="shaderAssetName"></param>
-        public Base3DObject(Game game, string modelAssetName) : base(game)
+        public Base3DObject(Game game, string modelAssetName, string effectAsset = "Shaders/RenderObject") : base(game)
         {
+            EffectAsset = effectAsset;
             Transform = new Transform();
             modelName = modelAssetName;
         }
@@ -122,17 +122,7 @@ namespace RandomchaosMGBase.BaseClasses
             }
 
             if (Effect == null)
-            {
-                if (!NoTangentData && !NoTexCoords)
-                    Effect = Game.Content.Load<Effect>("Shaders/RenderObject");
-                else
-                {
-                    if (!NoTexCoords)
-                        Effect = Game.Content.Load<Effect>("Shaders/RenderObjectNoTangents");
-                    else
-                        Effect = Game.Content.Load<Effect>("Shaders/RenderObjectNotTangentsOrTexCoords");
-                }
-            }
+                Effect = Game.Content.Load<Effect>(EffectAsset);
         }
 
 
@@ -147,9 +137,43 @@ namespace RandomchaosMGBase.BaseClasses
             Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * Rotation);
         }
 
+        public virtual void SetEffect(GameTime gameTime, Effect effect)
+        {
+            if(effect.Parameters["world"] != null)
+                effect.Parameters["world"].SetValue(meshWorld);
+
+
+            if(effect.Parameters["wvp"] != null)
+                effect.Parameters["wvp"].SetValue(meshWVP);
+
+            if (effect.Parameters["color"] != null)
+                effect.Parameters["color"].SetValue(Color.ToVector4());
+
+            if (effect.Parameters["textureMat"] != null)
+            {
+                if (!string.IsNullOrEmpty(ColorAsset))
+                    effect.Parameters["textureMat"].SetValue(Game.Content.Load<Texture2D>(ColorAsset));
+                else
+                    effect.Parameters["textureMat"].SetValue(defaultTexture);
+            }
+
+            if (effect.Parameters["BumpMap"] != null)
+            {
+                if (!string.IsNullOrEmpty(BumpAsset))
+                    effect.Parameters["BumpMap"].SetValue(Game.Content.Load<Texture2D>(BumpAsset));
+                else
+                    effect.Parameters["BumpMap"].SetValue(defaultBump);
+            }
+
+            if (effect.Parameters["lightDirection"] != null)
+                effect.Parameters["lightDirection"].SetValue(Position - LightPosition);
+        }
 
         public virtual void Draw(GameTime gameTime, Effect effect)
         {
+            if (!Enabled)
+                return;
+
             Game.GraphicsDevice.BlendState = BlendState.Opaque;            
             Game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             Game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
@@ -166,39 +190,23 @@ namespace RandomchaosMGBase.BaseClasses
 
                 meshWVP = meshWorld * camera.View * camera.Projection;
 
-                effect.Parameters["world"].SetValue(meshWorld);
-                effect.Parameters["wvp"].SetValue(meshWVP);
+                SetEffect(gameTime, effect);
 
-                if (effect.Parameters["color"] != null)
-                    effect.Parameters["color"].SetValue(Color.ToVector4());
 
-                if (effect.Parameters["textureMat"] != null)
-                {
-                    if (!string.IsNullOrEmpty(ColorAsset))
-                        effect.Parameters["textureMat"].SetValue(Game.Content.Load<Texture2D>(ColorAsset));
-                    else
-                        effect.Parameters["textureMat"].SetValue(defaultTexture);
-                }
+                //effect.CurrentTechnique.Passes[0].Apply();
 
-                if (effect.Parameters["BumpMap"] != null)
-                {
-                    if (!string.IsNullOrEmpty(BumpAsset))
-                        effect.Parameters["BumpMap"].SetValue(Game.Content.Load<Texture2D>(BumpAsset));
-                    else
-                        effect.Parameters["BumpMap"].SetValue(defaultBump);
-                }
-
-                if (effect.Parameters["lightDirection"] != null)
-                    effect.Parameters["lightDirection"].SetValue(Position - LightPosition);
-
-                effect.CurrentTechnique.Passes[0].Apply();
+                
 
                 foreach (ModelMeshPart meshPart in meshM.MeshParts)
                 {
                     Game.GraphicsDevice.SetVertexBuffer(meshPart.VertexBuffer);
                     Game.GraphicsDevice.Indices = meshPart.IndexBuffer;
 
-                    Game.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, meshPart.StartIndex, meshPart.PrimitiveCount);
+                    foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                    {
+                        pass.Apply();
+                        Game.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, meshPart.StartIndex, meshPart.PrimitiveCount);
+                    }
                 }
             }
 

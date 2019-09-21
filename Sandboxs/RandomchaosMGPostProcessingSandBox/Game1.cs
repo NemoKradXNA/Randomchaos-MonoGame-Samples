@@ -91,9 +91,7 @@ namespace RandomchaosMGPostProcessingSandBox
             skyBox = new BaseSkyBox(this, "Textures/SkyBox/NebulaBlue");
             Components.Add(skyBox);
 
-            bunny = new Base3DObject(this, "Models/bunny");
-            bunny.NoTangentData = true;
-            bunny.NoTexCoords = true;
+            bunny = new Base3DObject(this, "Models/bunny", "Shaders/RenderObjectNotTangentsOrTexCoords");
             bunny.Position = new Vector3(2, -1.5f, -20);
             bunny.LightPosition = LightPosition;
             Components.Add(bunny);
