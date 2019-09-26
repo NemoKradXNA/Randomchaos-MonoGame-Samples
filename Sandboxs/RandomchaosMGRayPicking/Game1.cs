@@ -69,10 +69,8 @@ namespace RandomchaosMGRayPicking
             Components.Add(cube);
             sceneObjects.Add(cube);
 
-            bunny = new Base3DObject(this, "Models/bunny");
+            bunny = new Base3DObject(this, "Models/bunny", "Shaders/RenderObjectNotTangentsOrTexCoords");
             bunny.Name = "Bunny";
-            bunny.NoTangentData = true;
-            bunny.NoTexCoords = true;
             bunny.Position = new Vector3(0, -1.5f, -10);
             bunny.LightPosition = LightPosition;
             bunny.BoundingBox = new BoundingBox(new Vector3(-1,0,-.6f), new Vector3(.7f,1.65f,.7f));

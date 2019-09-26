@@ -97,6 +97,8 @@
     <Compile Include="Transform.cs" />
     <Compile Include="VertexTypes\VertexPositionColorNormalTextureTangent.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="teapot.xnb" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

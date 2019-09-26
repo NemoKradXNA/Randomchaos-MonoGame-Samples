@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4BA7DE28-86D3-47AF-9955-E3342B679FAC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RandomchaosMGLightAndShade</RootNamespace>
+    <AssemblyName>RandomchaosMGLightAndShade</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>Windows</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Game1.cs" />
+    <Compile Include="LightAndShadeModel.cs" />
+    <Compile Include="LightModel.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Shaders\ADCMultiLight.fx" />
+    <Content Include="Content\Shaders\AmbientDiffuseColoredLight.fx" />
+    <Content Include="Content\Shaders\AmbientDiffuseLight.fx" />
+    <Content Include="Content\Shaders\AmbientLight.fx" />
+    <Content Include="Content\Shaders\BlinnPhong.fx" />
+    <Content Include="Content\Shaders\ColorGlowBumpMap.fx" />
+    <Content Include="Content\Shaders\ColorGlowBumpReflect.fx" />
+    <Content Include="Content\Shaders\ColorGlowMap.fx" />
+    <Content Include="Content\Shaders\ColorMap.fx" />
+    <Content Include="Content\Shaders\DiffuseLight.fx" />
+    <Content Include="Content\Shaders\glass1.fx" />
+    <Content Include="Content\Shaders\glass2.fx" />
+    <Content Include="Content\Shaders\glass3.fx" />
+    <Content Include="Content\Shaders\PlanetShader.fx" />
+    <Content Include="Content\Shaders\RC3DGlass.fx" />
+    <Content Include="Content\Shaders\Reflection.fx" />
+    <Content Include="Content\Shaders\ReflectionAndRefraction.fx" />
+    <Content Include="Content\Shaders\Refraction.fx" />
+    <Content Include="Content\Shaders\SkyBoxShader.fx" />
+    <Content Include="Content\Textures\cubemap.dds" />
+    <Content Include="Content\Textures\Earth_Atmos.dds" />
+    <Content Include="Content\Textures\Earth_Cloud.dds" />
+    <Content Include="Content\Textures\Earth_Diffuse.dds" />
+    <Content Include="Content\Textures\Earth_Night.dds" />
+    <Content Include="Content\Textures\Earth_NormalMap.dds" />
+    <Content Include="Content\Textures\Earth_ReflectionMask.jpg" />
+    <Content Include="Content\Textures\Fresnel.jpg" />
+    <Content Include="Content\Textures\WaterRipples.dds" />
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="app.manifest" />
+    <None Include="Content\Fonts\font.spritefont" />
+    <None Include="Content\Models\skullocc.x" />
+    <None Include="Content\Models\sphere.x" />
+    <None Include="Content\Models\teapot.x" />
+    <None Include="Content\Shaders\ShaderTools.fxh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\RandomchaosMGBase\RandomchaosMGBase.csproj">
+      <Project>{8ac31ed1-b01b-4e3b-824a-d98430b5dc23}</Project>
+      <Name>RandomchaosMGBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>xcopy /E /Y "$(SolutionDir)XNAXNAAssets"  "$(TargetDir)Content"</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

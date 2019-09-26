@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using RandomchaosMGBase;
 using RandomchaosMGBase.BaseClasses;
 using RandomchaosMGBase.InputManagers;
 
@@ -98,9 +97,6 @@ namespace RandomchaosMGSkySphere
             kbm.PreUpdate(gameTime);
 
             base.Update(gameTime);
-
-            if (kbm.KeyPress(Keys.Space))
-            { }
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kbm.KeyDown(Keys.Escape))
                 Exit();
