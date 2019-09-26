@@ -15,8 +15,6 @@ uniform extern texture SceneTex;
 
 uniform extern float powFactor = 1;
 
-float2 halfPixel;
-
 sampler BaseSampler = sampler_state
 {
 	Texture = <SceneTex>;
@@ -47,8 +45,7 @@ float4 AdjustSaturation(float4 color, float saturation)
 
 float4 BloomPS(VertexShaderOutput input) : COLOR0
 {
-	input.TexCoord -= halfPixel;
-    // Look up the bloom and original base image colors.
+	// Look up the bloom and original base image colors.
     float4 bloom = tex2D(BloomSampler, input.TexCoord);
     float4 base = tex2D(BaseSampler, input.TexCoord);
     
@@ -67,8 +64,7 @@ float4 BloomPS(VertexShaderOutput input) : COLOR0
 
 float4 GlarePixelShader(VertexShaderOutput input) : COLOR0
 {
-	input.TexCoord -= halfPixel;
-    // Look up the bloom and original base image colors.
+	// Look up the bloom and original base image colors.
     float4 bloom = tex2D(BloomSampler, input.TexCoord) * BloomIntensity;
     float4 base = tex2D(BaseSampler, input.TexCoord) * BaseIntensity;
     

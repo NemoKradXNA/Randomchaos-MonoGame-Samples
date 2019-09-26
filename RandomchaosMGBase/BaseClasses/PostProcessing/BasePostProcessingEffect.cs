@@ -10,7 +10,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 {
     public class BasePostProcessingEffect
     {
-        public Vector2 HalfPixel;
         public Texture2D lastScene;
         public Texture2D orgScene;
         protected List<BasePostProcess> postProcesses = new List<BasePostProcess>();
@@ -48,10 +47,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             {
                 if (postProcesses[p].Enabled)
                 {
-                    // Set Half Pixel value.
-                    if (postProcesses[p].HalfPixel == Vector2.Zero)
-                        postProcesses[p].HalfPixel = HalfPixel;
-
                     // Set original scene
                     postProcesses[p].orgBuffer = orgScene;
 

@@ -9,8 +9,6 @@ uniform extern float4 SampleOffsets[SAMPLE_COUNT];
 uniform extern float SampleWeights[SAMPLE_COUNT];
 //uniform extern texture SceneTex;
 
-float2 halfPixel;
-
 sampler TextureSampler : register(s0);
 /* = sampler_state
 {
@@ -23,8 +21,7 @@ sampler TextureSampler : register(s0);
 
 float4 GaussianBlurPS(VertexShaderOutput input) : COLOR0
 {
-	input.TexCoord-=halfPixel;
-    float4 c = 0;
+	float4 c = 0;
     
     // Combine a number of weighted image filter taps.
     for (int i = 0; i < SAMPLE_COUNT; i++)

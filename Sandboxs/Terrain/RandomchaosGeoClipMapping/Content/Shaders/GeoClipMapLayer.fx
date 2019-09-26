@@ -7,7 +7,6 @@ float4x4 vp : ViewProjection;
 float maxHeight = 30;
 float mod = 1024;
 float2 sqrt = 1024;
-float2 halfPixel;
 float2 hp;
 float OneOverWidth;
 

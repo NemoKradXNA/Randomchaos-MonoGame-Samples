@@ -225,8 +225,6 @@ namespace RandomchaosGeoClipMapping.Terrain.GeoClipMapping
 
                 effect.Parameters["sqrt"].SetValue((new Vector2(heightMap.Width, heightMap.Height) / 2));
 
-                effect.Parameters["halfPixel"].SetValue(-new Vector2(.5f / (float)Game.GraphicsDevice.Viewport.Width,
-                                         .5f / (float)Game.GraphicsDevice.Viewport.Height));
                 effect.Parameters["hp"].SetValue(new Vector2(heightMap.Width, heightMap.Height) / 2);
                 effect.Parameters["OneOverWidth"].SetValue(1f / heightMap.Width);
             }

@@ -35,8 +35,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             effect.Parameters["Offset"].SetValue((float)elapsedTime * .1f);
             effect.Parameters["Bumpmap"].SetValue(Game.Content.Load<Texture2D>(BumpAsset));
 
-            effect.Parameters["halfPixel"].SetValue(HalfPixel);
-
             // Set Params.
             base.Draw(gameTime);
         }

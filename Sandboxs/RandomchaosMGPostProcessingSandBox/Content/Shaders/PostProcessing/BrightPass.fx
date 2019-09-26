@@ -6,7 +6,6 @@
 uniform extern float BloomThreshold;
 //uniform extern texture SceneTex;
 
-float2 halfPixel;
 sampler TextureSampler : register(s0);
 /* = sampler_state
 {
@@ -19,7 +18,6 @@ sampler TextureSampler : register(s0);
 
 float4 BrightPassPS(VertexShaderOutput input) : COLOR0
 {
-	input.TexCoord -= halfPixel;
     // Look up the original image color.
     float4 c = tex2D(TextureSampler, input.TexCoord);
 

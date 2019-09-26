@@ -4,8 +4,6 @@ float3 lightPosition;
 
 float4x4 matVP;
 
-float2 halfPixel;
-
 float SunSize = 1500;
 
 sampler screen : register(s0);
@@ -23,8 +21,6 @@ sampler Flare = sampler_state
 float4 LightSourceMaskPS(VertexShaderOutput input) : COLOR0
 {
 	float v = tex2D(screen,input.TexCoord) * .001;
-
-input.TexCoord -= halfPixel;
 
 	// Get the scene
 	float4 col = 0;

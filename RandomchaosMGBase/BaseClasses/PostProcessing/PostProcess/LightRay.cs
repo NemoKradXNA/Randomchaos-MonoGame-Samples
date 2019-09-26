@@ -31,8 +31,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 
             effect.CurrentTechnique = effect.Techniques["LightRayFX"];
 
-            effect.Parameters["halfPixel"].SetValue(HalfPixel);
-
             effect.Parameters["Density"].SetValue(Density);
             effect.Parameters["Decay"].SetValue(Decay);
             effect.Parameters["Weight"].SetValue(Weight);

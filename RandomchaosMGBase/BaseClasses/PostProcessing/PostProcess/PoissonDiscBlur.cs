@@ -32,7 +32,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 
             effect.Parameters["Taps"].SetValue(taps);
             effect.Parameters["DiscRadius"].SetValue(_DiscRadius);
-            effect.Parameters["TexelSize"].SetValue(HalfPixel);
+            effect.Parameters["TexelSize"].SetValue(-new Vector2(.5f / (float)Game.GraphicsDevice.Viewport.Width, .5f / (float)Game.GraphicsDevice.Viewport.Height));
 
             // Set Params.
             base.Draw(gameTime);

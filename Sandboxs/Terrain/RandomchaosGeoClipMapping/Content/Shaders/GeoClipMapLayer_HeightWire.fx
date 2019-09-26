@@ -6,7 +6,6 @@ float4x4 vp : ViewProjection;
 
 float2 sqrt = 1024;
 float3 camPos;
-float2 halfPixel;
 float2 hp;
 float OneOverWidth;
 
@@ -44,21 +43,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 	float4 pos = mul(input.Position,world);
 	
-	/*
-	float y = tex2Dlod(heightMapSampler,float4(pos.xz,0,.0));
-	float f = floor(y);
-	float r = frac(y) * 512-256;
-
-	float2 a = clamp((abs(pos.xz-camPos.xz)) * halfPixel,0,1);
-	a.x = max(a.x,a.y);
-
-	float z = f + a.x * r;
-
-    pos.y = z;
-	*/
-
-	      //y = (tex2Dlod(heightMapSampler, float4((pos.xz / sqrt) / scaleToUse.xz, d, 0)) * maxHeight) * scaleToUse.xz;
-    float d = saturate(length((EyePosition - pos)) / 30);
+	float d = saturate(length((EyePosition - pos)) / 30);
 	float y =  tex2Dlod(heightMapSampler, float4((pos.xz / sqrt) / scale.xz,d,0)) * (maxHeight * scale.xz);
 	pos.y = y;
 	

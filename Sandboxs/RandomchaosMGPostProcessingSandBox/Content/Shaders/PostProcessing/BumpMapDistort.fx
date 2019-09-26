@@ -9,8 +9,6 @@ uniform extern texture  Bumpmap;
 
 uniform extern float Offset;
 
-float2 halfPixel;
-
 sampler BackGroundSampler : register(s0);
 /* = sampler_state
 {
@@ -37,7 +35,6 @@ float4 HighPS(VertexShaderOutput input) : COLOR0
 {
 	float4 bc = tex2D(BackGroundSampler, input.TexCoord);
 
-	input.TexCoord -= halfPixel;
 	float2 bgTexC = input.TexCoord;
 	
 	input.TexCoord.y += Offset;
@@ -68,7 +65,6 @@ float4 LowPS(VertexShaderOutput input) : COLOR0
 {
 	float4 bc = tex2D(BackGroundSampler, input.TexCoord);
 
-	input.TexCoord -= halfPixel;
 	float2 bgTexC = input.TexCoord;
 	
 	input.TexCoord.y += Offset;

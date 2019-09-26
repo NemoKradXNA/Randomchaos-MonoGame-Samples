@@ -1,7 +1,5 @@
 #include "PPVertexShader.fxh"
 
-float2 halfPixel;
-
 sampler2D Scene: register(s0){
 	AddressU = Mirror;
 	AddressV = Mirror;
@@ -18,7 +16,6 @@ sampler2D orgScene = sampler_state
 
 float4 BlendPS(VertexShaderOutput input) : COLOR0
 {
-	input.TexCoord -= halfPixel;
 	float4 col = tex2D(Scene, input.TexCoord) * tex2D(orgScene, input.TexCoord);
 
 	return col;
@@ -26,7 +23,6 @@ float4 BlendPS(VertexShaderOutput input) : COLOR0
 
 float4 AditivePS(VertexShaderOutput input) : COLOR0
 {
-	input.TexCoord -= halfPixel;
 	float4 col = tex2D(Scene, input.TexCoord) + tex2D(orgScene, input.TexCoord);
 
 	return col;

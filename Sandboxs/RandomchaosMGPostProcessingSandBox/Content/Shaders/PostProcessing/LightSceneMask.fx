@@ -5,8 +5,6 @@ float3 lightPosition;
 float4x4 matVP;
 float4x4 matInvVP;
 
-float2 halfPixel;
-
 
 sampler2D Scene: register(s0){
 	AddressU = Mirror;

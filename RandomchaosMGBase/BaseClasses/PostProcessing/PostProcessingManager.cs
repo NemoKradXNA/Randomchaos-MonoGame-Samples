@@ -16,8 +16,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 
         protected List<BasePostProcessingEffect> postProcessingEffects = new List<BasePostProcessingEffect>();
 
-        public Vector2 HalfPixel;
-
         public SpriteBatch spriteBatch
         {
             get { return (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch)); }
@@ -35,10 +33,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 
         public virtual void Draw(GameTime gameTime, Texture2D scene, Texture2D depth)
         {
-            if (HalfPixel == Vector2.Zero)
-                HalfPixel = -new Vector2(.5f / (float)Game.GraphicsDevice.Viewport.Width,
-                                     .5f / (float)Game.GraphicsDevice.Viewport.Height);
-
             int maxEffect = postProcessingEffects.Count;
 
             Scene = scene;
@@ -47,9 +41,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             {
                 if (postProcessingEffects[e].Enabled)
                 {
-                    if (postProcessingEffects[e].HalfPixel == Vector2.Zero)
-                        postProcessingEffects[e].HalfPixel = HalfPixel;
-
                     postProcessingEffects[e].orgScene = scene;
                     postProcessingEffects[e].Draw(gameTime, Scene, depth);
                     Scene = postProcessingEffects[e].lastScene;

@@ -14,8 +14,6 @@ uniform extern texture SceneTex;
 //uniform extern texture SceneBlurTex;
 uniform extern texture SceneDepthTex;
 
-float2 halfPixel;
-
 // Textures
 sampler2D SceneSampler = sampler_state
 {
@@ -37,8 +35,6 @@ sampler2D SceneDepthSampler = sampler_state
 ///Drawing the depth of field
 float4 DepthOfFieldPS_R32F(VertexShaderOutput input) : COLOR0
 {
-	input.TexCoord -= halfPixel;
-	
 	float4 vSceneBlurSampler = tex2D(SceneBlurSampler, input.TexCoord);
     float4 vSceneSampler      = tex2D( SceneSampler, input.TexCoord);
 	float vDepthTexel = 1 - tex2D(SceneDepthSampler, input.TexCoord);

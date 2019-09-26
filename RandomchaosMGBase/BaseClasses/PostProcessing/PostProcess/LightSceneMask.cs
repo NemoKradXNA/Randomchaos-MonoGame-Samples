@@ -21,7 +21,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             effect.CurrentTechnique = effect.Techniques["LightSourceSceneMask"];
 
             effect.Parameters["depthMap"].SetValue(DepthBuffer);
-            effect.Parameters["halfPixel"].SetValue(HalfPixel);
 
             effect.Parameters["lightPosition"].SetValue(lighSourcePos);
             effect.Parameters["matVP"].SetValue(camera.View * camera.Projection);

@@ -5,8 +5,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 {
     public class BasePostProcess
     {
-        public Vector2 HalfPixel;
-
         public Base3DCamera camera
         {
             get { return (Base3DCamera)Game.Services.GetService(typeof(Base3DCamera)); }

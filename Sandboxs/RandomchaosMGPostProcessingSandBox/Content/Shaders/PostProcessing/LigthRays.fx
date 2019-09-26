@@ -7,8 +7,6 @@ float3 lightPosition;
 
 float4x4 matVP;
 
-float2 halfPixel;
-
 float Density = .5f;
 float Decay = .95f;
 float Weight = 1.0f;
@@ -28,7 +26,7 @@ float4 lightRayPS(VertexShaderOutput input) : COLOR0
 	ScreenPosition.x = ScreenPosition.x/2.0f+0.5f;
 	ScreenPosition.y = (-ScreenPosition.y/2.0f+0.5f);
 
-	float2 TexCoord = input.TexCoord - halfPixel;
+	float2 TexCoord = input.TexCoord;
 
 	float2 DeltaTexCoord = (TexCoord - ScreenPosition.xy);
 	DeltaTexCoord *= (1.0f / NUM_SAMPLES * Density);
