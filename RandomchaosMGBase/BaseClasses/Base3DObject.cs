@@ -113,7 +113,7 @@ namespace RandomchaosMGBase.BaseClasses
         {
             Transform.Update();
 
-            if (mesh == null && modelName != string.Empty)
+            if (mesh == null && !string.IsNullOrEmpty(modelName))
             {
                 mesh = Game.Content.Load<Model>(modelName);
 
@@ -139,7 +139,10 @@ namespace RandomchaosMGBase.BaseClasses
 
         public virtual void SetEffect(GameTime gameTime, Effect effect)
         {
-            if(effect.Parameters["world"] != null)
+            if (effect == null)
+                return;
+
+            if (effect.Parameters["world"] != null)
                 effect.Parameters["world"].SetValue(meshWorld);
 
 

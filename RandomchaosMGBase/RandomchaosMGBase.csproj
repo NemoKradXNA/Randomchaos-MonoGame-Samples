@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseClasses\Base3DQuad.cs" />
     <Compile Include="BaseClasses\Base3DTerrain.cs" />
     <Compile Include="BaseClasses\Base3DCamera.cs" />
     <Compile Include="BaseClasses\Base3DObject.cs" />

@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{BE3B18
 		XNAXNAAssets\Models\teapot.xnb = XNAXNAAssets\Models\teapot.xnb
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGFire", "Sandboxs\XNA Blog Ports\RandomchaosMGFire\RandomchaosMGFire.csproj", "{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,13 @@ Global
 		{4BA7DE28-86D3-47AF-9955-E3342B679FAC}.Release|Any CPU.ActiveCfg = Release|x86
 		{4BA7DE28-86D3-47AF-9955-E3342B679FAC}.Release|x86.ActiveCfg = Release|x86
 		{4BA7DE28-86D3-47AF-9955-E3342B679FAC}.Release|x86.Build.0 = Release|x86
+		{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE}.Debug|Any CPU.Build.0 = Debug|x86
+		{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE}.Debug|x86.ActiveCfg = Debug|x86
+		{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE}.Debug|x86.Build.0 = Debug|x86
+		{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE}.Release|Any CPU.ActiveCfg = Release|x86
+		{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE}.Release|x86.ActiveCfg = Release|x86
+		{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +142,7 @@ Global
 		{D8B50A45-D87E-499B-AF24-073FAD23670E} = {648484BF-CD5F-403F-94E9-0941105F9B50}
 		{4BA7DE28-86D3-47AF-9955-E3342B679FAC} = {648484BF-CD5F-403F-94E9-0941105F9B50}
 		{BE3B18EE-8968-41CA-AB75-2D2188B4C490} = {593F7F46-3006-4747-BCFB-335E1A6D1BB6}
+		{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE} = {648484BF-CD5F-403F-94E9-0941105F9B50}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E75E3A8-AD26-4818-AD83-243C17C79F04}
