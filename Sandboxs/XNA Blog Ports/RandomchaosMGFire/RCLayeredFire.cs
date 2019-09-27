@@ -27,6 +27,8 @@ namespace RandomchaosMGFire
             flameLayers = layers;
             flames = new List<Base3DQuad>();
 
+            animSpeed = .001f;
+
             int totalFlames = flameLayers * 2;
 
             for (int f = 0; f < totalFlames; f++)
@@ -34,7 +36,6 @@ namespace RandomchaosMGFire
                 flames.Add(new Base3DQuad(game, "Shaders/VolumetricFire"));
                 flames[f].ColorAsset = "Textures/flame";
                 flames[f].Rotation = Rotation;
-
 
                 if (flameLayers > totalFlames / 2)
                     flames[f].Rotate(new Vector3(0, 0, 1), MathHelper.Pi);
@@ -57,6 +58,8 @@ namespace RandomchaosMGFire
                 flame.Update(gameTime);
         }
 
+        Texture3D test = null;
+
         public override void SetEffect(GameTime gameTime, Effect effect)
         {
             foreach (Base3DQuad flame in flames)
@@ -68,9 +71,29 @@ namespace RandomchaosMGFire
                 if (flameEffect.Parameters["ticks"] != null)
                     flameEffect.Parameters["ticks"].SetValue(tick += animSpeed);
 
-                throw new Exception("Don't run this project, it is still under construction, trying to figure out why 3D textures won't import :/");
+                //throw new Exception("Don't run this project, it is still under construction, trying to figure out why 3D textures won't import :/");
+
+                if (test == null)
+                {
+                    test = new Texture3D(Game.GraphicsDevice, 32, 32, 32, false, SurfaceFormat.Rgba1010102);
+                    Color[] c = new Color[32 * 32 * 32];
+                    Random rnd = new Random();
+                    for (int i = 0; i < c.Length; i++)
+                    {
+                        float r, g, b;
+
+                        r = (float)rnd.NextDouble();
+                        g = (float)rnd.NextDouble();
+                        b = (float)rnd.NextDouble();
+
+                        c[i] = new Color(r, g, b, 1);
+                    }
+                    test.SetData(c);
+
+                    //test = Game.Content.Load<Texture3D>("Textures/noise4");
+                }
                 if (flameEffect.Parameters["noiseTexture"] != null)
-                    flameEffect.Parameters["noiseTexture"].SetValue(Game.Content.Load<Texture3D>("Textures/noise1"));
+                    flameEffect.Parameters["noiseTexture"].SetValue(test);
 
                 if (flameEffect.Parameters["Index"] != null)
                     flameEffect.Parameters["Index"].SetValue(flameOffset + (float)Convert.ToDouble((flames.IndexOf(flame)/2)) / 10);
