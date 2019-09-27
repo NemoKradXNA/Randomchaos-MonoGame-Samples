@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,26 +20,23 @@ namespace RandomchaosMGFire
         protected float tick;
         protected float flameOffset;
         
-        protected float AnimationSpeed { get { return animSpeed; } set { animSpeed = value; } }
-        protected float FlameOffSet { get { return flameOffset; } set { flameOffset = value; } }
+        public float AnimationSpeed { get { return animSpeed; } set { animSpeed = value; } }
+        public float FlameOffSet { get { return flameOffset; } set { flameOffset = value; } }
 
         public RCLayeredFire(Game game, int layers) : base(game,null)
         {
             flameLayers = layers;
             flames = new List<Base3DQuad>();
 
-            animSpeed = .001f;
+            
 
-            int totalFlames = flameLayers * 2;
-
-            for (int f = 0; f < totalFlames; f++)
+            for (int f = 0; f < flameLayers; f++)
             {
                 flames.Add(new Base3DQuad(game, "Shaders/VolumetricFire"));
+                flames[f].Transform.Parent = this;
                 flames[f].ColorAsset = "Textures/flame";
                 flames[f].Rotation = Rotation;
-
-                if (flameLayers > totalFlames / 2)
-                    flames[f].Rotate(new Vector3(0, 0, 1), MathHelper.Pi);
+                flames[f].Position = new Vector3(0, 0, -.01f * ((float)f*.5f));
             }
         }
 
@@ -71,32 +69,27 @@ namespace RandomchaosMGFire
                 if (flameEffect.Parameters["ticks"] != null)
                     flameEffect.Parameters["ticks"].SetValue(tick += animSpeed);
 
-                //throw new Exception("Don't run this project, it is still under construction, trying to figure out why 3D textures won't import :/");
-
                 if (test == null)
                 {
                     test = new Texture3D(Game.GraphicsDevice, 32, 32, 32, false, SurfaceFormat.Rgba1010102);
                     Color[] c = new Color[32 * 32 * 32];
-                    Random rnd = new Random();
-                    for (int i = 0; i < c.Length; i++)
+                    
+                    Color[] tc = new Color[32 * 32];
+                    for (int l = 0; l < 32; l++)
                     {
-                        float r, g, b;
+                        Texture2D tl = Game.Content.Load<Texture2D>($"Textures/Noise1/{l}");
+                        tl.GetData(tc);
 
-                        r = (float)rnd.NextDouble();
-                        g = (float)rnd.NextDouble();
-                        b = (float)rnd.NextDouble();
-
-                        c[i] = new Color(r, g, b, 1);
+                        Array.Copy(tc, 0, c, l * 32, tc.Length);
                     }
-                    test.SetData(c);
 
-                    //test = Game.Content.Load<Texture3D>("Textures/noise4");
+                    test.SetData(c);
                 }
                 if (flameEffect.Parameters["noiseTexture"] != null)
                     flameEffect.Parameters["noiseTexture"].SetValue(test);
 
                 if (flameEffect.Parameters["Index"] != null)
-                    flameEffect.Parameters["Index"].SetValue(flameOffset + (float)Convert.ToDouble((flames.IndexOf(flame)/2)) / 10);
+                    flameEffect.Parameters["Index"].SetValue(flameOffset + (flames.IndexOf(flame) *.5f) *.1f);
 
                 if (flameEffect.Parameters["noiseFreq"] != null)
                     flameEffect.Parameters["noiseFreq"].SetValue(.10f);
@@ -106,13 +99,13 @@ namespace RandomchaosMGFire
                 if (flameEffect.Parameters["timeScale"] != null)
                     flameEffect.Parameters["timeScale"].SetValue(1.0f);
                 if (flameEffect.Parameters["noiseScale"] != null)
-                    flameEffect.Parameters["noiseScale"].SetValue(new Vector3(1.0f, 1.0f, 1.0f));
+                    flameEffect.Parameters["noiseScale"].SetValue(new Vector3(1.0f, 1f, 1.0f));
                 if (flameEffect.Parameters["noiseAnim"] != null)
                     flameEffect.Parameters["noiseAnim"].SetValue(new Vector3( 0.0f, -0.1f, 0.0f ));
                 if (flameEffect.Parameters["flameColor"] != null)
                     flameEffect.Parameters["flameColor"].SetValue(new Vector4(0.2f, 0.2f, 0.2f, 1.0f));
                 if (flameEffect.Parameters["flameScale"] != null)
-                    flameEffect.Parameters["flameScale"].SetValue(new Vector3(1.0f, -1.0f, 1.0f));
+                    flameEffect.Parameters["flameScale"].SetValue(new Vector3(1, -1.0f, 1));
                  if (flameEffect.Parameters["flameTrans"] != null)
                     flameEffect.Parameters["flameTrans"].SetValue(new Vector3( 0.0f, 0.0f, 0.0f));
             }

@@ -39,7 +39,11 @@ namespace RandomchaosMGFire
             Components.Add(camera);
             Services.AddService(typeof(Base3DCamera), camera);
 
-            Fire3D = new RCLayeredFire(this, 6);
+            Fire3D = new RCLayeredFire(this, 8);
+            Fire3D.Scale = new Vector3(2, 6, 8);
+            Fire3D.AnimationSpeed = .01f;
+            Fire3D.FlameOffSet = .2f;
+
             Components.Add(Fire3D);
         }
 
@@ -123,7 +127,7 @@ namespace RandomchaosMGFire
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 

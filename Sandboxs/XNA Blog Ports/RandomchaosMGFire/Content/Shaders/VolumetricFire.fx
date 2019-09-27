@@ -125,7 +125,9 @@ half4 flamePS(vertexOutput IN) : COLOR
 	uv.y = IN.FlamePos.y;
 	//uv.y += turbulence4(NoiseMap, IN.NoisePos) * noiseStrength;
 	uv.y += turbulence4(noiseTextureSampler, IN.NoisePos) * noiseStrength / uv.x;
-	return tex2D(flameTextureSampler, uv) + flameColor;
+	float4 c = tex2D(flameTextureSampler, uv);
+	c.a = c.r;
+	return c * flameColor;
 }
 
 /****************************************************/
@@ -136,14 +138,38 @@ technique ps20
 	pass p1d
 	{
 		VertexShader = compile vs_4_0 flameVS();
-		/*
-		ZEnable = true;
+		
+		ZEnable = false;
 		ZWriteEnable = true;
 		CullMode = None;
 		AlphaBlendEnable = true;
 		BlendOp = Add;
+		
+		/*
+		// Traditional transparency
+		SrcBlend = SrcAlpha;
+		DestBlend = InvSrcAlpha;
+		
+		// Premultiplied transparency
+		SrcBlend = One;
+		DestBlend = InvSrcColor;
+		
+		// Additive
 		SrcBlend = One;
 		DestBlend = One;
+		*/
+		// Soft Additive
+		SrcBlend = InvDestColor;
+		DestBlend = One;
+
+		/*
+		// Multiplicative
+		SrcBlend = DestColor;
+		DestBlend = Zero;
+
+		// 2x Multiplicative
+		SrcBlend = DestColor;
+		DestBlend = SrcColor;
 		*/
 		PixelShader = compile ps_4_0 flamePS();
 	}
