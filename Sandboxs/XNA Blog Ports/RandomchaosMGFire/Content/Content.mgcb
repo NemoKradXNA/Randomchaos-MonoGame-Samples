@@ -506,3 +506,16 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Noise1/9.jpg
 
+#begin Shaders/OldSchoolFire.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/OldSchoolFire.fx
+
+#begin Fonts/font2.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/font2.spritefont
+

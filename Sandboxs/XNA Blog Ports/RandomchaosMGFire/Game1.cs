@@ -13,12 +13,15 @@ namespace RandomchaosMGFire
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
         SpriteFont font;
 
         KeyboardStateManager kbm;
         Base3DCamera camera;
 
+        CPUOldSchoolFire Fire;
+        GPUOldSchoolFire Fire2;
+        GPUOldSchoolFireBox Fire3;
         RCLayeredFire Fire3D;
 
         public Game1()
@@ -46,8 +49,24 @@ namespace RandomchaosMGFire
             Fire3D.FlameOffSet = .2f;
 
             Components.Add(Fire3D);
+
+            Fire = new CPUOldSchoolFire(this, new Point(400, 240));
+            Components.Add(Fire);
+
+            Fire2 = new GPUOldSchoolFire(this, new Point(400,240));
+            Components.Add(Fire2);
+
+            Fire3 = new GPUOldSchoolFireBox(this);
+            Components.Add(Fire3);
+
+            Fire3D.Enabled = false;
+            Fire.Enabled = false;
+            Fire2.Enabled = false;
+            Fire3.Enabled = false;
+            Fire3D.Enabled = true;
         }
 
+        
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -121,45 +140,129 @@ namespace RandomchaosMGFire
             if (kbm.KeyDown(Keys.Down) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < 0)
                 camera.Rotate(Vector3.Right, -speedRot);
 
-            if (kbm.KeyDown(Keys.R))
-                Fire3D.NoiseFrequency += .001f;
-            if (kbm.KeyDown(Keys.F))
-                Fire3D.NoiseFrequency -= .001f;
+            if (kbm.KeyPress(Keys.F1))
+            {
+                Fire3D.Enabled = true;
+                Fire.Enabled = !Fire3D.Enabled;
+                Fire2.Enabled = !Fire3D.Enabled;
+                Fire3.Enabled = !Fire3D.Enabled;
+            }
 
-            if (kbm.KeyDown(Keys.T))
-                Fire3D.NoiseStrength += .001f;
-            if (kbm.KeyDown(Keys.G))
-                Fire3D.NoiseStrength -= .001f;
+            if (kbm.KeyPress(Keys.F2))
+            {
+                Fire.Enabled = true;
+                Fire2.Enabled = !Fire.Enabled;
+                Fire3.Enabled = !Fire.Enabled;
+                Fire3D.Enabled = !Fire.Enabled;
+            }
 
-            if (kbm.KeyDown(Keys.Y))
-                Fire3D.TimeScale += .01f;
-            if (kbm.KeyDown(Keys.H))
-                Fire3D.TimeScale -= .01f;
+            if (kbm.KeyPress(Keys.F3))
+            {
+                Fire2.Enabled = true;
+                Fire.Enabled = !Fire2.Enabled;
+                Fire3.Enabled = !Fire2.Enabled;
+                Fire3D.Enabled = !Fire2.Enabled;
+            }
 
-            if(kbm.KeyDown(Keys.U))
-                Fire3D.AnimationSpeed += .0001f;
-            if (kbm.KeyDown(Keys.J))
-                Fire3D.AnimationSpeed -= .0001f;
+            if (kbm.KeyPress(Keys.F4))
+            {
+                Fire3.Enabled = true;
+                Fire.Enabled = !Fire3.Enabled;
+                Fire2.Enabled = !Fire3.Enabled;
+                Fire3D.Enabled = !Fire3.Enabled;
+            }
 
-            if (kbm.KeyDown(Keys.I))
-                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0.01f,0,0,1));
-            if (kbm.KeyDown(Keys.K))
-                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0.01f, 0, 0, 1));
+            if (Fire.Enabled || Fire2.Enabled || Fire3.Enabled)
+            {
+                if (kbm.KeyDown(Keys.R))
+                {
+                    Fire.Oxygen += .001f;
+                    Fire2.Oxygen += .001f;
+                    Fire3.Oxygen += .001f;
+                }
+                if (kbm.KeyDown(Keys.F))
+                {
+                    Fire.Oxygen -= .001f;
+                    Fire2.Oxygen -= .001f;
+                    Fire3.Oxygen -= .001f;
+                }
 
-            if (kbm.KeyDown(Keys.O))
-                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0, 0.01f, 0, 1));
-            if (kbm.KeyDown(Keys.L))
-                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0, 0.01f, 0, 1));
+                if (kbm.KeyDown(Keys.T))
+                {
+                    Fire.MinFuel += 1;
+                    Fire2.MinFuel += 1;
+                    Fire3.MinFuel += 1;
+                }
+                if (kbm.KeyDown(Keys.G))
+                {
+                    Fire.MinFuel -= 1;
+                    Fire2.MinFuel -= 1;
+                    Fire3.MinFuel -= 1;
+                }
 
-            if (kbm.KeyDown(Keys.P))
-                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0, 0, 0.01f, 1));
-            if (kbm.KeyDown(Keys.OemSemicolon))
-                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0, 0, 0.01f, 1));
+                if (kbm.KeyDown(Keys.Y))
+                {
+                    Fire.MaxFuel += 1;
+                    Fire2.MaxFuel += 1;
+                    Fire3.MaxFuel += 1;
+                }
+                if (kbm.KeyDown(Keys.H))
+                {
+                    Fire.MaxFuel -= 1;
+                    Fire2.MaxFuel -= 1;
+                    Fire3.MaxFuel -= 1;
+                }
 
-            Fire3D.NoiseFrequency = MathHelper.Clamp(Fire3D.NoiseFrequency, 0, 1);
-            Fire3D.NoiseStrength = MathHelper.Clamp(Fire3D.NoiseStrength, 0, 1);
-            Fire3D.TimeScale = MathHelper.Clamp(Fire3D.TimeScale, 0, 2);
-            Fire3D.AnimationSpeed = MathHelper.Clamp(Fire3D.AnimationSpeed, 0, 1);
+                if (kbm.KeyPress(Keys.Space))
+                {
+                    Fire.ShowDebug = !Fire.ShowDebug;
+                    Fire2.ShowDebug = Fire.ShowDebug;
+                    Fire3.ShowDebug = Fire.ShowDebug;
+                }
+            }
+
+            if (Fire3D.Enabled)
+            {
+                if (kbm.KeyDown(Keys.R))
+                    Fire3D.NoiseFrequency += .001f;
+                if (kbm.KeyDown(Keys.F))
+                    Fire3D.NoiseFrequency -= .001f;
+
+                if (kbm.KeyDown(Keys.T))
+                    Fire3D.NoiseStrength += .001f;
+                if (kbm.KeyDown(Keys.G))
+                    Fire3D.NoiseStrength -= .001f;
+
+                if (kbm.KeyDown(Keys.Y))
+                    Fire3D.TimeScale += .01f;
+                if (kbm.KeyDown(Keys.H))
+                    Fire3D.TimeScale -= .01f;
+
+                if (kbm.KeyDown(Keys.U))
+                    Fire3D.AnimationSpeed += .0001f;
+                if (kbm.KeyDown(Keys.J))
+                    Fire3D.AnimationSpeed -= .0001f;
+
+                if (kbm.KeyDown(Keys.I))
+                    Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0.01f, 0, 0, 1));
+                if (kbm.KeyDown(Keys.K))
+                    Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0.01f, 0, 0, 1));
+
+                if (kbm.KeyDown(Keys.O))
+                    Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0, 0.01f, 0, 1));
+                if (kbm.KeyDown(Keys.L))
+                    Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0, 0.01f, 0, 1));
+
+                if (kbm.KeyDown(Keys.P))
+                    Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0, 0, 0.01f, 1));
+                if (kbm.KeyDown(Keys.OemSemicolon))
+                    Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0, 0, 0.01f, 1));
+
+                Fire3D.NoiseFrequency = MathHelper.Clamp(Fire3D.NoiseFrequency, 0, 1);
+                Fire3D.NoiseStrength = MathHelper.Clamp(Fire3D.NoiseStrength, 0, 1);
+                Fire3D.TimeScale = MathHelper.Clamp(Fire3D.TimeScale, 0, 2);
+                Fire3D.AnimationSpeed = MathHelper.Clamp(Fire3D.AnimationSpeed, 0, 1);
+            }
         }
 
         protected Color SetColor(Vector4 newC)
@@ -183,13 +286,31 @@ namespace RandomchaosMGFire
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
             WriteLine("Camera Controls: [WASD - Translate] [Arrow Keys - Rotate]", Color.Gold);
-            WriteLine($"[R/F] - Flame Noise Frequency +- {Fire3D.NoiseFrequency}", Color.Gold);
-            WriteLine($"[T/G] - Flame Noise Strength +- {Fire3D.NoiseStrength}", Color.Gold);
-            WriteLine($"[Y/H] - Flame Time Scale +- {Fire3D.TimeScale}", Color.Gold);
-            WriteLine($"[U/J] - Flame Animation Speed +- {Fire3D.AnimationSpeed}", Color.Gold);
-            WriteLine($"[I/K] - Flame Color (R) +- : {Fire3D.Color.ToVector4().X}", Color.LimeGreen);
-            WriteLine($"[O/L] - Flame Color (G) +- : {Fire3D.Color.ToVector4().Y}", Color.LimeGreen);
-            WriteLine($"[P/;] - Flame Color (B) +- : {Fire3D.Color.ToVector4().Z}", Color.LimeGreen);
+            WriteLine($"[F1] - Toggle NVIDIA FIre {Fire3D.Enabled}", Color.Gold);
+            WriteLine($"[F2] - Toggle Old School CPU Fire {Fire.Enabled}", Color.Gold);
+            WriteLine($"[F3] - Toggle Old School GPU Fire {Fire2.Enabled}", Color.Gold);
+            WriteLine($"[F4] - Toggle Old School GPU Fire Box {Fire2.Enabled}", Color.Gold);
+
+            WriteLine($"-----------------------------------------------", Color.Gold);
+
+            if (Fire3D.Enabled)
+            {
+                WriteLine($"[R/F] - Flame Noise Frequency +- {Fire3D.NoiseFrequency}", Color.Gold);
+                WriteLine($"[T/G] - Flame Noise Strength +- {Fire3D.NoiseStrength}", Color.Gold);
+                WriteLine($"[Y/H] - Flame Time Scale +- {Fire3D.TimeScale}", Color.Gold);
+                WriteLine($"[U/J] - Flame Animation Speed +- {Fire3D.AnimationSpeed}", Color.Gold);
+                WriteLine($"[I/K] - Flame Color (R) +- : {Fire3D.Color.ToVector4().X}", Color.LimeGreen);
+                WriteLine($"[O/L] - Flame Color (G) +- : {Fire3D.Color.ToVector4().Y}", Color.LimeGreen);
+                WriteLine($"[P/;] - Flame Color (B) +- : {Fire3D.Color.ToVector4().Z}", Color.LimeGreen);                
+            }
+            if (Fire.Enabled || Fire2.Enabled || Fire3.Enabled)
+            {
+                WriteLine($"Fire Type: " + ((Fire2.Enabled || false) ? "GPU" : "CPU"), Color.Gold);
+                WriteLine($"[R/F] Toggle Oxygen: {Fire.Oxygen}",  Color.Gold);
+                WriteLine($"[T/G] Toggle Min Fuel: {Fire.MinFuel}",  Color.Gold);
+                WriteLine($"[Y/H] Toggle Max Fuel: {Fire.MaxFuel}", Color.Gold);
+                WriteLine($"Show Debug: {Fire.ShowDebug}", Color.Gold);
+            }
             spriteBatch.End();
         }
 

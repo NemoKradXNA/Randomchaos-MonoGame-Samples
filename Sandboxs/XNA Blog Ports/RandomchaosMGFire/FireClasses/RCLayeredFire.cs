@@ -78,6 +78,9 @@ namespace RandomchaosMGFire
             {
                 Effect flameEffect = flame.Effect;
 
+                if (flameEffect == null)
+                    continue;
+
                 if (flameEffect.Parameters["flameTexture"] != null)
                     flameEffect.Parameters["flameTexture"].SetValue(Game.Content.Load<Texture2D>("Textures/flame"));
                 if (flameEffect.Parameters["ticks"] != null)
@@ -128,6 +131,9 @@ namespace RandomchaosMGFire
 
         public override void Draw(GameTime gameTime, Effect effect)
         {
+            if (!Enabled)
+                return;
+
             SetEffect(gameTime, effect);
 
             foreach (Base3DQuad flame in flames)
