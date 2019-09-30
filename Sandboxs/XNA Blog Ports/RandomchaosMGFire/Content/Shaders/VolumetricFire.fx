@@ -93,7 +93,7 @@ vertexOutput flameVS(appdata IN)
 	OUT.HPosition = mul(objPos, wvp);
 	float time = fmod(ticks, 10.0); // avoid large texcoords
 	OUT.NoisePos = worldPos * noiseScale*noiseFreq + time * timeScale*noiseAnim;
-	OUT.FlamePos = worldPos * flameScale + flameTrans;
+	OUT.FlamePos = (worldPos * flameScale) + flameTrans;
 	// Mod by C.Humphrey so flame can be anywhere in the scene.
 	IN.Position.y += Index;
 	OUT.FlamePos.xz = IN.Position.xy;
@@ -126,8 +126,9 @@ half4 flamePS(vertexOutput IN) : COLOR
 	//uv.y += turbulence4(NoiseMap, IN.NoisePos) * noiseStrength;
 	uv.y += turbulence4(noiseTextureSampler, IN.NoisePos) * noiseStrength / uv.x;
 	float4 c = tex2D(flameTextureSampler, uv);
-	c.a = c.r;
-	return c * flameColor;
+	c.a = c.rgb;
+	c.rgb *= flameColor.rgb;
+	return c;
 }
 
 /****************************************************/

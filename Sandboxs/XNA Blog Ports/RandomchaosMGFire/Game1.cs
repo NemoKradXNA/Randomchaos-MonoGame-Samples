@@ -14,6 +14,7 @@ namespace RandomchaosMGFire
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont font;
 
         KeyboardStateManager kbm;
         Base3DCamera camera;
@@ -69,7 +70,7 @@ namespace RandomchaosMGFire
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            font = Content.Load<SpriteFont>("Fonts/hudFont");
         }
 
         /// <summary>
@@ -119,6 +120,51 @@ namespace RandomchaosMGFire
                 camera.Rotate(Vector3.Right, speedRot);
             if (kbm.KeyDown(Keys.Down) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < 0)
                 camera.Rotate(Vector3.Right, -speedRot);
+
+            if (kbm.KeyDown(Keys.R))
+                Fire3D.NoiseFrequency += .001f;
+            if (kbm.KeyDown(Keys.F))
+                Fire3D.NoiseFrequency -= .001f;
+
+            if (kbm.KeyDown(Keys.T))
+                Fire3D.NoiseStrength += .001f;
+            if (kbm.KeyDown(Keys.G))
+                Fire3D.NoiseStrength -= .001f;
+
+            if (kbm.KeyDown(Keys.Y))
+                Fire3D.TimeScale += .01f;
+            if (kbm.KeyDown(Keys.H))
+                Fire3D.TimeScale -= .01f;
+
+            if(kbm.KeyDown(Keys.U))
+                Fire3D.AnimationSpeed += .0001f;
+            if (kbm.KeyDown(Keys.J))
+                Fire3D.AnimationSpeed -= .0001f;
+
+            if (kbm.KeyDown(Keys.I))
+                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0.01f,0,0,1));
+            if (kbm.KeyDown(Keys.K))
+                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0.01f, 0, 0, 1));
+
+            if (kbm.KeyDown(Keys.O))
+                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0, 0.01f, 0, 1));
+            if (kbm.KeyDown(Keys.L))
+                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0, 0.01f, 0, 1));
+
+            if (kbm.KeyDown(Keys.P))
+                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0, 0, 0.01f, 1));
+            if (kbm.KeyDown(Keys.OemSemicolon))
+                Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0, 0, 0.01f, 1));
+
+            Fire3D.NoiseFrequency = MathHelper.Clamp(Fire3D.NoiseFrequency, 0, 1);
+            Fire3D.NoiseStrength = MathHelper.Clamp(Fire3D.NoiseStrength, 0, 1);
+            Fire3D.TimeScale = MathHelper.Clamp(Fire3D.TimeScale, 0, 2);
+            Fire3D.AnimationSpeed = MathHelper.Clamp(Fire3D.AnimationSpeed, 0, 1);
+        }
+
+        protected Color SetColor(Vector4 newC)
+        {
+            return new Color(Vector4.Clamp(newC, Vector4.Zero, Vector4.One));
         }
 
         /// <summary>
@@ -132,6 +178,26 @@ namespace RandomchaosMGFire
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+
+            line = 0;
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            WriteLine("Camera Controls: [WASD - Translate] [Arrow Keys - Rotate]", Color.Gold);
+            WriteLine($"[R/F] - Flame Noise Frequency +- {Fire3D.NoiseFrequency}", Color.Gold);
+            WriteLine($"[T/G] - Flame Noise Strength +- {Fire3D.NoiseStrength}", Color.Gold);
+            WriteLine($"[Y/H] - Flame Time Scale +- {Fire3D.TimeScale}", Color.Gold);
+            WriteLine($"[U/J] - Flame Animation Speed +- {Fire3D.AnimationSpeed}", Color.Gold);
+            WriteLine($"[I/K] - Flame Color (R) +- : {Fire3D.Color.ToVector4().X}", Color.LimeGreen);
+            WriteLine($"[O/L] - Flame Color (G) +- : {Fire3D.Color.ToVector4().Y}", Color.LimeGreen);
+            WriteLine($"[P/;] - Flame Color (B) +- : {Fire3D.Color.ToVector4().Z}", Color.LimeGreen);
+            spriteBatch.End();
+        }
+
+        int line = 0;
+        protected void WriteLine(string msg, Color color)
+        {
+            spriteBatch.DrawString(font, msg, new Vector2(8, 8 + (font.LineSpacing * line)), Color.Gold);
+            line++;
         }
     }
 }
