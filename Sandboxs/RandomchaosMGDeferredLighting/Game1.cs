@@ -58,7 +58,8 @@ namespace RandomchaosMGDeferredLighting
         /// <summary>
         /// Modified for the deferred shadow mapping
         /// </summary>
-        public float deferredShadowMapMod = .000001f;
+        public float deferredDirectionalShadowMapMod = .000001f;
+        public float deferredConeShadowMapMod = .000001f;
 
         /// <summary>
         /// Model used for point light volumes
@@ -127,6 +128,7 @@ namespace RandomchaosMGDeferredLighting
             Components.Add(sphere);
 
             DeferredDirectionalLight directionalLight = new DeferredDirectionalLight(this, new Vector3(10, 10, 0), Color.AliceBlue, 1, true);
+            //directionalLight.HardShadows = true;
             directionalLight.Transform.LookAt(Vector3.Zero, 1, Vector3.Forward);
 
             Components.Add(directionalLight);
@@ -136,21 +138,22 @@ namespace RandomchaosMGDeferredLighting
             Components.Add(pointLight);
             PointLights.Add(pointLight);
 
-            DeferredConeLight coneLight = new DeferredConeLight(this, new Vector3(-10, 5, -25), Color.Gold, 1,MathHelper.PiOver4 * .5f, 1, true);
-            coneLight.Transform.LookAt(new Vector3(0,0,-20), 1, Vector3.Forward);
+            DeferredConeLight coneLight = new DeferredConeLight(this, new Vector3(-10, 5, -25), Color.Gold, 1, MathHelper.ToRadians(45), 1, true);
+            coneLight.Transform.LookAt(new Vector3(0, 0, -20), 1, Vector3.Forward);
             Components.Add(coneLight);
             ConeLights.Add(coneLight);
 
-            DeferredConeLight coneLight2 = new DeferredConeLight(this, new Vector3(10, 5, -25), Color.Green, 1, MathHelper.PiOver4 * .5f, 1, true);
+            DeferredConeLight coneLight2 = new DeferredConeLight(this, new Vector3(0, 20, -20), Color.Green, 1, MathHelper.ToRadians(25), 50, true);
             coneLight2.Transform.LookAt(new Vector3(0, 0, -20), 1, Vector3.Forward);
             Components.Add(coneLight2);
             ConeLights.Add(coneLight2);
 
             Base3DObject lightPos = new Base3DObject(this, "Models/sphere", "Shaders/DeferredRender/DeferredModelRender");
 
-            lightPos.Position = coneLight.Transform.Position;
-            lightPos.Color = coneLight.Color;
-            
+            lightPos.Position = coneLight2.Transform.Position;
+            lightPos.Color = coneLight2.Color;
+            lightPos.Scale = Vector3.One * .25f;
+
             Components.Add(lightPos);
 
             // Shadow casters and receivers..
@@ -245,11 +248,17 @@ namespace RandomchaosMGDeferredLighting
 
 
             if (kbm.KeyDown(Keys.R))
-                deferredShadowMapMod += .000001f;
+                deferredDirectionalShadowMapMod += .000001f;
             if (kbm.KeyDown(Keys.F))
-                deferredShadowMapMod -= .000001f;
+                deferredDirectionalShadowMapMod -= .000001f;
 
-            deferredShadowMapMod = MathHelper.Clamp(deferredShadowMapMod, 0, 1);
+            if (kbm.KeyDown(Keys.T))
+                deferredConeShadowMapMod += .000001f;
+            if (kbm.KeyDown(Keys.G))
+                deferredConeShadowMapMod -= .000001f;
+
+            deferredDirectionalShadowMapMod = MathHelper.Clamp(deferredDirectionalShadowMapMod, 0, 1);
+            deferredConeShadowMapMod = MathHelper.Clamp(deferredConeShadowMapMod, 0, 1);
         }
 
         /// <summary>
@@ -290,9 +299,6 @@ namespace RandomchaosMGDeferredLighting
             {
                 if (ShadowLights != null && ShadowLights.Count > 0 && ShadowCasters != null && ShadowCasters.Count > 0 && ShadowRecivers != null && ShadowRecivers.Count > 0)
                 {
-                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                    spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), $"[R/F] - Shadow Offset +- {deferredShadowMapMod} ", new Vector2(8, 520), Color.Gold);
-                    spriteBatch.End();
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
                     // We have lights to cast shadows, objects that will block light, and objects to receive the shadows...
                     int s = 512;
@@ -304,6 +310,11 @@ namespace RandomchaosMGDeferredLighting
                     spriteBatch.End();
                 }
             }
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), $"[R/F] - Shadow Offset +- {deferredDirectionalShadowMapMod} ", new Vector2(8, 8), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), $"[T/G] - Shadow Offset +- {deferredConeShadowMapMod} ", new Vector2(8, 26), Color.Gold);
+            spriteBatch.End();
 
             // Deferred Render debug
             if (DebugLighting) // && GameComponentHelper.InEditor)
@@ -564,7 +575,10 @@ namespace RandomchaosMGDeferredLighting
 
             deferredConeLightEffect.Parameters["CastShadow"].SetValue(coneLight.CastShadow);
             if (coneLight.CastShadow)
+            {
                 deferredConeLightEffect.Parameters["shadowMap"].SetValue(coneLight.ShadowMap);
+                deferredConeLightEffect.Parameters["mod"].SetValue(deferredConeShadowMapMod);
+            }
 
             deferredConeLightEffect.CurrentTechnique.Passes[0].Apply();
             // Set sampler state to Point as the Surface type requires it in XNA 4.0
@@ -603,7 +617,8 @@ namespace RandomchaosMGDeferredLighting
             if (directionalLight.CastShadow)
             {
                 deferredDirectionalLightEffect.Parameters["shadowMap"].SetValue(directionalLight.ShadowMap);
-                deferredDirectionalLightEffect.Parameters["mod"].SetValue(deferredShadowMapMod);
+                deferredDirectionalLightEffect.Parameters["mod"].SetValue(deferredDirectionalShadowMapMod);
+                deferredDirectionalLightEffect.Parameters["hardShadows"].SetValue(directionalLight.HardShadows);
             }
             deferredDirectionalLightEffect.Parameters["viewProjectionInv"].SetValue(Matrix.Invert(camera.View * camera.Projection));
             deferredDirectionalLightEffect.Parameters["lightViewProjection"].SetValue(directionalLight.View * directionalLight.Projection);

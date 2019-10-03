@@ -107,6 +107,7 @@ namespace RandomchaosMGDeferredLighting.Lights
                 if (camera != null && camera.Viewport.MinDepth > 0)
                 {
                     float fov = (float)Math.Acos(MathHelper.Clamp(Angle, float.Epsilon, .9999999f)) * 2f;
+                    //fov = MathHelper.PiOver4;
 
                     return Matrix.CreatePerspectiveFieldOfView(fov, camera.Viewport.AspectRatio, camera.Viewport.MinDepth, camera.Viewport.MaxDepth);
                 }

@@ -15,7 +15,7 @@ float4x4 viewProjectionInv;
 float4x4 lightViewProjection;
 
 bool CastShadow;
-
+bool hardShadows;
 
 float3 CameraPosition;
 
@@ -137,20 +137,30 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 	float add = (1 / 26.0) *  saturate((1 - depth) * 30);
 	float DiscRadius = .25;
 
-	float ss = shadowSample(lightSamplePos);
+	float ss = 0;// shadowSample(lightSamplePos);
 
 	if (CastShadow) 
 	{
-		if (ss <= realDistanceToLight)
-			shading -= add;
+		float ss =  shadowSample(lightSamplePos);
 
-		for (int b = 0; b < SAMPLE_COUNT; b++)
+		if (hardShadows) 
 		{
-			float2 sp = lightSamplePos + texelSize * Taps[b] * DiscRadius;
-			ss = shadowSample(sp);
-
-			if (shadowSample(sp) <= realDistanceToLight)
+			if (ss <= realDistanceToLight)
+				shading = 0;
+		}
+		else
+		{
+			if (ss <= realDistanceToLight)
 				shading -= add;
+
+				for (int b = 0; b < SAMPLE_COUNT; b++)
+				{
+					float2 sp = lightSamplePos + texelSize * Taps[b] * DiscRadius;
+					ss = shadowSample(sp);
+
+					if (shadowSample(sp) <= realDistanceToLight)
+						shading -= add;
+				}
 		}
 	}
 

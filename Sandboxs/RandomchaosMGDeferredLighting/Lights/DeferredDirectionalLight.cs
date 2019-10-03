@@ -15,6 +15,8 @@ namespace RandomchaosMGDeferredLighting.Lights
         /// </summary>
         public float ShadowOffsetDistance { get; set; }
 
+        public bool HardShadows { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -54,7 +56,7 @@ namespace RandomchaosMGDeferredLighting.Lights
             get
             {
                 if (camera != null && camera.Viewport.MinDepth > 0)
-                    return Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, Game.GraphicsDevice.Viewport.AspectRatio, 1, 2000);
+                    return Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4*.25f, Game.GraphicsDevice.Viewport.AspectRatio, 1, 2000);
                 else
                     return Matrix.Identity;
             }

@@ -1,10 +1,10 @@
 ﻿#if OPENGL
     #define SV_POSITION POSITION
-    #define VS_SHADERMODEL vs_3_0
-    #define PS_SHADERMODEL ps_3_0
+    #define VS_SHADERMODEL vs_4_0
+    #define PS_SHADERMODEL ps_4_0
 #else
-    #define VS_SHADERMODEL vs_4_0_level_9_1
-    #define PS_SHADERMODEL ps_4_0_level_9_1
+    #define VS_SHADERMODEL vs_4_0
+    #define PS_SHADERMODEL ps_4_0
 #endif
 
 
@@ -23,6 +23,8 @@ float ConeDecay;
 float power = 1;
 
 float3 CameraPosition;
+
+float mod = .0001f;
 
 bool CastShadow;
 
@@ -116,15 +118,15 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 	//determine shadowing criteria
 	float realDistanceToLight = lightScreenPos.z;
     float distanceStoredInDepthMap = 1 - tex2D(shadowSampler, lightSamplePos).r;
-    float mod = .0001f;
-	mod = .00005f;
+//    float mod = .0001f;
+	//mod = .00005f;
     
 	bool shadowCondition = distanceStoredInDepthMap <= realDistanceToLight - mod;
 
     //determine cone criteria
     float3 ld = normalize(worldPos - LightPosition);
     float coneDot = dot(ld, normalize(lightDirection));
-    bool coneCondition = coneDot >= ConeAngle;
+	bool coneCondition = coneDot > ConeAngle;
 
     //calculate shading
     float shading = 0;	
