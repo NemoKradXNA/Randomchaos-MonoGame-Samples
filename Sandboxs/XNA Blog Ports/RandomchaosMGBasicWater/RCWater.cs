@@ -150,7 +150,7 @@ namespace RandomchaosMGBasicWater
             set { myReflection = value; }
         }
 
-        public RCWater(Game game) : base(game, string.Empty)
+        public RCWater(Game game) : base(game, string.Empty, string.Empty)
         {
             myWidth = 128;
             myHeight = 128;

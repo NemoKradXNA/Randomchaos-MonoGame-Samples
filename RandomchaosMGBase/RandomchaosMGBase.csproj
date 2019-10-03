@@ -89,6 +89,11 @@
     <Compile Include="BaseClasses\PostProcessing\PostProcess\SceneBlend.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\Sepia.cs" />
     <Compile Include="BaseClasses\PostProcessing\PostProcess\Sun.cs" />
+    <Compile Include="BaseClasses\Primatives\Cube.cs" />
+    <Compile Include="BaseClasses\Primatives\Plane.cs" />
+    <Compile Include="BaseClasses\Primatives\PrimativeBase.cs" />
+    <Compile Include="BaseClasses\Primatives\Quad.cs" />
+    <Compile Include="BaseClasses\Primatives\ScreenQuad.cs" />
     <Compile Include="GameComponentHelper.cs" />
     <Compile Include="InputManagers\KeyboardStateManager.cs" />
     <Compile Include="InputManagers\MouseRenderer.cs" />

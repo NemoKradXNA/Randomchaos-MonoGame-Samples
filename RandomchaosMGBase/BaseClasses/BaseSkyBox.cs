@@ -6,20 +6,22 @@ namespace RandomchaosMGBase.BaseClasses
     public class BaseSkyBox : Base3DObject
     {
         public string textureAsset { get; set; }
+        public string effectAsset { get; set; }
 
         public BaseSkyBox(Game game, string textureAsset) : base(game, "Models/SkyBox")
         {
             this.textureAsset = textureAsset;
 
             Rotation = new Quaternion(0, 0, 0, 1);
-            Scale = new Vector3(99, 99, 99);            
+            Scale = new Vector3(99, 99, 99);
+            effectAsset = "Shaders/SkyBoxShader";
         }
 
         public override void Initialize()
         {
             base.Initialize();
 
-            Effect = Game.Content.Load<Effect>("Shaders/SkyBoxShader");
+            Effect = Game.Content.Load<Effect>(effectAsset);
         }
 
         public override void Update(GameTime gameTime)

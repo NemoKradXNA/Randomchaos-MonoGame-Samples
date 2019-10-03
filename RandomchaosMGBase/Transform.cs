@@ -214,5 +214,14 @@ namespace RandomchaosMGBase
             Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * Rotation);
         }
 
+        /// <summary>
+        /// Method to look at a target.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="speed"></param>
+        public void LookAt(Vector3 target, float speed, Vector3 fwd)
+        {
+            GameComponentHelper.LookAt(target, speed, Position, ref RotationRef, fwd);
+        }
     }
 }

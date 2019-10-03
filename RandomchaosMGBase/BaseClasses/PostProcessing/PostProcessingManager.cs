@@ -14,6 +14,8 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 
         public RenderTarget2D newScene;
 
+        public bool Enabled { get; set; }
+
         protected List<BasePostProcessingEffect> postProcessingEffects = new List<BasePostProcessingEffect>();
 
         public SpriteBatch spriteBatch
@@ -24,6 +26,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
         public PostProcessingManager(Game game)
         {
             Game = game;
+            Enabled = true;
         }
 
         public void AddEffect(BasePostProcessingEffect ppEfect)

@@ -93,5 +93,30 @@ namespace RandomchaosMGBase
 
             return new BoundingBox(min, max);
         }
+
+        public static void LookAt(Vector3 target, float speed, Vector3 position, ref Quaternion rotation, Vector3 fwd)
+        {
+            if (fwd == Vector3.Zero)
+                fwd = Vector3.Forward;
+
+            Vector3 tminusp = target - position;
+            Vector3 ominusp = fwd;
+
+            if (tminusp == Vector3.Zero)
+                return;
+
+            tminusp.Normalize();
+
+            float theta = (float)System.Math.Acos(Vector3.Dot(tminusp, ominusp));
+            Vector3 cross = Vector3.Cross(ominusp, tminusp);
+
+            if (cross == Vector3.Zero)
+                return;
+
+            cross.Normalize();
+
+            Quaternion targetQ = Quaternion.CreateFromAxisAngle(cross, theta);
+            rotation = Quaternion.Slerp(rotation, targetQ, speed);
+        }
     }
 }

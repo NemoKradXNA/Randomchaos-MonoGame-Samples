@@ -31,7 +31,7 @@ namespace RandomchaosMGFire
         public Vector3 FlameScale { get; set; }
         public Vector3 FlameTranslation { get; set; }
 
-        public RCLayeredFire(Game game, int layers) : base(game,null)
+        public RCLayeredFire(Game game, int layers) : base(game,null, null)
         {
             flameLayers = layers;
             flames = new List<Base3DQuad>();

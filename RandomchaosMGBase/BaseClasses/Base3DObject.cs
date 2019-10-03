@@ -55,7 +55,10 @@ namespace RandomchaosMGBase.BaseClasses
         public Vector3 LightPosition = new Vector3(50, 50, 100);
 
         public string ColorAsset;
+        public string OcclusionAsset;
         public string BumpAsset;
+
+        public Vector2 UVMultiplier { get; set; }
 
         protected Texture2D defaultTexture;
         protected Texture2D defaultBump;
@@ -80,12 +83,13 @@ namespace RandomchaosMGBase.BaseClasses
         /// <param name="game"></param>
         /// <param name="modelAssetName"></param>
         /// <param name="shaderAssetName"></param>
-        public Base3DObject(Game game, string modelAssetName, string effectAsset = "Shaders/RenderObject") : base(game)
+        public Base3DObject(Game game, string modelAssetName = "", string effectAsset = "Shaders/RenderObject") : base(game)
         {
             EffectAsset = effectAsset;
             Transform = new Transform();
             modelName = modelAssetName;
-        }
+            UVMultiplier = Vector2.One;
+        }       
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -99,7 +103,7 @@ namespace RandomchaosMGBase.BaseClasses
             defaultTexture.SetData<Color>(new Color[] { Color.White });
 
             defaultBump =  new Texture2D(Game.GraphicsDevice, 1, 1);
-            defaultBump.SetData<Color>(new Color[] { new Color(180, 180, 232, 255) });
+            defaultBump.SetData<Color>(new Color[] { new Color(128, 128, 255, 255) });
 
             //BoundingBox = new BoundingBox(-Vector3.One*.5f, Vector3.One*.5f);
             //BoundingSphere = new BoundingSphere(Vector3.Zero, 1);
@@ -134,7 +138,7 @@ namespace RandomchaosMGBase.BaseClasses
         public void Rotate(Vector3 axis, float angle)
         {
             axis = Vector3.Transform(axis, Matrix.CreateFromQuaternion(Rotation));
-            Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * Rotation);
+            Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, MathHelper.ToRadians(angle)) * Rotation);
         }
 
         public virtual void SetEffect(GameTime gameTime, Effect effect)
@@ -167,6 +171,17 @@ namespace RandomchaosMGBase.BaseClasses
                 else
                     effect.Parameters["BumpMap"].SetValue(defaultBump);
             }
+
+            if (effect.Parameters["occlusionMat"] != null)
+            {
+                if (!string.IsNullOrEmpty(OcclusionAsset))
+                    effect.Parameters["occlusionMat"].SetValue(Game.Content.Load<Texture2D>(OcclusionAsset));
+                else
+                    effect.Parameters["occlusionMat"].SetValue(defaultTexture);
+            }
+
+            if(effect.Parameters["UVMultiplier"] != null)
+                effect.Parameters["UVMultiplier"].SetValue(UVMultiplier);
 
             if (effect.Parameters["lightDirection"] != null)
                 effect.Parameters["lightDirection"].SetValue(Position - LightPosition);

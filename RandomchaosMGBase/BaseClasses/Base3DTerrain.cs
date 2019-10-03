@@ -63,7 +63,7 @@ namespace RandomchaosMGBase.BaseClasses
         protected Random rnd;
 
 
-        public Base3DTerrain(Game game, string heightMapAsset) : base(game, string.Empty)
+        public Base3DTerrain(Game game, string heightMapAsset) : base(game, string.Empty, string.Empty)
         {
             HeightMax = 200;
             HeightMin = 0;
