@@ -75,12 +75,7 @@ namespace RandomchaosMGDeferredLighting.Lights
         {
             Transform.Rotate(axis, angle);
         }
-
-        /// <summary>
-        /// Shadow offset distance
-        /// </summary>
-        public float ShadowOffsetDistance { get; set; }
-
+                
         /// <summary>
         /// Cone view matrix property
         /// </summary>

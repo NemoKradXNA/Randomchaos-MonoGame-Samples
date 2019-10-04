@@ -58,8 +58,8 @@ namespace RandomchaosMGDeferredLighting
         /// <summary>
         /// Modified for the deferred shadow mapping
         /// </summary>
-        public float deferredDirectionalShadowMapMod = .000001f;
-        public float deferredConeShadowMapMod = .000001f;
+        public float deferredDirectionalShadowMapMod = 0.00001f;
+        public float deferredConeShadowMapMod = 0.0001f;
 
         /// <summary>
         /// Model used for point light volumes
@@ -80,12 +80,15 @@ namespace RandomchaosMGDeferredLighting
         List<Base3DObject> ShadowRecivers = new List<Base3DObject>();
 
         bool DebugShadowMaps = false;
-        bool DebugLighting = false;
+        bool DebugLighting = true;
 
         protected DeferredLightingCamera camera;
 
         KeyboardStateManager kbm;
         PostProcessingManager PostProcessingManager;
+
+        SpriteFont infoFont;
+        SpriteFont debugFont;
 
         public Game1()
         {
@@ -128,9 +131,7 @@ namespace RandomchaosMGDeferredLighting
             Components.Add(sphere);
 
             DeferredDirectionalLight directionalLight = new DeferredDirectionalLight(this, new Vector3(10, 10, 0), Color.AliceBlue, 1, true);
-            //directionalLight.HardShadows = true;
             directionalLight.Transform.LookAt(Vector3.Zero, 1, Vector3.Forward);
-
             Components.Add(directionalLight);
             DirectionalLights.Add(directionalLight);
 
@@ -168,6 +169,7 @@ namespace RandomchaosMGDeferredLighting
             ShadowLights.Add(coneLight2);
         }
 
+        #region All the deferred lighting functions, might mvoe this to it's onw class
         void AddShadowCasterReceiver(Base3DObject obj, bool caster = true, bool receiver = true)
         {
             if(caster)
@@ -175,193 +177,6 @@ namespace RandomchaosMGDeferredLighting
 
             if (receiver)
                 ShadowRecivers.Add(obj);
-        }
-
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
-
-            base.Initialize();
-        }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
-        }
-
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
-            kbm.PreUpdate(gameTime);
-            base.Update(gameTime);
-
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kbm.KeyDown(Keys.Escape))
-                Exit();
-
-            // Camera controls..
-            float speedTran = .1f;
-            float speedRot = .01f;
-
-            if (kbm.KeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0)
-                camera.Translate(Vector3.Forward * speedTran);
-            if (kbm.KeyDown(Keys.S) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < 0)
-                camera.Translate(Vector3.Backward * speedTran);
-            if (kbm.KeyDown(Keys.A) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < 0)
-                camera.Translate(Vector3.Left * speedTran);
-            if (kbm.KeyDown(Keys.D) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0)
-                camera.Translate(Vector3.Right * speedTran);
-
-            if (kbm.KeyDown(Keys.Left) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < 0)
-                camera.Rotate(Vector3.Up, speedRot);
-            if (kbm.KeyDown(Keys.Right) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0)
-                camera.Rotate(Vector3.Up, -speedRot);
-            if (kbm.KeyDown(Keys.Up) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y > 0)
-                camera.Rotate(Vector3.Right, speedRot);
-            if (kbm.KeyDown(Keys.Down) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < 0)
-                camera.Rotate(Vector3.Right, -speedRot);
-
-
-            if (kbm.KeyDown(Keys.R))
-                deferredDirectionalShadowMapMod += .000001f;
-            if (kbm.KeyDown(Keys.F))
-                deferredDirectionalShadowMapMod -= .000001f;
-
-            if (kbm.KeyDown(Keys.T))
-                deferredConeShadowMapMod += .000001f;
-            if (kbm.KeyDown(Keys.G))
-                deferredConeShadowMapMod -= .000001f;
-
-            deferredDirectionalShadowMapMod = MathHelper.Clamp(deferredDirectionalShadowMapMod, 0, 1);
-            deferredConeShadowMapMod = MathHelper.Clamp(deferredConeShadowMapMod, 0, 1);
-        }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            // Set up shadow maps
-            if (ShadowLights != null && ShadowLights.Count > 0 && ShadowCasters != null && ShadowCasters.Count > 0 && ShadowRecivers != null && ShadowRecivers.Count > 0)
-            {
-                // We have lights to cast shadows, objects that will block light, and obects to receive the shadows...
-                foreach (BaseLight light in ShadowLights)
-                    RenderLightShadows(gameTime, light, ShadowCasters);
-            }
-
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // Setup the required render targets
-            GraphicsDevice.SetRenderTargets(camera.RenderTarget, camera.SpecularGlowReflectionMap, camera.NormalBuffer, camera.DepthBuffer);
-            GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
-            GraphicsDevice.Clear(camera.ClearColor);
-
-            // Draw all the items in the scene, they need to use the deferred Model Render shader.
-            base.Draw(gameTime);
-
-            GraphicsDevice.SetRenderTarget(null);
-            
-            // Create the Light map
-            DeferredLighting(gameTime, camera);
-
-            GraphicsDevice.SetRenderTarget(camera.DeferredRenderTarget);
-            GraphicsDevice.Clear(Color.Black);
-            DrawDeferred(camera);
-
-            // Debug, show shadow map...
-            if (DebugShadowMaps)
-            {
-                if (ShadowLights != null && ShadowLights.Count > 0 && ShadowCasters != null && ShadowCasters.Count > 0 && ShadowRecivers != null && ShadowRecivers.Count > 0)
-                {
-                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
-                    // We have lights to cast shadows, objects that will block light, and objects to receive the shadows...
-                    int s = 512;
-                    int m = 0;
-                    foreach (BaseLight light in ShadowLights)
-                    {
-                        spriteBatch.Draw(light.ShadowMap, new Rectangle(s * m++, 0, s, s), Color.White);
-                    }
-                    spriteBatch.End();
-                }
-            }
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), $"[R/F] - Shadow Offset +- {deferredDirectionalShadowMapMod} ", new Vector2(8, 8), Color.Gold);
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), $"[T/G] - Shadow Offset +- {deferredConeShadowMapMod} ", new Vector2(8, 26), Color.Gold);
-            spriteBatch.End();
-
-            // Deferred Render debug
-            if (DebugLighting) // && GameComponentHelper.InEditor)
-            {
-                int w = GraphicsDevice.Viewport.Width / 5;
-                int h = GraphicsDevice.Viewport.Height / 5;
-
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
-
-                //spriteBatch.Draw(t, new Rectangle(0, 0, w * 6, h + 2), Color.White);
-                spriteBatch.Draw(camera.RenderTarget, new Rectangle(1, 1, w, h), Color.White);
-                spriteBatch.Draw(camera.SpecularGlowReflectionMap, new Rectangle(w + 2, 1, w, h), Color.White);
-                spriteBatch.Draw(camera.NormalBuffer, new Rectangle((w * 2) + 3, 1, w, h), Color.White);
-
-                GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
-                spriteBatch.Draw(camera.DepthBuffer, new Rectangle((w * 3) + 5, 1, w, h), Color.White);
-                spriteBatch.Draw(lightMap, new Rectangle((w * 4) + 7, 1, w, h), Color.White);
-
-                spriteBatch.End();
-
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/AGENCYR"), "Color Map", new Vector2((w / 2) - 100, h), Color.White);
-                spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/AGENCYR"), "SGR Map", new Vector2(w + 2 + (w / 2) - 100, h), Color.White);
-                spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/AGENCYR"), "Bump Map", new Vector2((w * 2) + (w / 2) - 100, h), Color.White);
-                spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/AGENCYR"), "Depth Map", new Vector2((w * 3) + (w / 2) - 100, h), Color.White);
-                spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/AGENCYR"), "Light Map", new Vector2((w * 4) + (w / 2) - 100, h), Color.White);
-                spriteBatch.End();
-            }
-
-            GraphicsDevice.SetRenderTarget(null);
-
-            // Combine to Final output.
-            camera.FinalRenderTexture = camera.DeferredRenderTarget;
-
-            // Plug in Post processing here..
-            if (PostProcessingManager != null && PostProcessingManager.Enabled)
-            {
-                GraphicsDevice.Clear(Color.Magenta);
-                PostProcessingManager.Draw(gameTime, camera.FinalRenderTexture, camera.DepthBuffer);
-            }
-
-            // Render final out put to the screen.
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            spriteBatch.Begin();
-            spriteBatch.Draw(camera.FinalRenderTexture, new Rectangle(0,0,graphics.PreferredBackBufferWidth,graphics.PreferredBackBufferHeight), Color.White);
-            spriteBatch.End();
         }
 
         /// <summary>
@@ -578,6 +393,16 @@ namespace RandomchaosMGDeferredLighting
             {
                 deferredConeLightEffect.Parameters["shadowMap"].SetValue(coneLight.ShadowMap);
                 deferredConeLightEffect.Parameters["mod"].SetValue(deferredConeShadowMapMod);
+                deferredConeLightEffect.Parameters["DiscRadius"].SetValue(1.5f);
+                deferredConeLightEffect.Parameters["hardShadows"].SetValue(coneLight.HardShadows);
+
+                deferredConeLightEffect.Parameters["Taps"].SetValue(new Vector2[]{
+                    new Vector2(-0.326212f,-0.40581f),new Vector2(-0.840144f,-0.07358f),
+                    new Vector2(-0.695914f,0.457137f),new Vector2(-0.203345f,0.620716f),
+                    new Vector2(0.96234f,-0.194983f),new Vector2(0.473434f,-0.480026f),
+                    new Vector2(0.519456f,0.767022f),new Vector2(0.185461f,-0.893124f),
+                    new Vector2(0.507431f,0.064425f),new Vector2(0.89642f,0.412458f),
+                    new Vector2(-0.32194f,-0.932615f),new Vector2(-0.791559f,-0.59771f)});
             }
 
             deferredConeLightEffect.CurrentTechnique.Passes[0].Apply();
@@ -619,17 +444,21 @@ namespace RandomchaosMGDeferredLighting
                 deferredDirectionalLightEffect.Parameters["shadowMap"].SetValue(directionalLight.ShadowMap);
                 deferredDirectionalLightEffect.Parameters["mod"].SetValue(deferredDirectionalShadowMapMod);
                 deferredDirectionalLightEffect.Parameters["hardShadows"].SetValue(directionalLight.HardShadows);
-            }
-            deferredDirectionalLightEffect.Parameters["viewProjectionInv"].SetValue(Matrix.Invert(camera.View * camera.Projection));
-            deferredDirectionalLightEffect.Parameters["lightViewProjection"].SetValue(directionalLight.View * directionalLight.Projection);
 
-            deferredDirectionalLightEffect.Parameters["Taps"].SetValue(new Vector2[]{
+                deferredDirectionalLightEffect.Parameters["DiscRadius"].SetValue(1f);
+
+                deferredDirectionalLightEffect.Parameters["Taps"].SetValue(new Vector2[]{
                     new Vector2(-0.326212f,-0.40581f),new Vector2(-0.840144f,-0.07358f),
                     new Vector2(-0.695914f,0.457137f),new Vector2(-0.203345f,0.620716f),
                     new Vector2(0.96234f,-0.194983f),new Vector2(0.473434f,-0.480026f),
                     new Vector2(0.519456f,0.767022f),new Vector2(0.185461f,-0.893124f),
                     new Vector2(0.507431f,0.064425f),new Vector2(0.89642f,0.412458f),
                     new Vector2(-0.32194f,-0.932615f),new Vector2(-0.791559f,-0.59771f)});
+            }
+            deferredDirectionalLightEffect.Parameters["viewProjectionInv"].SetValue(Matrix.Invert(camera.View * camera.Projection));
+            deferredDirectionalLightEffect.Parameters["lightViewProjection"].SetValue(directionalLight.View * directionalLight.Projection);
+
+            
 
 
             deferredDirectionalLightEffect.Techniques[0].Passes[0].Apply();
@@ -664,5 +493,223 @@ namespace RandomchaosMGDeferredLighting
 
             sceneQuad.Draw(-Vector2.One, Vector2.One);
         }
+
+        #endregion
+
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
+        {
+            // TODO: Add your initialization logic here
+
+            base.Initialize();
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            infoFont = Content.Load<SpriteFont>("Fonts/font");
+            debugFont = Content.Load<SpriteFont>("Fonts/AGENCYR");
+
+        }
+
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// game-specific content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            // TODO: Unload any non ContentManager content here
+        }
+
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime gameTime)
+        {
+            kbm.PreUpdate(gameTime);
+            base.Update(gameTime);
+
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kbm.KeyDown(Keys.Escape))
+                Exit();
+
+            // Camera controls..
+            float speedTran = .1f;
+            float speedRot = .01f;
+
+            if (kbm.KeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0)
+                camera.Translate(Vector3.Forward * speedTran);
+            if (kbm.KeyDown(Keys.S) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < 0)
+                camera.Translate(Vector3.Backward * speedTran);
+            if (kbm.KeyDown(Keys.A) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < 0)
+                camera.Translate(Vector3.Left * speedTran);
+            if (kbm.KeyDown(Keys.D) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0)
+                camera.Translate(Vector3.Right * speedTran);
+
+            if (kbm.KeyDown(Keys.Left) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < 0)
+                camera.Rotate(Vector3.Up, speedRot);
+            if (kbm.KeyDown(Keys.Right) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0)
+                camera.Rotate(Vector3.Up, -speedRot);
+            if (kbm.KeyDown(Keys.Up) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y > 0)
+                camera.Rotate(Vector3.Right, speedRot);
+            if (kbm.KeyDown(Keys.Down) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < 0)
+                camera.Rotate(Vector3.Right, -speedRot);
+
+
+            if (kbm.KeyDown(Keys.R))
+                deferredDirectionalShadowMapMod += .000001f;
+            if (kbm.KeyDown(Keys.F))
+                deferredDirectionalShadowMapMod -= .000001f;
+
+            if (kbm.KeyDown(Keys.T))
+                deferredConeShadowMapMod += .000001f;
+            if (kbm.KeyDown(Keys.G))
+                deferredConeShadowMapMod -= .000001f;
+
+            if (kbm.KeyPress(Keys.Space))
+            {
+                foreach (BaseLight light in ShadowLights)
+                    light.HardShadows = !light.HardShadows;
+            }
+
+            deferredDirectionalShadowMapMod = MathHelper.Clamp(deferredDirectionalShadowMapMod, 0, 1);
+            deferredConeShadowMapMod = MathHelper.Clamp(deferredConeShadowMapMod, 0, 1);
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            #region Pre Render Set Up
+            #region Shadow Map Set Up
+            // Set up shadow maps
+            if (ShadowLights != null && ShadowLights.Count > 0 && ShadowCasters != null && ShadowCasters.Count > 0 && ShadowRecivers != null && ShadowRecivers.Count > 0)
+            {
+                // We have lights to cast shadows, objects that will block light, and obects to receive the shadows...
+                foreach (BaseLight light in ShadowLights)
+                    RenderLightShadows(gameTime, light, ShadowCasters);
+            }
+            #endregion
+
+            
+            // Setup the required render targets
+            GraphicsDevice.SetRenderTargets(camera.RenderTarget, camera.SpecularGlowReflectionMap, camera.NormalBuffer, camera.DepthBuffer);
+            GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
+            GraphicsDevice.Clear(camera.ClearColor);
+            #endregion
+
+            // Draw all the items in the scene, they need to use the deferred Model Render shader.
+            base.Draw(gameTime);
+
+            #region Bring all the RT together
+            GraphicsDevice.SetRenderTarget(null);
+
+            #region Create Light Maps
+            // Create the Light map
+            DeferredLighting(gameTime, camera);
+            #endregion
+
+            #region Combine all the maps and create final scene
+            GraphicsDevice.SetRenderTarget(camera.DeferredRenderTarget);
+            GraphicsDevice.Clear(Color.Black);
+            DrawDeferred(camera);
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            // Combine to Final output.
+            camera.FinalRenderTexture = camera.DeferredRenderTarget;
+            #endregion
+
+            #region Optional Post Processing (see RandomchaosMGPostProcessingSandBox
+            // Plug in Post processing here..
+            if (PostProcessingManager != null && PostProcessingManager.Enabled)
+            {
+                GraphicsDevice.Clear(Color.Magenta);
+                PostProcessingManager.Draw(gameTime, camera.FinalRenderTexture, camera.DepthBuffer);
+            }
+            #endregion
+
+            #region Render the final scene
+            // Render final out put to the screen.
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(camera.FinalRenderTexture, new Rectangle(0,0,graphics.PreferredBackBufferWidth,graphics.PreferredBackBufferHeight), Color.White);
+            spriteBatch.End();
+            #endregion
+            #endregion
+
+            #region Debug & HUD
+            // Debug, show shadow map...
+            if (DebugShadowMaps)
+            {
+                if (ShadowLights != null && ShadowLights.Count > 0 && ShadowCasters != null && ShadowCasters.Count > 0 && ShadowRecivers != null && ShadowRecivers.Count > 0)
+                {
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
+                    // We have lights to cast shadows, objects that will block light, and objects to receive the shadows...
+                    int s = 512;
+                    int m = 0;
+                    foreach (BaseLight light in ShadowLights)
+                    {
+                        spriteBatch.Draw(light.ShadowMap, new Rectangle(s * m++, 0, s, s), Color.White);
+                    }
+                    spriteBatch.End();
+                }
+            }
+
+            // Deferred Render debug
+            if (DebugLighting) // && GameComponentHelper.InEditor)
+            {
+                int w = GraphicsDevice.Viewport.Width / 5;
+                int h = GraphicsDevice.Viewport.Height / 5;
+
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
+
+                //spriteBatch.Draw(t, new Rectangle(0, 0, w * 6, h + 2), Color.White);
+                spriteBatch.Draw(camera.RenderTarget, new Rectangle(1, 1, w, h), Color.White);
+                spriteBatch.Draw(camera.SpecularGlowReflectionMap, new Rectangle(w + 2, 1, w, h), Color.White);
+                spriteBatch.Draw(camera.NormalBuffer, new Rectangle((w * 2) + 3, 1, w, h), Color.White);
+
+                GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
+                spriteBatch.Draw(camera.DepthBuffer, new Rectangle((w * 3) + 5, 1, w, h), Color.White);
+                spriteBatch.Draw(lightMap, new Rectangle((w * 4) + 7, 1, w, h), Color.White);
+
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                spriteBatch.DrawString(debugFont, "Color Map", new Vector2((w / 2) - 100, h), Color.White);
+                spriteBatch.DrawString(debugFont, "SGR Map", new Vector2(w + 2 + (w / 2) - 100, h), Color.White);
+                spriteBatch.DrawString(debugFont, "Bump Map", new Vector2((w * 2) + (w / 2) - 100, h), Color.White);
+                spriteBatch.DrawString(debugFont, "Depth Map", new Vector2((w * 3) + (w / 2) - 100, h), Color.White);
+                spriteBatch.DrawString(debugFont, "Light Map", new Vector2((w * 4) + (w / 2) - 100, h), Color.White);
+                spriteBatch.End();
+            }
+
+            int top = 8;
+            int lineHeight = infoFont.LineSpacing;
+
+            if (DebugLighting || DebugShadowMaps)
+                top += (GraphicsDevice.Viewport.Height / 5) + debugFont.LineSpacing;
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            spriteBatch.DrawString(infoFont, $"[R/F] - Directional Shadow Offset +- {deferredDirectionalShadowMapMod} ", new Vector2(8, top), Color.Gold);
+            spriteBatch.DrawString(infoFont, $"[T/G] - Cone Shadow Offset +- {deferredConeShadowMapMod} ", new Vector2(8, top + lineHeight), Color.Gold);
+            spriteBatch.End();
+            #endregion
+        }        
     }
 }

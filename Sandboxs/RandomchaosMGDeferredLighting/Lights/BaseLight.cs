@@ -16,8 +16,6 @@ namespace RandomchaosMGDeferredLighting.Lights
             get { return ((DeferredLightingCamera)Game.Services.GetService(typeof(Base3DCamera))); }
         }
 
-        #region ILight Members
-
         /// <summary>
         /// Shadow map created by this light
         /// </summary>
@@ -60,8 +58,12 @@ namespace RandomchaosMGDeferredLighting.Lights
         }
 
 
+        public virtual bool HardShadows { get; set; }
+        /// <summary>
+        /// Shadow offset distance
+        /// </summary>
+        public virtual float ShadowOffsetDistance { get; set; }
 
-        #endregion
 
         /// <summary>
         /// ctor

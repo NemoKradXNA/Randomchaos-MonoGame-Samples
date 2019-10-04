@@ -1,21 +1,8 @@
-﻿#if OPENGL
-	#define SV_POSITION POSITION
-	#define VS_SHADERMODEL vs_3_0
-	#define PS_SHADERMODEL ps_3_0
-#else
-	#define VS_SHADERMODEL vs_4_0_level_9_3
-	#define PS_SHADERMODEL ps_4_0_level_9_3
-#endif
+﻿#include "DeferredHeader.fxh"
+#include "DeferredSoftShadows.fxh"
 
-#include "DeferredHeader.fxh"
-
-#define SAMPLE_COUNT 12
-uniform extern float2 Taps[SAMPLE_COUNT];
 float4x4 viewProjectionInv;
 float4x4 lightViewProjection;
-
-bool CastShadow;
-bool hardShadows;
 
 float3 CameraPosition;
 
@@ -88,11 +75,6 @@ VertexShaderOutputToPS VertexShaderFunction(VertexShaderInput input)
 	return output;
 }
 
-float shadowSample(float2 lp)
-{
-	return  1 - tex2D(shadowSampler, lp).r;// (r / 3);
-}
-
 float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 {
 	//input.texCoord -= halfPixel;	
@@ -141,26 +123,14 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 
 	if (CastShadow) 
 	{
-		float ss =  shadowSample(lightSamplePos);
+		float ss =  shadowSample(shadowSampler, lightSamplePos);
 
-		if (hardShadows) 
+		if (ss <= realDistanceToLight)
 		{
-			if (ss <= realDistanceToLight)
+			if (hardShadows)
 				shading = 0;
-		}
-		else
-		{
-			if (ss <= realDistanceToLight)
-				shading -= add;
-
-				for (int b = 0; b < SAMPLE_COUNT; b++)
-				{
-					float2 sp = lightSamplePos + texelSize * Taps[b] * DiscRadius;
-					ss = shadowSample(sp);
-
-					if (shadowSample(sp) <= realDistanceToLight)
-						shading -= add;
-				}
+			else
+				shading = SoftShadow(ss, depth, lightSamplePos, shading, realDistanceToLight, shadowSampler);			
 		}
 	}
 

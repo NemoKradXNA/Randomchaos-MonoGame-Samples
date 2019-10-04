@@ -10,13 +10,7 @@ namespace RandomchaosMGDeferredLighting.Lights
         /// <param name="game"></param>
         public DeferredDirectionalLight(Game game) : base(game) { }
 
-        /// <summary>
-        /// Shadow offset distance
-        /// </summary>
-        public float ShadowOffsetDistance { get; set; }
-
-        public bool HardShadows { get; set; }
-
+       
         /// <summary>
         /// ctor
         /// </summary>

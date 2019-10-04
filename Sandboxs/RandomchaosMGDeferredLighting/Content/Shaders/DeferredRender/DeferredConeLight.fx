@@ -1,14 +1,5 @@
-﻿#if OPENGL
-    #define SV_POSITION POSITION
-    #define VS_SHADERMODEL vs_4_0
-    #define PS_SHADERMODEL ps_4_0
-#else
-    #define VS_SHADERMODEL vs_4_0
-    #define PS_SHADERMODEL ps_4_0
-#endif
-
-
-# include "DeferredHeader.fxh"
+﻿#include "DeferredHeader.fxh"
+#include "DeferredSoftShadows.fxh"
 
 float4x4 ViewProjectionInv : InverseViewProjection;
 float4x4 LightViewProjection : LightViewProjection;
@@ -25,8 +16,6 @@ float power = 1;
 float3 CameraPosition;
 
 float mod = .0001f;
-
-bool CastShadow;
 
 //color of the light 
 float3 Color;
@@ -117,7 +106,7 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 
 	//determine shadowing criteria
 	float realDistanceToLight = lightScreenPos.z;
-    float distanceStoredInDepthMap = 1 - tex2D(shadowSampler, lightSamplePos).r;
+	float distanceStoredInDepthMap = shadowSample(shadowSampler, lightSamplePos);
 //    float mod = .0001f;
 	//mod = .00005f;
     
@@ -134,13 +123,25 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 	if(!CastShadow)
 		shadowCondition = false;
 		
-	if (coneCondition && !shadowCondition)
+	if (coneCondition)// && !shadowCondition)
 	{
 		float coneAttenuation = pow(coneDot, ConeDecay);
-        shading = saturate(dot(normal, -ld));				
-		shading *= power;		
-		shading *= coneAttenuation;		
-	}
+		shading = saturate(dot(normal, -ld));		
+		shading *= power;
+		shading *= coneAttenuation;
+
+		if (shadowCondition)
+		{
+			if (hardShadows)
+				shading = 0;
+			else
+				shading = SoftShadow(distanceStoredInDepthMap, depthVal, lightSamplePos, shading, realDistanceToLight, shadowSampler);
+		}
+	}	
+
+	
+
+
 
 	float4 sgr = tex2D(sgrSampler, input.texCoord);
 
