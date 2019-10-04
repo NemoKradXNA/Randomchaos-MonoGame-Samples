@@ -110,7 +110,7 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 //    float mod = .0001f;
 	//mod = .00005f;
     
-	bool shadowCondition = distanceStoredInDepthMap <= realDistanceToLight - mod;
+	bool shadowCondition = distanceStoredInDepthMap < realDistanceToLight - mod;
 
     //determine cone criteria
     float3 ld = normalize(worldPos - LightPosition);
@@ -135,7 +135,7 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 			if (hardShadows)
 				shading = 0;
 			else
-				shading = SoftShadow(distanceStoredInDepthMap, depthVal, lightSamplePos, shading, realDistanceToLight, shadowSampler);
+				shading = SoftShadow(distanceStoredInDepthMap, depthVal, lightSamplePos, shading, realDistanceToLight, shadowSampler, worldPos*1000.0);
 		}
 	}	
 

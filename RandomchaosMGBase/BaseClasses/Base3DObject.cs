@@ -56,11 +56,14 @@ namespace RandomchaosMGBase.BaseClasses
 
         public string ColorAsset;
         public string OcclusionAsset;
+        public string SpecularAsset;
+        public string GlowAsset;
         public string BumpAsset;
 
         public Vector2 UVMultiplier { get; set; }
 
         protected Texture2D defaultTexture;
+        protected Texture2D defaultTextureBlack;
         protected Texture2D defaultBump;
 
         public Color Color = Color.White;
@@ -102,6 +105,9 @@ namespace RandomchaosMGBase.BaseClasses
             defaultTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
             defaultTexture.SetData<Color>(new Color[] { Color.White });
 
+            defaultTextureBlack = new Texture2D(Game.GraphicsDevice, 1, 1);
+            defaultTextureBlack.SetData<Color>(new Color[] { Color.Black });
+
             defaultBump =  new Texture2D(Game.GraphicsDevice, 1, 1);
             defaultBump.SetData<Color>(new Color[] { new Color(128, 128, 255, 255) });
 
@@ -125,7 +131,7 @@ namespace RandomchaosMGBase.BaseClasses
                 mesh.CopyAbsoluteBoneTransformsTo(transforms);
             }
 
-            if (Effect == null)
+            if (Effect == null && !string.IsNullOrEmpty(EffectAsset))
                 Effect = Game.Content.Load<Effect>(EffectAsset);
         }
 
@@ -180,7 +186,23 @@ namespace RandomchaosMGBase.BaseClasses
                     effect.Parameters["occlusionMat"].SetValue(defaultTexture);
             }
 
-            if(effect.Parameters["UVMultiplier"] != null)
+            if (effect.Parameters["specularMap"] != null)
+            {
+                if (!string.IsNullOrEmpty(SpecularAsset))
+                    effect.Parameters["specularMap"].SetValue(Game.Content.Load<Texture2D>(SpecularAsset));
+                else
+                    effect.Parameters["specularMap"].SetValue(defaultTextureBlack);
+            }
+
+            if (effect.Parameters["glowMap"] != null)
+            {
+                if (!string.IsNullOrEmpty(GlowAsset))
+                    effect.Parameters["glowMap"].SetValue(Game.Content.Load<Texture2D>(GlowAsset));
+                else
+                    effect.Parameters["glowMap"].SetValue(defaultTextureBlack);
+            }
+
+            if (effect.Parameters["UVMultiplier"] != null)
                 effect.Parameters["UVMultiplier"].SetValue(UVMultiplier);
 
             if (effect.Parameters["lightDirection"] != null)
@@ -189,7 +211,7 @@ namespace RandomchaosMGBase.BaseClasses
 
         public virtual void Draw(GameTime gameTime, Effect effect)
         {
-            if (!Enabled)
+            if (!Enabled || mesh == null)
                 return;
 
             Game.GraphicsDevice.BlendState = BlendState.Opaque;            

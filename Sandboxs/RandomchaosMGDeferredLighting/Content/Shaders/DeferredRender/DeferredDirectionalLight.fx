@@ -125,12 +125,12 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 	{
 		float ss =  shadowSample(shadowSampler, lightSamplePos);
 
-		if (ss <= realDistanceToLight)
+		if (ss < realDistanceToLight)
 		{
 			if (hardShadows)
 				shading = 0;
 			else
-				shading = SoftShadow(ss, depth, lightSamplePos, shading, realDistanceToLight, shadowSampler);			
+				shading = SoftShadow(ss, depth, lightSamplePos, shading, realDistanceToLight, shadowSampler, worldPos*1000.0);
 		}
 	}
 

@@ -58,7 +58,7 @@ namespace RandomchaosMGDeferredLighting
         /// <summary>
         /// Modified for the deferred shadow mapping
         /// </summary>
-        public float deferredDirectionalShadowMapMod = 0.00001f;
+        public float deferredDirectionalShadowMapMod = 0.000001f;
         public float deferredConeShadowMapMod = 0.0001f;
 
         /// <summary>
@@ -71,13 +71,20 @@ namespace RandomchaosMGDeferredLighting
         /// </summary>
         protected ScreenQuad sceneQuad;
 
+        protected Vector2[] taps = new Vector2[]{
+                    new Vector2(-0.326212f,-0.40581f),new Vector2(-0.840144f,-0.07358f),
+                    new Vector2(-0.695914f,0.457137f),new Vector2(-0.203345f,0.620716f),
+                    new Vector2(0.96234f,-0.194983f),new Vector2(0.473434f,-0.480026f),
+                    new Vector2(0.519456f,0.767022f),new Vector2(0.185461f,-0.893124f),
+                    new Vector2(0.507431f,0.064425f),new Vector2(0.89642f,0.412458f),
+                    new Vector2(-0.32194f,-0.932615f),new Vector2(-0.791559f,-0.59771f)};
+
         List<DeferredDirectionalLight> DirectionalLights = new List<DeferredDirectionalLight>();
         List<DeferredPointLight> PointLights = new List<DeferredPointLight>();
         List<DeferredConeLight> ConeLights = new List<DeferredConeLight>();
 
         List<BaseLight> ShadowLights = new List<BaseLight>();
         List<Base3DObject> ShadowCasters = new List<Base3DObject>();
-        List<Base3DObject> ShadowRecivers = new List<Base3DObject>();
 
         bool DebugShadowMaps = false;
         bool DebugLighting = true;
@@ -89,6 +96,8 @@ namespace RandomchaosMGDeferredLighting
 
         SpriteFont infoFont;
         SpriteFont debugFont;
+
+        DeferredConeLight coneLight;
 
         public Game1()
         {
@@ -114,6 +123,12 @@ namespace RandomchaosMGDeferredLighting
             Components.Add(skyBox);
 
             Plane plane = new Plane(this, "Shaders/DeferredRender/DeferredModelRender");
+            //plane.ColorAsset = "Textures/brick";
+            //plane.BumpAsset = "Textures/brickNormal";
+            //plane.OcclusionAsset = "Textures./brickOcclusion";
+            //plane.SpecularAsset = "Textures/brickSpecular";
+            plane.Scale = Vector3.One * 2;
+            plane.UVMultiplier = Vector2.One * 2;
             plane.Position = new Vector3(0, -1, -20);     
             Components.Add(plane);
 
@@ -130,7 +145,7 @@ namespace RandomchaosMGDeferredLighting
             sphere.Position = new Vector3(3, -0, -20);
             Components.Add(sphere);
 
-            DeferredDirectionalLight directionalLight = new DeferredDirectionalLight(this, new Vector3(10, 10, 0), Color.AliceBlue, 1, true);
+            DeferredDirectionalLight directionalLight = new DeferredDirectionalLight(this, new Vector3(10, 10, 10), Color.AliceBlue, 1, true);
             directionalLight.Transform.LookAt(Vector3.Zero, 1, Vector3.Forward);
             Components.Add(directionalLight);
             DirectionalLights.Add(directionalLight);
@@ -139,7 +154,7 @@ namespace RandomchaosMGDeferredLighting
             Components.Add(pointLight);
             PointLights.Add(pointLight);
 
-            DeferredConeLight coneLight = new DeferredConeLight(this, new Vector3(-10, 5, -25), Color.Gold, 1, MathHelper.ToRadians(45), 1, true);
+            coneLight = new DeferredConeLight(this, new Vector3(-10, 5, -25), Color.Gold, 1, MathHelper.ToRadians(45), 5, true);
             coneLight.Transform.LookAt(new Vector3(0, 0, -20), 1, Vector3.Forward);
             Components.Add(coneLight);
             ConeLights.Add(coneLight);
@@ -149,19 +164,21 @@ namespace RandomchaosMGDeferredLighting
             Components.Add(coneLight2);
             ConeLights.Add(coneLight2);
 
-            Base3DObject lightPos = new Base3DObject(this, "Models/sphere", "Shaders/DeferredRender/DeferredModelRender");
-
-            lightPos.Position = coneLight2.Transform.Position;
-            lightPos.Color = coneLight2.Color;
-            lightPos.Scale = Vector3.One * .25f;
-
-            Components.Add(lightPos);
+            Cube brickBlock = new Cube(this, "Shaders/DeferredRender/DeferredModelRender");
+            brickBlock.ColorAsset = "Textures/brick";
+            brickBlock.BumpAsset = "Textures/brickNormal";
+            brickBlock.OcclusionAsset = "Textures./brickOcclusion";
+            brickBlock.SpecularAsset = "Textures/brickSpecular";
+            brickBlock.Position = new Vector3(-3, 1.5f, -20);
+            brickBlock.Rotate(Vector3.Up + Vector3.Forward + Vector3.Left, 15);
+            
+            Components.Add(brickBlock);
 
             // Shadow casters and receivers..
             AddShadowCasterReceiver(bunny);
             AddShadowCasterReceiver(cube);
             AddShadowCasterReceiver(sphere);
-            AddShadowCasterReceiver(plane,false,false);
+            AddShadowCasterReceiver(brickBlock);
 
             // Lights that cast shadows.
             ShadowLights.Add(directionalLight);
@@ -170,13 +187,9 @@ namespace RandomchaosMGDeferredLighting
         }
 
         #region All the deferred lighting functions, might mvoe this to it's onw class
-        void AddShadowCasterReceiver(Base3DObject obj, bool caster = true, bool receiver = true)
+        void AddShadowCasterReceiver(Base3DObject obj)
         {
-            if(caster)
-                ShadowCasters.Add(obj);
-
-            if (receiver)
-                ShadowRecivers.Add(obj);
+            ShadowCasters.Add(obj);
         }
 
         /// <summary>
@@ -396,13 +409,7 @@ namespace RandomchaosMGDeferredLighting
                 deferredConeLightEffect.Parameters["DiscRadius"].SetValue(1.5f);
                 deferredConeLightEffect.Parameters["hardShadows"].SetValue(coneLight.HardShadows);
 
-                deferredConeLightEffect.Parameters["Taps"].SetValue(new Vector2[]{
-                    new Vector2(-0.326212f,-0.40581f),new Vector2(-0.840144f,-0.07358f),
-                    new Vector2(-0.695914f,0.457137f),new Vector2(-0.203345f,0.620716f),
-                    new Vector2(0.96234f,-0.194983f),new Vector2(0.473434f,-0.480026f),
-                    new Vector2(0.519456f,0.767022f),new Vector2(0.185461f,-0.893124f),
-                    new Vector2(0.507431f,0.064425f),new Vector2(0.89642f,0.412458f),
-                    new Vector2(-0.32194f,-0.932615f),new Vector2(-0.791559f,-0.59771f)});
+                deferredConeLightEffect.Parameters["Taps"].SetValue(taps);
             }
 
             deferredConeLightEffect.CurrentTechnique.Passes[0].Apply();
@@ -447,13 +454,7 @@ namespace RandomchaosMGDeferredLighting
 
                 deferredDirectionalLightEffect.Parameters["DiscRadius"].SetValue(1f);
 
-                deferredDirectionalLightEffect.Parameters["Taps"].SetValue(new Vector2[]{
-                    new Vector2(-0.326212f,-0.40581f),new Vector2(-0.840144f,-0.07358f),
-                    new Vector2(-0.695914f,0.457137f),new Vector2(-0.203345f,0.620716f),
-                    new Vector2(0.96234f,-0.194983f),new Vector2(0.473434f,-0.480026f),
-                    new Vector2(0.519456f,0.767022f),new Vector2(0.185461f,-0.893124f),
-                    new Vector2(0.507431f,0.064425f),new Vector2(0.89642f,0.412458f),
-                    new Vector2(-0.32194f,-0.932615f),new Vector2(-0.791559f,-0.59771f)});
+                deferredDirectionalLightEffect.Parameters["Taps"].SetValue(taps);
             }
             deferredDirectionalLightEffect.Parameters["viewProjectionInv"].SetValue(Matrix.Invert(camera.View * camera.Projection));
             deferredDirectionalLightEffect.Parameters["lightViewProjection"].SetValue(directionalLight.View * directionalLight.Projection);
@@ -545,6 +546,8 @@ namespace RandomchaosMGDeferredLighting
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kbm.KeyDown(Keys.Escape))
                 Exit();
 
+            //coneLight.Rotate(Vector3.Up, .01f);
+
             // Camera controls..
             float speedTran = .1f;
             float speedRot = .01f;
@@ -597,7 +600,7 @@ namespace RandomchaosMGDeferredLighting
             #region Pre Render Set Up
             #region Shadow Map Set Up
             // Set up shadow maps
-            if (ShadowLights != null && ShadowLights.Count > 0 && ShadowCasters != null && ShadowCasters.Count > 0 && ShadowRecivers != null && ShadowRecivers.Count > 0)
+            if (ShadowLights != null && ShadowLights.Count > 0 && ShadowCasters != null && ShadowCasters.Count > 0 )
             {
                 // We have lights to cast shadows, objects that will block light, and obects to receive the shadows...
                 foreach (BaseLight light in ShadowLights)
@@ -657,7 +660,7 @@ namespace RandomchaosMGDeferredLighting
             // Debug, show shadow map...
             if (DebugShadowMaps)
             {
-                if (ShadowLights != null && ShadowLights.Count > 0 && ShadowCasters != null && ShadowCasters.Count > 0 && ShadowRecivers != null && ShadowRecivers.Count > 0)
+                if (ShadowLights != null && ShadowLights.Count > 0 && ShadowCasters != null && ShadowCasters.Count > 0)
                 {
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
                     // We have lights to cast shadows, objects that will block light, and objects to receive the shadows...
@@ -706,8 +709,11 @@ namespace RandomchaosMGDeferredLighting
                 top += (GraphicsDevice.Viewport.Height / 5) + debugFont.LineSpacing;
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            spriteBatch.DrawString(infoFont, $"[R/F] - Directional Shadow Offset +- {deferredDirectionalShadowMapMod} ", new Vector2(8, top), Color.Gold);
-            spriteBatch.DrawString(infoFont, $"[T/G] - Cone Shadow Offset +- {deferredConeShadowMapMod} ", new Vector2(8, top + lineHeight), Color.Gold);
+            spriteBatch.DrawString(infoFont, $"[WASD] - Translate Camera", new Vector2(8, top ), Color.Gold);
+            spriteBatch.DrawString(infoFont, $"[Arrow Keys] - Rotate Camera", new Vector2(8, top + lineHeight), Color.Gold);
+            spriteBatch.DrawString(infoFont, $"[R/F] - Directional Shadow Offset +- {deferredDirectionalShadowMapMod} ", new Vector2(8, top + lineHeight * 2), Color.Gold);
+            spriteBatch.DrawString(infoFont, $"[T/G] - Cone Shadow Offset +- {deferredConeShadowMapMod} ", new Vector2(8, top + lineHeight * 3), Color.Gold);
+            spriteBatch.DrawString(infoFont, $"[SPC] - Toggle Hord/Soft Shadows", new Vector2(8, top + lineHeight * 4), Color.Gold);
             spriteBatch.End();
             #endregion
         }        

@@ -67,6 +67,9 @@
     <Content Include="Content\Shaders\DeferredRender\GlowMapToLightMapShader.fx" />
     <Content Include="Content\Shaders\ShadowMap.fx" />
     <Content Include="Content\Shaders\DeferredRender\SkyBoxShader.fx" />
+    <Content Include="Content\Textures\brick.png" />
+    <Content Include="Content\Textures\brickNormal.png" />
+    <Content Include="Content\Textures\brickOcclusion.png" />
     <Content Include="Content\Textures\xnauguk.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
