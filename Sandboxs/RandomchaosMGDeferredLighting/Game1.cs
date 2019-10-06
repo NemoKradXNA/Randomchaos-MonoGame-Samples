@@ -123,12 +123,12 @@ namespace RandomchaosMGDeferredLighting
             Components.Add(skyBox);
 
             Plane plane = new Plane(this, "Shaders/DeferredRender/DeferredModelRender");
-            //plane.ColorAsset = "Textures/brick";
-            //plane.BumpAsset = "Textures/brickNormal";
-            //plane.OcclusionAsset = "Textures./brickOcclusion";
-            //plane.SpecularAsset = "Textures/brickSpecular";
+            plane.ColorAsset = "Textures/brick";
+            plane.BumpAsset = "Textures/brickNormal";
+            plane.OcclusionAsset = "Textures./brickOcclusion";
+            plane.SpecularAsset = "Textures/brickSpecular";
             plane.Scale = Vector3.One * 2;
-            plane.UVMultiplier = Vector2.One * 2;
+            plane.UVMultiplier = Vector2.One * 5;
             plane.Position = new Vector3(0, -1, -20);     
             Components.Add(plane);
 
@@ -143,6 +143,10 @@ namespace RandomchaosMGDeferredLighting
 
             Base3DObject sphere = new Base3DObject(this, "Models/sphere", "Shaders/DeferredRender/DeferredModelRender");
             sphere.Position = new Vector3(3, -0, -20);
+            sphere.ColorAsset = "Textures/sand";
+            sphere.BumpAsset = "Textures/sandNormal";
+            sphere.UVMultiplier = Vector2.One * 2;
+            sphere.UVMultiplier = Vector2.One * 2;
             Components.Add(sphere);
 
             DeferredDirectionalLight directionalLight = new DeferredDirectionalLight(this, new Vector3(10, 10, 10), Color.AliceBlue, 1, true);
@@ -587,6 +591,12 @@ namespace RandomchaosMGDeferredLighting
                     light.HardShadows = !light.HardShadows;
             }
 
+            if (kbm.KeyPress(Keys.F1))
+            {
+                foreach (BaseLight light in ShadowLights)
+                    light.CastShadow = !light.CastShadow;
+            }
+
             deferredDirectionalShadowMapMod = MathHelper.Clamp(deferredDirectionalShadowMapMod, 0, 1);
             deferredConeShadowMapMod = MathHelper.Clamp(deferredConeShadowMapMod, 0, 1);
         }
@@ -714,6 +724,7 @@ namespace RandomchaosMGDeferredLighting
             spriteBatch.DrawString(infoFont, $"[R/F] - Directional Shadow Offset +- {deferredDirectionalShadowMapMod} ", new Vector2(8, top + lineHeight * 2), Color.Gold);
             spriteBatch.DrawString(infoFont, $"[T/G] - Cone Shadow Offset +- {deferredConeShadowMapMod} ", new Vector2(8, top + lineHeight * 3), Color.Gold);
             spriteBatch.DrawString(infoFont, $"[SPC] - Toggle Hord/Soft Shadows", new Vector2(8, top + lineHeight * 4), Color.Gold);
+            spriteBatch.DrawString(infoFont, $"[F1] - Toggle Shadows", new Vector2(8, top + lineHeight * 5), Color.Gold);
             spriteBatch.End();
             #endregion
         }        

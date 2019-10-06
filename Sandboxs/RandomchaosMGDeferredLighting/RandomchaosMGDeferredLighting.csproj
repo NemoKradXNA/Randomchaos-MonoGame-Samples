@@ -70,6 +70,8 @@
     <Content Include="Content\Textures\brick.png" />
     <Content Include="Content\Textures\brickNormal.png" />
     <Content Include="Content\Textures\brickOcclusion.png" />
+    <Content Include="Content\Textures\sand.png" />
+    <Content Include="Content\Textures\sandNormal.png" />
     <Content Include="Content\Textures\xnauguk.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
