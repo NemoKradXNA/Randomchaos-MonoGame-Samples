@@ -32,14 +32,24 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
                 Vector3.Right,Vector3.Right,Vector3.Right,Vector3.Right,
             });
 
+            //TangentList.AddRange(new Vector3[]
+            //{
+            //    Vector3.Cross(VertexList[0], -NormalList[0]),Vector3.Cross(VertexList[1], -NormalList[1]),Vector3.Cross(VertexList[2], -NormalList[2]),Vector3.Cross(VertexList[3], -NormalList[3]),
+            //    Vector3.Cross(VertexList[4], -NormalList[4]),Vector3.Cross(VertexList[5], -NormalList[5]),Vector3.Cross(VertexList[6], -NormalList[6]),Vector3.Cross(VertexList[7], -NormalList[7]),
+            //    Vector3.Cross(VertexList[8], -NormalList[8]),Vector3.Cross(VertexList[9], -NormalList[9]),Vector3.Cross(VertexList[10], -NormalList[10]),Vector3.Cross(VertexList[11], -NormalList[11]),
+            //    Vector3.Cross(VertexList[12], -NormalList[12]),Vector3.Cross(VertexList[13], -NormalList[13]),Vector3.Cross(VertexList[14], -NormalList[14]),Vector3.Cross(VertexList[15], -NormalList[15]),
+            //    Vector3.Cross(VertexList[16], -NormalList[16]),Vector3.Cross(VertexList[17], -NormalList[17]),Vector3.Cross(VertexList[18], -NormalList[18]),Vector3.Cross(VertexList[19], -NormalList[19]),
+            //    Vector3.Cross(VertexList[20], -NormalList[20]),Vector3.Cross(VertexList[21], -NormalList[21]),Vector3.Cross(VertexList[22], -NormalList[22]),Vector3.Cross(VertexList[23], -NormalList[23]),
+
+            //});
             TangentList.AddRange(new Vector3[]
             {
-                Vector3.Cross(VertexList[0], -NormalList[0]),Vector3.Cross(VertexList[1], -NormalList[1]),Vector3.Cross(VertexList[2], -NormalList[2]),Vector3.Cross(VertexList[3], -NormalList[3]),
-                Vector3.Cross(VertexList[4], -NormalList[4]),Vector3.Cross(VertexList[5], -NormalList[5]),Vector3.Cross(VertexList[6], -NormalList[6]),Vector3.Cross(VertexList[7], -NormalList[7]),
-                Vector3.Cross(VertexList[8], -NormalList[8]),Vector3.Cross(VertexList[9], -NormalList[9]),Vector3.Cross(VertexList[10], -NormalList[10]),Vector3.Cross(VertexList[11], -NormalList[11]),
-                Vector3.Cross(VertexList[12], -NormalList[12]),Vector3.Cross(VertexList[13], -NormalList[13]),Vector3.Cross(VertexList[14], -NormalList[14]),Vector3.Cross(VertexList[15], -NormalList[15]),
-                Vector3.Cross(VertexList[16], -NormalList[16]),Vector3.Cross(VertexList[17], -NormalList[17]),Vector3.Cross(VertexList[18], -NormalList[18]),Vector3.Cross(VertexList[19], -NormalList[19]),
-                Vector3.Cross(VertexList[20], -NormalList[20]),Vector3.Cross(VertexList[21], -NormalList[21]),Vector3.Cross(VertexList[22], -NormalList[22]),Vector3.Cross(VertexList[23], -NormalList[23]),
+                Vector3.Right,Vector3.Right,Vector3.Right,Vector3.Right,
+                Vector3.Left,Vector3.Left,Vector3.Left,Vector3.Left,
+                Vector3.Left,Vector3.Left,Vector3.Left,Vector3.Left,
+                Vector3.Right,Vector3.Right,Vector3.Right,Vector3.Right,
+                Vector3.Up,Vector3.Up,Vector3.Up,Vector3.Up,
+                Vector3.Down,Vector3.Down,Vector3.Down,Vector3.Down
 
             });
 

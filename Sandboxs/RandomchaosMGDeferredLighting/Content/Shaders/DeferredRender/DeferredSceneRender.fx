@@ -1,14 +1,4 @@
-﻿#if OPENGL
-	#define SV_POSITION POSITION
-	#define VS_SHADERMODEL vs_3_0
-	#define PS_SHADERMODEL ps_3_0
-#else
-	#define VS_SHADERMODEL vs_4_0_level_9_1
-	#define PS_SHADERMODEL ps_4_0_level_9_1
-#endif
-
-
-#include "DeferredHeader.fxh"
+﻿#include "DeferredHeader.fxh"
 
 texture colorMap;
 texture lightMap;
@@ -60,15 +50,7 @@ VertexShaderOutputToPS VertexShaderFunction(VertexShaderInput input)
 
 float4 RenderScenePS(VertexShaderOutputToPS input) : COLOR0
 {
-	//input.texCoord -= halfPixel;
 	float4 col = tex2D(colorSampler,input.texCoord);
-	//float4 sgr = tex2D(SGRSampler,input.texCoord);
-
-	// Only light none glowing pixels.
-	//if (sgr.g < .9)
-	//col *= (tex2D(lightSampler, input.texCoord) + AmbientMag);// +(col * sgr.g);
-	//else
-	//	col *= sgr.g;
 
 	col *= saturate(tex2D(lightSampler, input.texCoord));
 	

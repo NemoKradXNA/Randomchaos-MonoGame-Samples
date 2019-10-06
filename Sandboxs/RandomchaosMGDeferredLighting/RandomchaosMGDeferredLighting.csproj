@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DeferredLightingCamera.cs" />
+    <Compile Include="DeferredLightingManager.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Lights\BaseLight.cs" />
     <Compile Include="Lights\DeferredConeLight.cs" />
@@ -70,6 +71,10 @@
     <Content Include="Content\Textures\brick.png" />
     <Content Include="Content\Textures\brickNormal.png" />
     <Content Include="Content\Textures\brickOcclusion.png" />
+    <Content Include="Content\Textures\CobbleOcclusion.png" />
+    <Content Include="Content\Textures\Cobbles.png" />
+    <Content Include="Content\Textures\CobblesNormal.png" />
+    <Content Include="Content\Textures\CobblesSpecular.png" />
     <Content Include="Content\Textures\sand.png" />
     <Content Include="Content\Textures\sandNormal.png" />
     <Content Include="Content\Textures\xnauguk.png" />

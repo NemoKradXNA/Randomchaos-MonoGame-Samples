@@ -32,7 +32,7 @@ VertexShaderOutputToPS VertexShaderFunction(VertexShaderInput input)
 {
 	VertexShaderOutputToPS output = (VertexShaderOutputToPS)0;
 	output.Position = float4(input.Position, 1);
-	output.texCoord = input.texCoord;// -halfPixel;
+	output.texCoord = input.texCoord;
 	return output;
 }
 

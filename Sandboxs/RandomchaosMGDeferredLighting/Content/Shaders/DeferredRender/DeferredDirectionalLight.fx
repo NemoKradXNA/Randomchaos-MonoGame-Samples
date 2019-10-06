@@ -107,11 +107,7 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 	//determine shadowing criteria
 	float realDistanceToLight = lightScreenPos.z;
 
-	//float distanceStoredInDepthMap = shadowSample(lightSamplePos);// 1 - tex2D(shadowSampler, lightSamplePos).r;
 	realDistanceToLight -= mod;
-	//float  blurSample[12];
-
-	//lightSamplePos.xy += float2(.25, 0);
 
 	float2 texelSize = float2(1.0 / 1920.0, 1.0 / 1080.0);
 	float initShade = saturate(pow(.75, power));
@@ -136,41 +132,9 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 
 	shading = saturate(shading);
 
-	//mod = .00000045f;
-	//mod = .0001;
-	//mod = .00005f;
-	//mod = .0000015f;
-	//mod = .00000033f;
-	//mod = .0000005f;
-	//mod = .0001f;
 
 	float3 lightVector = normalize(-lightDirection);
 
-	//mod *= tan(acos(dot(normal, saturate(lightVector)))); 
-	//mod = clamp(mod, 0, 0.01);
-
-	
-
-//#ifdef XBOX
-//	bool shadowCondition = distanceStoredInDepthMap >= realDistanceToLight;
-//#else
-	/*bool shadowCondition = distanceStoredInDepthMap <= realDistanceToLight && CastShadow;
-	
-	float add = 1 / 12.0;
-	for (int b = 0; b < 4; b++) 
-	{
-		if (blurSample[b] < realDistanceToLight && CastShadow) 
-		{
-			shading += add;
-		}
-	}
-
-	shadowCondition = shading > 0;*/
-	//blur = 1;
-	
-//#endif
-	//surface-to-light vector
-	
 
 	//compute diffuse light
 	float NdL = saturate(dot(lightVector, normal));
@@ -187,22 +151,10 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 	specular = saturate(dot(normalize(normal), Half));
 	float specCol = 1 * sgr.r * specular * NdL * power;
 
+	specCol *= shading;
 
-	
-	/*if (!shadowCondition)
-		shading = 1;
-	else*/
-	//if (shading < 1) 
-	{
-		specCol *= shading;
-	}
-
-	//diffuseLight.rgb = float3(1 - shading, shading, shading);
 	diffuseLight = ((diffuseLight + specCol) * shading);
 
-
-
-	//diffuseLight *= blur;
 	//output the two lights
 	return  (float4(diffuseLight.rgb, 1));
 }

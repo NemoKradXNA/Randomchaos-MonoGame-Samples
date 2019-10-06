@@ -1,14 +1,4 @@
-﻿#if OPENGL
-    #define SV_POSITION POSITION
-    #define VS_SHADERMODEL vs_3_0
-    #define PS_SHADERMODEL ps_3_0
-#else
-    #define VS_SHADERMODEL vs_4_0_level_9_1
-    #define PS_SHADERMODEL ps_4_0_level_9_1
-#endif
-
-
-#include "DeferredHeader.fxh"
+﻿#include "DeferredHeader.fxh"
 
 float4x4 wvp;
 
@@ -143,11 +133,6 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     float3 Half = normalize(reflectionVector + directionToCamera);
     float specular = pow(saturate(dot(normalData,Half)),25) * sgr.r;
 
-	//float glow = saturate(sgr.g * saturate(1 - NdL));
-
-    //take into account attenuation and lightIntensity.
-    //return 1;
-    //return float4(diffuseLight.rgb,1);
 	return (attenuation * lightIntensity * float4(diffuseLight.rgb, 1)) + (specular * attenuation * lightIntensity);// +glow;
 }
 
