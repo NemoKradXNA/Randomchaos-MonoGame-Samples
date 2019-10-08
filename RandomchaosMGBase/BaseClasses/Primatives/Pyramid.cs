@@ -2,10 +2,10 @@
 
 namespace RandomchaosMGBase.BaseClasses.Primatives
 {
-    public class Cube : PrimativeBase
+    public class Pyramid : PrimativeBase
     {
-        public Cube(Game game) : base(game) { }
-        public Cube(Game game, string effectAsset) : base(game, effectAsset)
+        public Pyramid(Game game) : base(game) { }
+        public Pyramid(Game game, string effectAsset) : base(game, effectAsset)
         {
 
         }
@@ -13,24 +13,25 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
         protected override void BuildData()
         {
             VertexList.AddRange(new Vector3[]
-            {
-                new Vector3(.5f, -.5f, .5f), new Vector3(-.5f, -.5f, .5f), new Vector3(-.5f, .5f, .5f),new Vector3(.5f, .5f, .5f),
-                new Vector3(.5f, -.5f, -.5f), new Vector3(-.5f, -.5f, -.5f), new Vector3(-.5f, .5f, -.5f), new Vector3(.5f, .5f, -.5f),
-                new Vector3(.5f, .5f, -.5f), new Vector3(-.5f, .5f, -.5f), new Vector3(-.5f, .5f, .5f),new Vector3(.5f, .5f, .5f),
+           {
+                new Vector3(.5f, -.5f, .5f), new Vector3(-.5f, -.5f, .5f), new Vector3(0, .5f, 0),new Vector3(0, .5f, 0),
+                new Vector3(.5f, -.5f, -.5f), new Vector3(-.5f, -.5f, -.5f), new Vector3(0, .5f, 0), new Vector3(0, .5f, 0),
+                new Vector3(0, .5f, 0), new Vector3(0, .5f, 0), new Vector3(0, .5f, 0),new Vector3(0, .5f, 0),
                 new Vector3(.5f, -.5f, -.5f),new Vector3(-.5f, -.5f, -.5f),new Vector3(-.5f, -.5f, .5f),new Vector3(.5f, -.5f, .5f),
-                new Vector3(-.5f, -.5f, .5f),new Vector3(-.5f, -.5f, -.5f),new Vector3(-.5f, .5f, -.5f),new Vector3(-.5f, .5f, .5f),
-                new Vector3(.5f, -.5f, .5f),new Vector3(.5f, -.5f, -.5f),new Vector3(.5f, .5f, -.5f),new Vector3(.5f, .5f, .5f)
-            });
+                new Vector3(-.5f, -.5f, .5f),new Vector3(-.5f, -.5f, -.5f),new Vector3(0, .5f, 0),new Vector3(0, .5f, 0),
+                new Vector3(.5f, -.5f, .5f),new Vector3(.5f, -.5f, -.5f),new Vector3(0, .5f, 0),new Vector3(0, .5f, 0)
+           });
 
             NormalList.AddRange(new Vector3[]
             {
-                Vector3.Backward,Vector3.Backward,Vector3.Backward,Vector3.Backward,
-                Vector3.Forward,Vector3.Forward,Vector3.Forward,Vector3.Forward,
+                Vector3.Backward + Vector3.Up,Vector3.Backward+ Vector3.Up,Vector3.Backward+ Vector3.Up,Vector3.Backward+ Vector3.Up,
+                Vector3.Forward+ Vector3.Up,Vector3.Forward+ Vector3.Up,Vector3.Forward+ Vector3.Up,Vector3.Forward+ Vector3.Up,
                 Vector3.Up,Vector3.Up,Vector3.Up,Vector3.Up,
                 Vector3.Down,Vector3.Down,Vector3.Down,Vector3.Down,
-                Vector3.Left,Vector3.Left,Vector3.Left,Vector3.Left,
-                Vector3.Right,Vector3.Right,Vector3.Right,Vector3.Right,
+                Vector3.Left+ Vector3.Up,Vector3.Left+ Vector3.Up,Vector3.Left+ Vector3.Up,Vector3.Left+ Vector3.Up,
+                Vector3.Right+ Vector3.Up,Vector3.Right+ Vector3.Up,Vector3.Right+ Vector3.Up,Vector3.Right+ Vector3.Up,
             });
+           
 
             TexCoordList.AddRange(new Vector2[]
             {
@@ -66,5 +67,6 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
 
             CalculateTangents();
         }
+
     }
 }

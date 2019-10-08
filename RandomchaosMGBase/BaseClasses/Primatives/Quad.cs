@@ -22,12 +22,6 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
                 Vector3.Backward,Vector3.Backward,Vector3.Backward,Vector3.Backward,
             });
 
-            TangentList.AddRange(new Vector3[]
-            {
-                Vector3.Cross(VertexList[0], -NormalList[0]),Vector3.Cross(VertexList[1], -NormalList[1]),Vector3.Cross(VertexList[2], -NormalList[2]),Vector3.Cross(VertexList[3], -NormalList[3]),
-
-            });
-
             TexCoordList.AddRange(new Vector2[]
             {
                 new Vector2(1, 1),new Vector2(0, 1),new Vector2(0,0),new Vector2(1, 0),
@@ -43,6 +37,8 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
             {
                 0, 1, 2, 2, 3, 0, // Front
             });
+
+            CalculateTangents();
         }
     }
 }

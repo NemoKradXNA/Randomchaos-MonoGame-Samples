@@ -28,7 +28,6 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
                     VertexList.Add(new Vector3(x, 0, y) - center);
                     NormalList.Add(Vector3.Up);
                     TexCoordList.Add(uv);
-                    TangentList.Add(new Vector3(1, 0, 0));
                     ColorList.Add(Color.White);
                 }
             }
@@ -48,6 +47,8 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
             }
 
             IndexList.AddRange(index);
+
+            CalculateTangents();
         }        
     }
 }
