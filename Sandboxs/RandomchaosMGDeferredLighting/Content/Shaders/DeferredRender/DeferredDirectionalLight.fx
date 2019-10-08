@@ -143,15 +143,14 @@ float4 DirectionalLightPS(VertexShaderOutputToPS input) : COLOR0
 	// specular
 	float4 sgr = tex2D(sgrSampler, input.texCoord);
 
-	float3 directionToCamera = CameraPosition.xyz - worldPos.xyz;
+	float3 directionToCamera = worldPos.xyz - CameraPosition.xyz;
 
-	float3 Half = normalize(lightVector + normalize(directionToCamera));
 
-	float specular = pow(saturate(dot(normalize(normal), Half)), 25);
-	specular = saturate(dot(normalize(normal), Half));
-	float specCol = 1 * sgr.r * specular * NdL * power;
+	float3 Half = normalize(normalize(directionToCamera)) + lightVector;
 
-	specCol *= shading;
+	float specular = pow(saturate(dot(normal, Half)), 2);	
+	float specCol = 1 * sgr.r * specular;// *NdL * power;
+	//specCol *= shading;
 
 	diffuseLight = ((diffuseLight + specCol) * shading);
 

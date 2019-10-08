@@ -126,12 +126,12 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     //reflection vector
     float3 reflectionVector = normalize(reflect(normal, -lightVector));
     //camera-to-surface vector
-	float3 directionToCamera = normalize(cameraPosition - input.ScreenPosition);
+	float3 directionToCamera = normalize(cameraPosition - position);
 
 	float4 sgr = tex2D(SGRSampler, texCoord);
 
-    float3 Half = normalize(reflectionVector + directionToCamera);
-    float specular = pow(saturate(dot(normalData,Half)),25) * sgr.r;
+    float3 Half = normalize(directionToCamera) + reflectionVector;
+    float specular = pow(saturate(dot(normal,Half)),25) * sgr.r;
 
 	return (attenuation * lightIntensity * float4(diffuseLight.rgb, 1)) + (specular * attenuation * lightIntensity);// +glow;
 }

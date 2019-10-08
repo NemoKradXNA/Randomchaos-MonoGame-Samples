@@ -52,6 +52,7 @@ namespace RandomchaosMGDeferredLighting
 
             camera = new DeferredLightingCamera(this, .5f, 20000);
             camera.Position = new Vector3(0, 1, 0);
+            camera.ClearColor = Color.Black;
             Components.Add(camera);
             Services.AddService(typeof(Base3DCamera), camera);
 
@@ -78,7 +79,8 @@ namespace RandomchaosMGDeferredLighting
             cube.Position = new Vector3(-3, -.5f, -20);
             Components.Add(cube);
 
-            Base3DObject sphere = new Base3DObject(this, "Models/sphere", "Shaders/DeferredRender/DeferredModelRender");
+            Sphere sphere = new Sphere(this,"Shaders/DeferredRender/DeferredModelRender");
+            sphere.Scale = Vector3.One * 2;
             sphere.Position = new Vector3(3, -0, -20);
             sphere.ColorAsset = "Textures/brick";
             sphere.BumpAsset = "Textures/brickNormal";
@@ -87,13 +89,21 @@ namespace RandomchaosMGDeferredLighting
             sphere.UVMultiplier = Vector2.One * 2;
             Components.Add(sphere);
 
+            Cube sandBlock = new Cube(this, "Shaders/DeferredRender/DeferredModelRender");
+            sandBlock.ColorAsset = "Textures/sand";
+            sandBlock.BumpAsset = "Textures/sandNormal";
+            sandBlock.Position = new Vector3(-3, 1.5f, -20);
+            sandBlock.Rotate(Vector3.Up + Vector3.Forward + Vector3.Left, 15);
+
+            Components.Add(sandBlock);
+
             DeferredDirectionalLight directionalLight = new DeferredDirectionalLight(this, new Vector3(10, 10, 10), Color.AliceBlue, 1, true);
             directionalLight.Transform.LookAt(Vector3.Zero, 1, Vector3.Forward);
             Components.Add(directionalLight);
             lightingManager.AddLight(directionalLight);
 
            
-            DeferredPointLight pointLight = new DeferredPointLight(this, new Vector3(0, 1, -20), Color.Red, 5, 1, false);
+            DeferredPointLight pointLight = new DeferredPointLight(this, new Vector3(0, 1, -20), Color.Red, 10, 1, false);
             Components.Add(pointLight);
             lightingManager.AddLight(pointLight);
 
@@ -106,14 +116,6 @@ namespace RandomchaosMGDeferredLighting
             coneLight2.Transform.LookAt(new Vector3(0, 0, -20), 1, Vector3.Forward);
             Components.Add(coneLight2);
             lightingManager.AddLight(coneLight2);
-
-            Cube sandBlock = new Cube(this, "Shaders/DeferredRender/DeferredModelRender");
-            sandBlock.ColorAsset = "Textures/sand";
-            sandBlock.BumpAsset = "Textures/sandNormal";
-            sandBlock.Position = new Vector3(-3, 1.5f, -20);
-            sandBlock.Rotate(Vector3.Up + Vector3.Forward + Vector3.Left, 15);
-            
-            Components.Add(sandBlock);
 
             // Shadow casters and receivers..
             lightingManager.AddShadowCaster(bunny);
