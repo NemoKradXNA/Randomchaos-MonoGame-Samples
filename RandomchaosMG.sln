@@ -43,6 +43,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ContentPipelineExtenstions"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGDeferredLighting", "Sandboxs\RandomchaosMGDeferredLighting\RandomchaosMGDeferredLighting.csproj", "{0F1A19F8-2182-4119-AFBB-2060703B5CFD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Community", "Community", "{BA380A7B-2AF6-4D2C-9E4E-45DFBB07E23B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityPost11896", "Sandboxs\Community\CommunityPost11896\CommunityPost11896.csproj", "{77FA183D-A778-4B75-9310-DFE4E5FD1C32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +141,13 @@ Global
 		{0F1A19F8-2182-4119-AFBB-2060703B5CFD}.Release|Any CPU.ActiveCfg = Release|x86
 		{0F1A19F8-2182-4119-AFBB-2060703B5CFD}.Release|x86.ActiveCfg = Release|x86
 		{0F1A19F8-2182-4119-AFBB-2060703B5CFD}.Release|x86.Build.0 = Release|x86
+		{77FA183D-A778-4B75-9310-DFE4E5FD1C32}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{77FA183D-A778-4B75-9310-DFE4E5FD1C32}.Debug|Any CPU.Build.0 = Debug|x86
+		{77FA183D-A778-4B75-9310-DFE4E5FD1C32}.Debug|x86.ActiveCfg = Debug|x86
+		{77FA183D-A778-4B75-9310-DFE4E5FD1C32}.Debug|x86.Build.0 = Debug|x86
+		{77FA183D-A778-4B75-9310-DFE4E5FD1C32}.Release|Any CPU.ActiveCfg = Release|x86
+		{77FA183D-A778-4B75-9310-DFE4E5FD1C32}.Release|x86.ActiveCfg = Release|x86
+		{77FA183D-A778-4B75-9310-DFE4E5FD1C32}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +166,8 @@ Global
 		{BE3B18EE-8968-41CA-AB75-2D2188B4C490} = {593F7F46-3006-4747-BCFB-335E1A6D1BB6}
 		{BE3AFF7F-153D-4253-A910-EC5DDF41CCAE} = {648484BF-CD5F-403F-94E9-0941105F9B50}
 		{0F1A19F8-2182-4119-AFBB-2060703B5CFD} = {5D791364-FEA6-4CB3-95DA-055B292F5306}
+		{BA380A7B-2AF6-4D2C-9E4E-45DFBB07E23B} = {5D791364-FEA6-4CB3-95DA-055B292F5306}
+		{77FA183D-A778-4B75-9310-DFE4E5FD1C32} = {BA380A7B-2AF6-4D2C-9E4E-45DFBB07E23B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E75E3A8-AD26-4818-AD83-243C17C79F04}
