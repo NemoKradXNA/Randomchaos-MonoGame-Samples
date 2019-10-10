@@ -1,10 +1,10 @@
 ﻿#if OPENGL
 #define SV_POSITION POSITION
-#define VS_SHADERMODEL vs_4_0
-#define PS_SHADERMODEL ps_4_0
+#define VS_SHADERMODEL vs_4_0_level_9_3
+#define PS_SHADERMODEL ps_4_0_level_9_3
 #else
-#define VS_SHADERMODEL vs_4_0
-#define PS_SHADERMODEL ps_4_0
+#define VS_SHADERMODEL vs_4_0_level_9_3
+#define PS_SHADERMODEL ps_4_0_level_9_3
 #endif
 
 float Time;

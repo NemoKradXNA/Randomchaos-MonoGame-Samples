@@ -19,7 +19,7 @@ namespace CommunityPost11895
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics.GraphicsProfile = GraphicsProfile.Reach;
 
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
@@ -85,12 +85,14 @@ namespace CommunityPost11895
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            int s = (int)(GraphicsDevice.PresentationParameters.BackBufferWidth / 3f);
+
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             effect.CurrentTechnique.Passes[0].Apply();
             effect.Parameters["Time"].SetValue((float)gameTime.TotalGameTime.TotalMilliseconds * .01f);
-            spriteBatch.Draw(Content.Load<Texture2D>("Textures/UK"), new Rectangle(0, 0, 640, 320), Color.White);
-            spriteBatch.Draw(Content.Load<Texture2D>("Textures/EU"), new Rectangle(640, 0, 640, 320), Color.White);
-            spriteBatch.Draw(Content.Load<Texture2D>("Textures/US"), new Rectangle(1280, 0, 640, 320), Color.White);
+            spriteBatch.Draw(Content.Load<Texture2D>("Textures/UK"), new Rectangle(0, 0, s, s/2), Color.White);            
+            spriteBatch.Draw(Content.Load<Texture2D>("Textures/EU"), new Rectangle(s, 0, s, s/2), Color.White);
+            spriteBatch.Draw(Content.Load<Texture2D>("Textures/US"), new Rectangle(s*2, 0, s, s/2), Color.White);
             spriteBatch.End();
         }
     }
