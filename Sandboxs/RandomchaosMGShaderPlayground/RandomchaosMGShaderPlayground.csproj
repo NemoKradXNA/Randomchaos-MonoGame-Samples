@@ -42,7 +42,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Base3DObjectCrossHatch.cs" />
+    <Compile Include="HatchedCube.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="HatchedPlane.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -64,6 +66,8 @@
     <Content Include="Content\Textures\Crosshatch\hatch5.png" />
     <Content Include="Content\Textures\Crosshatch\hatchrgb0.png" />
     <Content Include="Content\Textures\Crosshatch\hatchrgb1.png" />
+    <Content Include="Content\Textures\h2mcpCube.jpg" />
+    <Content Include="Content\Textures\h2mcpCubeNormal.jpg" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +77,8 @@
     <None Include="Content\Models\Cube.x" />
     <None Include="Content\Models\SkyBox.x" />
     <None Include="Content\Models\sphere.x" />
+    <None Include="Content\Textures\Earth_Diffuse.dds" />
+    <None Include="Content\Textures\Earth_NormalMap.dds" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\RandomchaosMGBase\RandomchaosMGBase.csproj">

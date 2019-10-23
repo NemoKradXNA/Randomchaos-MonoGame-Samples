@@ -25,10 +25,13 @@ namespace RandomchaosMGShaderPlayground
         BaseSkyBox skyBox;
 
         Base3DObjectCrossHatch bunny;
-        Base3DObjectCrossHatch cube;
+        HatchedCube cube;
         Base3DObjectCrossHatch earth;
+        Base3DObjectCrossHatch cube2;
 
-        Vector3 LightPosition = new Vector3(50, 50, 1000);
+        HatchedPlane ground;
+
+        Vector3 LightPosition = new Vector3(100, 500, 1000);
         #endregion
 
         public Game1()
@@ -55,32 +58,35 @@ namespace RandomchaosMGShaderPlayground
             skyBox = new BaseSkyBox(this, "Textures/SkyBox/HMcubemap");
             //Components.Add(skyBox);
 
-            cube = new Base3DObjectCrossHatch(this, "Models/cube");
-            cube.Name = "Cube";
+            ground = new HatchedPlane(this);
+            ground.Position = new Vector3(0, -1.5f, -10);
+            ground.UVMultiplier = Vector2.One * .75f;
+            Components.Add(ground);
+
+            cube = new HatchedCube(this);
             cube.Position = new Vector3(-2, -1, -10);
-            cube.ColorAsset = "Textures/h2mcpCube";
-            cube.BumpAsset = "Textures/h2mcpCubeNormal";
+            cube.UVMultiplier = Vector2.One * .1f;
             cube.LightPosition = LightPosition;
-            cube.BoundingBox = new BoundingBox(-Vector3.One * .5f, Vector3.One * .5f);
-            cube.BoundingSphere = new BoundingSphere(Vector3.Zero, .75f);
             Components.Add(cube);
 
+            cube2 = new Base3DObjectCrossHatch(this, "Models/Cube");
+            cube2.Position = new Vector3(-2, 1, -10);
+            cube2.Rotate(Vector3.Left + Vector3.Up, 45);
+            cube2.ColorAsset = "Textures/h2mcpCube";
+            cube2.BumpAsset = "Textures/h2mcpCubeNormal";
+            cube2.LightPosition = LightPosition;
+            Components.Add(cube2);
+
             bunny = new Base3DObjectCrossHatch(this, "Models/bunny");
-            bunny.Name = "Bunny";
             bunny.Position = new Vector3(0, -1.5f, -10);
             bunny.LightPosition = LightPosition;
-            bunny.BoundingBox = new BoundingBox(new Vector3(-1, 0, -.6f), new Vector3(.7f, 1.65f, .7f));
-            bunny.BoundingSphere = new BoundingSphere(new Vector3(-.2f, .75f, 0), 1);
             Components.Add(bunny);
 
             earth = new Base3DObjectCrossHatch(this, "Models/sphere");
-            earth.Name = "Globe";
             earth.Position = new Vector3(2, -1, -10);
             earth.ColorAsset = "Textures/Earth_Diffuse";
             earth.BumpAsset = "Textures/Earth_NormalMap";
             earth.LightPosition = LightPosition;
-            earth.BoundingBox = new BoundingBox(-Vector3.One, Vector3.One);
-            earth.BoundingSphere = new BoundingSphere(Vector3.Zero, 1);
             Components.Add(earth);
         }
 

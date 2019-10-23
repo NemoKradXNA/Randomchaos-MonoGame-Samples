@@ -3,6 +3,8 @@
 float4x4 world : WORLD;
 float4x4 wvp : WorldViewProjection;
 
+float2 UVMultiplier;
+
 float3 lightDirection;
 float hatchingDensity = 10;
 texture textureMat;
@@ -23,7 +25,7 @@ sampler BumpMapSampler = sampler_state
 	Texture = <BumpMap>;
 	AddressU = Wrap;
 	AddressV = Wrap;
-	MipFilter = LINEAR;
+	MipFilter = None;
 	MinFilter = LINEAR;
 	MagFilter = LINEAR;
 };
@@ -34,7 +36,7 @@ sampler hatch0Sampler = sampler_state
 	Texture = <hatch0Map>;
 	AddressU = Wrap;
 	AddressV = Wrap;
-	MipFilter = LINEAR;
+	MipFilter = None;
 	MinFilter = LINEAR;
 	MagFilter = LINEAR;
 };
@@ -78,7 +80,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	VertexShaderOutput output = (VertexShaderOutput)0;
 
 	output.Position = mul(input.Position, wvp);
-	output.TexCoord = input.TexCoord;
+	output.TexCoord = input.TexCoord * UVMultiplier;
 
 	output.Normal = mul(input.Normal, world);
 
