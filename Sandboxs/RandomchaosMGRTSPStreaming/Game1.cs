@@ -30,7 +30,7 @@ namespace RandomchaosMGRTSPStreaming
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.GraphicsProfile = GraphicsProfile.Reach;
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
             int w = 1920;
             int h = 1080;
