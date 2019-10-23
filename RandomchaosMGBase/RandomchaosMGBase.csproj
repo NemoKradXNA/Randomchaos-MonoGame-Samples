@@ -103,7 +103,9 @@
     <Compile Include="InputManagers\KeyboardStateManager.cs" />
     <Compile Include="InputManagers\MouseRenderer.cs" />
     <Compile Include="InputManagers\MouseStateManager.cs" />
+    <Compile Include="Interfaces\IHasName.cs" />
     <Compile Include="Interfaces\IHasTransform.cs" />
+    <Compile Include="Interfaces\ITransform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="VertexTypes\VertexPositionColorNormalTextureTangent.cs" />

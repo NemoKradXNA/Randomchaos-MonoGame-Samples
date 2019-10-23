@@ -1,15 +1,26 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 
 
 namespace RandomchaosMGBase
 {
-    public class Transform 
+    public class Transform : ITransform, IDisposable
     {
-        public static Transform EmptyTransform { get { return new Transform(); } }
+        public static Transform EmptyTransform { get { return new Transform(null); } }
 
+        public IHasTransform Owner { get; set; }
 
-        protected Vector3 _Scale { get; set; }
+        
+        string guid { get; set; }
+
+        public string GUID { get { return guid; } }
+
+        /// <summary>
+        /// The scale of the transform (how big it is)
+        /// </summary>
         public Vector3 Scale
         {
             get
@@ -29,7 +40,9 @@ namespace RandomchaosMGBase
                     _Scale = value;
             }
         }
-        
+
+        protected Vector3 _Scale { get; set; }
+
         public Vector2 Scale2D
         {
             get
@@ -55,22 +68,20 @@ namespace RandomchaosMGBase
 
         /// <summary>
         /// The position of the transform in world space (relative to it's parent)
-        /// </summary>       
-        public Vector3 Position 
+        /// </summary>
+        public Vector3 Position //{ get; set; }
         {
             get
             {
                 if (Parent != null)
-                    return _position + Parent.Transform.Position;
+                    return Vector3.Transform(_position, Parent.Transform.World);
                 else
                     return _position;
             }
             set
             {
                 if (Parent != null)
-                {
-                    _position = value - Parent.Transform.Position;
-                }
+                    _position = Vector3.Transform(value, Matrix.Invert(Parent.Transform.World));
                 else
                     _position = value;
             }
@@ -128,24 +139,31 @@ namespace RandomchaosMGBase
         /// <summary>
         /// Used to pass the rotation as a ref.
         /// </summary>
+
         public Quaternion RotationRef;
 
         /// <summary>
         /// The rotation of the transform in world space (relative to it's parent)
-        /// </summary>       
+        /// </summary>
         public Quaternion Rotation
         {
             get
             {
                 if (Parent != null)
+                {
+                    Parent.Transform.Update();
                     return RotationRef / Parent.Transform.Rotation;
+                }
                 else
                     return RotationRef;
             }
             set
             {
                 if (Parent != null)
+                {
+                    Parent.Transform.Update();
                     RotationRef = value * Parent.Transform.Rotation;
+                }
                 else
                     RotationRef = value;
             }
@@ -161,7 +179,11 @@ namespace RandomchaosMGBase
             get { return _world; }
         }
 
-       
+        /// <summary>
+        /// All the child transforms associated with this trandform
+        /// </summary>
+        public List<IHasTransform> Children { get; set; }
+
         /// <summary>
         /// This transforms parent if it has one
         /// </summary>
@@ -170,23 +192,71 @@ namespace RandomchaosMGBase
         public IHasTransform Parent
         {
             get { return parent; }
-            set { parent = value; }
+            set
+            {
+                if (value == null)
+                {
+                    if (Parent != null)
+                    {
+                        if (parent.Transform.Children != null && parent.Transform.Children.SingleOrDefault(t => t == Owner) != null)
+                            parent.Transform.Children.Remove(Owner);
+                    }
+                    parent = value;
+                }
+                else
+                {
+                    parent = value;
+
+
+                    if (parent.Transform.Children == null)
+                        parent.Transform.Children = new List<IHasTransform>();
+
+                    if (!parent.Transform.Children.Contains(Owner))
+                        parent.Transform.Children.Add(Owner);
+                }
+            }
         }
 
-      
+        string parentGUI = null;
+        public string ParentGUID
+        {
+            get
+            {
+                if (parent != null)
+                {
+                    parentGUI = parent.Transform.GUID;
+                }
+
+                return parentGUI;
+            }
+            set
+            {
+                parentGUI = value;
+            }
+        }
+
+        public string Name { get; set; }
+
+        public Transform()
+        {
+            Scale = Vector3.One;
+            Position = Vector3.Zero;
+            RotationRef = Quaternion.Identity;
+
+            Children = new List<IHasTransform>();
+            Parent = null;
+
+            GenerateDefaultName();
+
+            // Need base world gen;
+            _world = Matrix.CreateScale(LocalScale) * Matrix.CreateFromQuaternion(LocalRotation) * Matrix.CreateTranslation(LocalPosition);
+        }
         /// <summary>
         /// ctor
         /// </summary>
-        public Transform()
+        public Transform(IHasTransform owner) : this()
         {
-            //TestMe = new Pretend();
-
-            _Scale = Vector3.One;
-            _position = Vector3.Zero;
-            RotationRef = Quaternion.Identity;
-            Parent = null;
-
-            Update();
+            Owner = owner;
         }
 
         public void Update()
@@ -195,23 +265,34 @@ namespace RandomchaosMGBase
                 _world = Matrix.CreateScale(LocalScale) * Matrix.CreateFromQuaternion(LocalRotation) * Matrix.CreateTranslation(LocalPosition) * Parent.Transform.World;
             else
                 _world = Matrix.CreateScale(LocalScale) * Matrix.CreateFromQuaternion(LocalRotation) * Matrix.CreateTranslation(LocalPosition);
-        }       
-
-        
-        public static Transform Identity
-        {
-            get { return new Transform(); }
         }
 
-        public void Translate(Vector3 distance)
-        {
-            Position += Vector3.Transform(distance, Matrix.CreateFromQuaternion(Rotation));
-        }
 
-        public void Rotate(Vector3 axis, float angle)
+        public virtual bool SetParent(IHasTransform transform)
         {
-            axis = Vector3.Transform(axis, Matrix.CreateFromQuaternion(Rotation));
-            Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * Rotation);
+            bool done = true;
+
+            if (transform == null)
+            {
+                IHasTransform obj = null;
+
+                if (Parent != null)
+                    obj = ((Transform)Parent.Transform).Children.SingleOrDefault(t => t.Transform == this);
+
+                if (obj != null)
+                    ((Transform)Parent.Transform).Children.Remove(obj);
+
+                Parent = null;
+            }
+            else
+            {
+                if (Parent != null && !((Transform)Parent.Transform).Children.Contains(transform))
+                    ((Transform)Parent.Transform).Children.Add(transform);
+                Parent = transform;
+
+            }
+
+            return done;
         }
 
         /// <summary>
@@ -222,6 +303,72 @@ namespace RandomchaosMGBase
         public void LookAt(Vector3 target, float speed, Vector3 fwd)
         {
             GameComponentHelper.LookAt(target, speed, Position, ref RotationRef, fwd);
+        }
+
+        /// <summary>
+        /// Method to look at target and lock rotation axis
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="speed"></param>
+        /// <param name="fwd"></param>
+        /// <param name="lockedRots">Axis to be lcoked (multiplied by 0)</param>
+        public void LookAtLockRotation(Vector3 target, float speed, Vector3 fwd, Vector3 lockedRots)
+        {
+            GameComponentHelper.LookAtLockRotation(target, speed, Position, ref RotationRef, fwd, lockedRots);
+        }
+
+        public Vector3 GetIntPosition()
+        {
+            return new Vector3((int)(Position.X + .5f), (int)(Position.Y + .5f), (int)(Position.Z + .5f));
+        }
+
+        /// <summary>
+        /// Method to translate object
+        /// </summary>
+        /// <param name="distance"></param>
+        public void Translate(Vector3 distance)
+        {
+            Position += GameComponentHelper.Translate3D(distance, Rotation);
+        }
+
+        public void TranslateAA(Vector3 distance)
+        {
+            Position += GameComponentHelper.Translate3D(distance);
+        }
+
+        /// <summary>
+        /// Method to rotate object
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="angle"></param>
+        public void Rotate(Vector3 axis, float angle)
+        {
+            GameComponentHelper.Rotate(axis, angle, ref RotationRef);
+        }
+
+        public void RotateAA(Vector3 axis, float angle)
+        {
+            GameComponentHelper.RotateAA(axis, angle, ref RotationRef);
+        }
+
+        public virtual void Dispose()
+        {
+
+        }
+
+
+
+        public void GenerateDefaultName()
+        {
+            guid = Guid.NewGuid().ToString();
+            Name = GameComponentHelper.GenerateObjectName(this.GetType());
+        }
+
+
+
+        public static Transform Identity
+        {
+            get { return new Transform(null); }
         }
     }
 }

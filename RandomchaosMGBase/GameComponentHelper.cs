@@ -94,6 +94,17 @@ namespace RandomchaosMGBase
             return new BoundingBox(min, max);
         }
 
+        /// <summary>
+        /// Method to turn a 3D object to face a position in world space.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="speed"></param>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        public static void LookAt(Vector3 target, float speed, Vector3 position, Quaternion rotation, Vector3 fwd)
+        {
+            LookAt(target, speed, position, ref rotation, fwd);
+        }
         public static void LookAt(Vector3 target, float speed, Vector3 position, ref Quaternion rotation, Vector3 fwd)
         {
             if (fwd == Vector3.Zero)
@@ -117,6 +128,123 @@ namespace RandomchaosMGBase
 
             Quaternion targetQ = Quaternion.CreateFromAxisAngle(cross, theta);
             rotation = Quaternion.Slerp(rotation, targetQ, speed);
+        }
+
+        public static void LookAtLockRotation(Vector3 target, float speed, Vector3 position, ref Quaternion rotation, Vector3 fwd, Vector3 lockedRots)
+        {
+            LookAt(target, speed, position, ref rotation, fwd);
+
+            LockRotation(ref rotation, lockedRots);
+
+        }
+
+        public static void LockRotation(ref Quaternion rotation, Vector3 lockedRots)
+        {
+            lockedRots -= -Vector3.One;
+            Vector3 rots = GameComponentHelper.QuaternionToEulerAngleVector3(rotation) * lockedRots;
+            rotation = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationX(rots.X) * Matrix.CreateRotationY(rots.Y) * Matrix.CreateRotationX(rots.Z));
+        }
+        // Converts a Quaternion to Euler angles (X = Yaw, Y = Pitch, Z = Roll)
+        public static Vector3 QuaternionToEulerAngleVector3(Quaternion rotation)
+        {
+            Vector3 rotationaxes = new Vector3();
+            Vector3 forward = Vector3.Transform(Vector3.Forward, rotation);
+            Vector3 up = Vector3.Transform(Vector3.Up, rotation);
+
+            rotationaxes = AngleTo(new Vector3(), forward);
+
+            if (rotationaxes.X == MathHelper.PiOver2)
+            {
+                rotationaxes.Y = (float)Math.Atan2((double)up.X, (double)up.Z);
+                rotationaxes.Z = 0;
+            }
+            else if (rotationaxes.X == -MathHelper.PiOver2)
+            {
+                rotationaxes.Y = (float)Math.Atan2((double)-up.X, (double)-up.Z);
+                rotationaxes.Z = 0;
+            }
+            else
+            {
+                up = Vector3.Transform(up, Matrix.CreateRotationY(-rotationaxes.Y));
+                up = Vector3.Transform(up, Matrix.CreateRotationX(-rotationaxes.X));
+
+                //rotationaxes.Z = (float)Math.Atan2((double)-up.Z, (double)up.Y);
+                rotationaxes.Z = (float)Math.Atan2((double)-up.X, (double)up.Y);
+            }
+
+            return rotationaxes;
+        }
+
+        public static Quaternion EulerAngleVector3ToQuaterion(Vector3 euler)
+        {
+            return Quaternion.CreateFromRotationMatrix(Matrix.CreateFromYawPitchRoll(euler.Y, euler.X, euler.Z));
+        }
+
+        // Returns Euler angles that point from one point to another
+        public static Vector3 AngleTo(Vector3 from, Vector3 location)
+        {
+            Vector3 angle = new Vector3();
+            Vector3 v3 = Vector3.Normalize(location - from);
+
+            angle.X = (float)Math.Asin(v3.Y);
+            angle.Y = (float)Math.Atan2((double)-v3.X, (double)-v3.Z);
+
+            return angle;
+        }
+        /// <summary>
+        /// Method to rotate an object.
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="angle"></param>
+        /// <param name="rotation"></param>
+        public static void Rotate(Vector3 axis, float angle, ref Quaternion rotation)
+        {
+            axis = Vector3.Transform(axis, Matrix.CreateFromQuaternion(rotation));
+            rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * rotation);
+        }
+
+        public static void RotateAA(Vector3 axis, float angle, ref Quaternion rotation)
+        {
+            //axis = Vector3.Transform(axis, Matrix.CreateFromQuaternion(rotation));
+            rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * rotation);
+        }
+        /// <summary>
+        /// Method to translate a 3D object based on it's rotation
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
+        public static Vector3 Translate3D(Vector3 distance, Quaternion rotation)
+        {
+            return Vector3.Transform(distance, Matrix.CreateFromQuaternion(rotation));
+        }
+        /// <summary>
+        /// Method to translate a 3D object
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <returns></returns>
+        public static Vector3 Translate3D(Vector3 distance)
+        {
+            return Vector3.Transform(distance, Matrix.CreateFromQuaternion(Quaternion.Identity));
+        }
+
+        static Dictionary<Type, int> instanceCounts = new Dictionary<Type, int>();
+        public static Dictionary<Type, int> InstanceCounts
+        {
+            get
+            {
+                return instanceCounts;
+            }
+        }
+        public static string GenerateObjectName(Type type)
+        {
+            if (!instanceCounts.ContainsKey(type))
+                instanceCounts.Add(type, 0);
+
+            string name = $"{type.Name}{instanceCounts[type]}";
+            instanceCounts[type]++;
+
+            return name;
         }
     }
 }
