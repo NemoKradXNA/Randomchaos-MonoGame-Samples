@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("RandomchaosMGRTSPStreaming")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("RTC Electronics Ltd")]
-[assembly: AssemblyCopyright("Copyright © RTC Electronics Ltd 2019")]
+[assembly: AssemblyCompany("Randomchaos Ltd")]
+[assembly: AssemblyCopyright("Copyright © Randomchaos Ltd 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
