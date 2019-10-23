@@ -7,6 +7,8 @@ namespace RandomchaosMGBase.BaseClasses
     {
         public Transform Transform { get; set; }
 
+        public Color ClearColor = Color.CornflowerBlue;
+
         /// <summary>
         /// World
         /// </summary>
