@@ -246,6 +246,7 @@ namespace RandomchaosMGBase.BaseClasses
                     {
                         pass.Apply();
                         Game.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, meshPart.StartIndex, meshPart.PrimitiveCount);
+                        
                     }
                 }
             }

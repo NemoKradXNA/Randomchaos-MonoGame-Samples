@@ -8,7 +8,7 @@ namespace RandomchaosMGBase.BaseClasses
         VertexPositionNormalTexture[] corners;
         VertexBuffer vb;
         short[] ib;
-        VertexDeclaration vertDec;
+        //VertexDeclaration vertDec;
 
         public Base3DQuad(Game game, string effect) : base(game, string.Empty, effect)
         {
@@ -21,7 +21,7 @@ namespace RandomchaosMGBase.BaseClasses
         {
             base.Initialize();
 
-            vertDec = VertexPositionNormalTexture.VertexDeclaration;
+            //vertDec = VertexPositionNormalTexture.VertexDeclaration;
 
             corners = new VertexPositionNormalTexture[]
                     {

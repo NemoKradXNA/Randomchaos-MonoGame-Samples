@@ -9,7 +9,7 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
         VertexPositionTexture[] corners;
         VertexBuffer vb;
         short[] ib;
-        VertexDeclaration vertDec;
+        //VertexDeclaration vertDec;
 
         Game Game;
 
@@ -27,7 +27,7 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
         /// </summary>
         public virtual void Initialize()
         {
-            vertDec = VertexPositionTexture.VertexDeclaration;
+            //vertDec = VertexPositionTexture.VertexDeclaration;
 
             corners = new VertexPositionTexture[]
                     {

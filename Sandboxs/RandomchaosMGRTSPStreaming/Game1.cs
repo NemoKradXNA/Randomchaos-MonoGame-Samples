@@ -35,26 +35,31 @@ namespace RandomchaosMGRTSPStreaming
             int w = 1920;
             int h = 1080;
 
-            graphics.PreferredBackBufferWidth = w;
-            graphics.PreferredBackBufferHeight = h;
+            //graphics.PreferredBackBufferWidth = w;
+            //graphics.PreferredBackBufferHeight = h;
+
+            w = graphics.PreferredBackBufferWidth;
+            h = graphics.PreferredBackBufferHeight;
 
             IsMouseVisible = true;
 
-            streamer1 = new RTSPStreamer(this, new Rectangle(0, 0, w/2, h/2));
+            stream1URL = "rtsp://freja.hiof.no:1935/rtplive/definst/hessdalen03.stream";
+            streamer1 = new RTSPStreamer(this, new Rectangle(0, 0, w , h ));
+            //streamer1 = new RTSPStreamer(this, new Rectangle(0, 0, w/2, h/2));
             streamer1.StartStream(stream1URL);
             Components.Add(streamer1);
 
-            streamer2 = new RTSPStreamer(this, new Rectangle(w/2, 0, w / 2, h / 2));
-            streamer2.StartStream(stream2URL);
-            Components.Add(streamer2);
+            //streamer2 = new RTSPStreamer(this, new Rectangle(w/2, 0, w / 2, h / 2));
+            //streamer2.StartStream(stream2URL);
+            //Components.Add(streamer2);
 
-            streamer3 = new RTSPStreamer(this, new Rectangle(0, h / 2, w / 2, h / 2));
-            streamer3.StartStream(stream3URL);
-            Components.Add(streamer3);
+            //streamer3 = new RTSPStreamer(this, new Rectangle(0, h / 2, w / 2, h / 2));
+            //streamer3.StartStream(stream3URL);
+            //Components.Add(streamer3);
 
-            streamer4 = new RTSPStreamer(this, new Rectangle(w / 2, h / 2, w / 2, h / 2));
-            streamer4.StartStream(stream4URL);
-            Components.Add(streamer4);
+            //streamer4 = new RTSPStreamer(this, new Rectangle(w / 2, h / 2, w / 2, h / 2));
+            //streamer4.StartStream(stream4URL);
+            //Components.Add(streamer4);
         }
 
 
