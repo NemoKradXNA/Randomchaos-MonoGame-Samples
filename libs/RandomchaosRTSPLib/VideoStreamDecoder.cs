@@ -95,32 +95,34 @@ namespace RandomchaosRTSPLib
 
         public bool TryDecodeNextFrame(out AVFrame frame)
         {
+            ffmpeg.av_frame_unref(_pFrame);
             int error;
             do
             {
                 do
                 {
                     ffmpeg.av_packet_unref(_pPacket);
+
                     error = ffmpeg.av_read_frame(_pFormatContext, _pPacket);
                     if (error == ffmpeg.AVERROR_EOF)
                     {
                         frame = *_pFrame;
-                        ffmpeg.av_frame_unref(_pFrame);
-                        ffmpeg.av_packet_unref(_pPacket);
-                        ffmpeg.avcodec_flush_buffers(_pCodecContext);
                         return false;
                     }
+
+                    error.ThrowExceptionIfError();
                 } while (_pPacket->stream_index != _streamIndex);
+
                 ffmpeg.avcodec_send_packet(_pCodecContext, _pPacket).ThrowExceptionIfError();
+
                 error = ffmpeg.avcodec_receive_frame(_pCodecContext, _pFrame);
             } while (error == ffmpeg.AVERROR(ffmpeg.EAGAIN));
+
             error.ThrowExceptionIfError();
             frame = *_pFrame;
-            ffmpeg.av_frame_unref(_pFrame);
-            ffmpeg.av_packet_unref(_pPacket);
-            ffmpeg.avcodec_flush_buffers(_pCodecContext);
             return true;
         }
+
 
 
         public IReadOnlyDictionary<string, string> GetContextInfo()

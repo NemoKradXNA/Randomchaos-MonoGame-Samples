@@ -43,7 +43,8 @@ namespace RandomchaosMGRTSPStreaming
 
             IsMouseVisible = true;
 
-            stream1URL = "rtsp://freja.hiof.no:1935/rtplive/definst/hessdalen03.stream";
+            //stream1URL = "rtsp://freja.hiof.no:1935/rtplive/definst/hessdalen03.stream";
+            stream1URL = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov";
             streamer1 = new RTSPStreamer(this, new Rectangle(0, 0, w , h ));
             //streamer1 = new RTSPStreamer(this, new Rectangle(0, 0, w/2, h/2));
             streamer1.StartStream(stream1URL);

@@ -155,8 +155,8 @@ namespace RandomchaosRTSPLib
             {
                 using (VideoStreamDecoder vsd = new VideoStreamDecoder(streamURL, forceTCP, tcpTimeout, thisCBF))
                 {
-                    var info = vsd.GetContextInfo();
-                    info.ToList().ForEach(x => Console.WriteLine($"{x.Key} = {x.Value}"));
+                    //var info = vsd.GetContextInfo();
+                    //info.ToList().ForEach(x => Console.WriteLine($"{x.Key} = {x.Value}"));
 
                     Size sourceSize = vsd.FrameSize;
                     AVPixelFormat sourcePixelFormat = vsd.PixelFormat;
@@ -232,8 +232,8 @@ namespace RandomchaosRTSPLib
             {
                 using (VideoStreamDecoder vsd = new VideoStreamDecoder(streamURL))
                 {
-                    var info = vsd.GetContextInfo();
-                    info.ToList().ForEach(x => Console.WriteLine($"{x.Key} = {x.Value}"));
+                    //var info = vsd.GetContextInfo();
+                    //info.ToList().ForEach(x => Console.WriteLine($"{x.Key} = {x.Value}"));
 
                     Size sourceSize = vsd.FrameSize;
                     AVPixelFormat sourcePixelFormat = vsd.PixelFormat;

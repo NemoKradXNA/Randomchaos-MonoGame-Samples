@@ -36,7 +36,7 @@ namespace RandomchaosMGRTSPStreaming
         public override void Update(GameTime gameTime)
         {
             if (rtspStream.IsThreadRunning && rtspStream.StreamReady)
-                TextureFormatter.GetTexture2DFromBitmap(Game.GraphicsDevice, rtspStream.GetStreamTexture(),ref  stream1Texture);
+                TextureFormatter.GetTexture2DFromBitmap(Game.GraphicsDevice, rtspStream.GetStreamTexture(), ref stream1Texture);
         }
 
         public override void Draw(GameTime gameTime)

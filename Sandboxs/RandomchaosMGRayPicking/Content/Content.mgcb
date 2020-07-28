@@ -21,7 +21,7 @@
 /build:Fonts/hudFont.spritefont
 
 #begin Models/bunny.obj
-/importer:OpenAssetImporter
+/importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
 /processorParam:ColorKeyEnabled=True
@@ -120,18 +120,6 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/SkyBoxShader.fx
 
-#begin Textures/SkyBox/HMcubemap.dds
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/SkyBox/HMcubemap.dds
-
 #begin Textures/Earth_Diffuse.dds
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -179,4 +167,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/h2mcpCubeNormal.jpg
+
+#begin Textures/SkyBox/HMcubemap.dds
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/SkyBox/HMcubemap.dds
 
