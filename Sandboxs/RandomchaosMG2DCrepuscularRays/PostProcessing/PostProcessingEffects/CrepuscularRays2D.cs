@@ -1,17 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace RandomchaosMGBase.BaseClasses.PostProcessing
-{
-    public class CrepuscularRays : BasePostProcessingEffect
-    {
-        public LightSourceMask lsMask;
-        public LightSceneMask mask;
-        public LightRay rays;
-        public BrightPass bp;
-        public SceneBlend blend;
+using RandomchaosMGBase.BaseClasses.PostProcessing;
 
-        public Vector3 lightSource
+
+namespace RandomchaosMG2DCrepuscularRays.PostProcessing.PostProcessingEffects
+{
+    public class CrepuscularRays2D : BasePostProcessingEffect
+    {
+        public LightSourceMask2D lsMask;
+        public LightRay2D rays;
+
+        public Vector2 lightSource
         {
             set
             {
@@ -60,27 +60,15 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             set { rays.Exposure = value; }
         }
 
-        public float BrightThreshold
-        {
-            get { return bp.BloomThreshold; }
-            set { bp.BloomThreshold = value; }
-        }
 
-
-        public CrepuscularRays(Game game, Vector3 lightSourcePos, string lightSourceImage, float lightSourceSize, float density, float decay, float weight, float exposure, float brightThreshold)
+        public CrepuscularRays2D(Game game, Vector2 lightScreenSourcePos, string lightSourceImage, float lightSourceSize, float density, float decay, float weight, float exposure)
             : base(game)
         {
-            lsMask = new LightSourceMask(game, lightSourcePos, lightSourceImage, lightSourceSize);
-            mask = new LightSceneMask(game, lightSourcePos);
-            rays = new LightRay(game, lightSourcePos, density, decay, weight, exposure);
-            bp = new BrightPass(game, brightThreshold);
-            blend = new SceneBlend(game);
-
+            lsMask = new LightSourceMask2D(game, lightScreenSourcePos, lightSourceImage, lightSourceSize);
+            rays = new LightRay2D(game, lightScreenSourcePos, density, decay, weight, exposure);
+            
             AddPostProcess(lsMask);
-            AddPostProcess(mask);
             AddPostProcess(rays);
-            AddPostProcess(bp);
-            AddPostProcess(blend);
         }
 
     }

@@ -1,17 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace RandomchaosMGBase.BaseClasses.PostProcessing
+using RandomchaosMGBase.BaseClasses.PostProcessing;
+
+namespace RandomchaosMG2DCrepuscularRays.PostProcessing
 {
-    public class LightRay : BasePostProcess
+    public class LightRay2D : BasePostProcess
     {
-        public Vector3 lighSourcePos;
+        public Vector2 lighSourcePos;
         public float Density = .5f;
         public float Decay = .95f;
         public float Weight = 1.0f;
         public float Exposure = .15f;
 
-        public LightRay(Game game, Vector3 sourcePos, float density, float decay, float weight, float exposure)
+        public LightRay2D(Game game, Vector2 sourcePos, float density, float decay, float weight, float exposure)
             : base(game)
         {
             lighSourcePos = sourcePos;
@@ -27,7 +29,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
         public override void Draw(GameTime gameTime)
         {
             if (effect == null)
-                effect = Game.Content.Load<Effect>("Shaders/PostProcessing/LigthRays");
+                effect = Game.Content.Load<Effect>("Shaders/PostProcessing/LigthRays2D");
 
             effect.CurrentTechnique = effect.Techniques["LightRayFX"];
 
@@ -37,10 +39,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             effect.Parameters["Exposure"].SetValue(Exposure);
 
             effect.Parameters["lightPosition"].SetValue(lighSourcePos);
-            if (camera != null)
-                effect.Parameters["matVP"].SetValue(camera.View * camera.Projection);
-            else
-                effect.Parameters["matVP"].SetValue(Matrix.Identity);
 
             // Set Params.
             base.Draw(gameTime);

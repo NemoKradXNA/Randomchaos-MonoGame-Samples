@@ -23,8 +23,18 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             effect.Parameters["depthMap"].SetValue(DepthBuffer);
 
             effect.Parameters["lightPosition"].SetValue(lighSourcePos);
-            effect.Parameters["matVP"].SetValue(camera.View * camera.Projection);
-            effect.Parameters["matInvVP"].SetValue(Matrix.Invert(camera.View * camera.Projection));
+            if (camera != null)
+            {
+                effect.Parameters["matVP"].SetValue(camera.View * camera.Projection);
+                effect.Parameters["matInvVP"].SetValue(Matrix.Invert(camera.View * camera.Projection));
+            }
+            else
+            {
+                effect.Parameters["matVP"].SetValue(Matrix.Identity);
+                effect.Parameters["matInvVP"].SetValue(Matrix.Invert(Matrix.Identity));
+            }
+
+            
 
             // Set Params.
             base.Draw(gameTime);

@@ -1,15 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-namespace RandomchaosMGBase.BaseClasses.PostProcessing
+
+using RandomchaosMGBase.BaseClasses.PostProcessing;
+
+namespace RandomchaosMG2DCrepuscularRays.PostProcessing
 {
-    public class LightSourceMask : BasePostProcess
+    public class LightSourceMask2D : BasePostProcess
     {
         public Texture lishsourceTexture;
-        public Vector3 lighSourcePos;
+        public Vector2 lighSourcePos;
         public string lightSourceasset;
         public float lightSize = 1500;
 
-        public LightSourceMask(Game game, Vector3 sourcePos, string lightSourceasset, float lightSize)
+        public LightSourceMask2D(Game game, Vector2 sourcePos, string lightSourceasset, float lightSize)
             : base(game)
         {
             UsesVertexShader = true;
@@ -23,7 +26,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 
             if (effect == null)
             {
-                effect = Game.Content.Load<Effect>("Shaders/PostProcessing/LightSourceMask");
+                effect = Game.Content.Load<Effect>("Shaders/PostProcessing/LightSourceMask2D");
                 lishsourceTexture = Game.Content.Load<Texture2D>(lightSourceasset);
             }
 
@@ -33,13 +36,6 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
 
             effect.Parameters["SunSize"].SetValue(lightSize);
             effect.Parameters["lightPosition"].SetValue(lighSourcePos);
-
-            if (camera != null)
-                effect.Parameters["matVP"].SetValue(camera.View * camera.Projection);
-            else
-            {
-                effect.Parameters["matVP"].SetValue(Matrix.Identity);
-            }
 
             // Set Params.
             base.Draw(gameTime);
