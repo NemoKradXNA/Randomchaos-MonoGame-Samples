@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Game1.cs" />
     <Compile Include="PostProcessing\PostProcesses\LightRay2D.cs" />
+    <Compile Include="PostProcessing\PostProcesses\LightSceneMask2D.cs" />
     <Compile Include="PostProcessing\PostProcesses\LightSourceMask2D.cs" />
     <Compile Include="PostProcessing\PostProcessingEffects\CrepuscularRays2D.cs" />
     <Compile Include="Program.cs" />
@@ -56,12 +57,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Shaders\PostProcessing\BrightPass.fx" />
+    <Content Include="Content\Shaders\PostProcessing\LightSceneMask2D.fx" />
     <Content Include="Content\Shaders\PostProcessing\LightSourceMask2D.fx" />
     <Content Include="Content\Shaders\PostProcessing\LigthRays2D.fx" />
     <Content Include="Content\Shaders\PostProcessing\SceneBlend.fx" />
     <Content Include="Content\Textures\Backgrounds\BGForeGround_1_1.png" />
     <Content Include="Content\Textures\Backgrounds\BGForeGround_1_2.png" />
     <Content Include="Content\Textures\Backgrounds\BGForeGround_1_3.png" />
+    <Content Include="Content\Textures\Backgrounds\Cloud1.png" />
+    <Content Include="Content\Textures\Backgrounds\Cloud2.png" />
+    <Content Include="Content\Textures\Backgrounds\Sky1.png" />
     <Content Include="Content\Textures\flare.png" />
     <Content Include="Content\Textures\flare2.png" />
     <Content Include="Content\Textures\flare3.png" />

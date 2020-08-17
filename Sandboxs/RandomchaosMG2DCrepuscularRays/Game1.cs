@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,6 +31,12 @@ namespace RandomchaosMG2DCrepuscularRays
         List<Vector2> bgPos2 = new List<Vector2>();
         List<Vector2> bgPos2Base = new List<Vector2>();
 
+
+        List<string> clouds = new List<string>();
+        List<float> cloudSpeed = new List<float>();
+        List<Vector2> cloudsPos = new List<Vector2>();
+
+        Random rnd;
         int bgCnt;
 
         public Game1()
@@ -46,9 +53,11 @@ namespace RandomchaosMG2DCrepuscularRays
             //graphics.PreferredBackBufferHeight = 600;
             //graphics.PreferredBackBufferWidth = 800;
 
+            rnd = new Random(DateTime.Now.TimeOfDay.Milliseconds);
+
             ppm = new PostProcessingManager(this);
 
-            rays = new CrepuscularRays2D(this, Vector2.One * .5f, "Textures/flare", 1, .97f, .97f, .5f, .25f);
+            rays = new CrepuscularRays2D(this, Vector2.One * .5f, "Textures/flare", 1, .97f, .97f, .5f, .12f, 0);
 
             ppm.AddEffect(rays);
         }
@@ -85,6 +94,28 @@ namespace RandomchaosMG2DCrepuscularRays
             AddBackground("Textures/Backgrounds/BGForeGround_1_1", 2f);
             AddBackground("Textures/Backgrounds/BGForeGround_1_2", 3f);
             AddBackground("Textures/Backgrounds/BGForeGround_1_3", 4f);
+
+            for (int c = 0; c < 3; c++)
+                AddCloud("Textures/Backgrounds/Cloud1", (float)(rnd.NextDouble() * 5) + .1f);
+            for (int c = 0; c < 3; c++)
+                AddCloud("Textures/Backgrounds/Cloud2", (float)(rnd.NextDouble() * 5) + .1f);
+
+        }
+
+        public virtual void AddCloud(string asset, float speed)
+        {
+            clouds.Add(asset);
+            cloudSpeed.Add(speed);
+
+            
+            Vector2 p = new Vector2();
+
+            p.X = rnd.Next(0, GraphicsDevice.Viewport.Width);
+            p.Y = rnd.Next(0, GraphicsDevice.Viewport.Height / 4);
+
+            cloudsPos.Add(p);
+
+            
         }
 
         public virtual void AddBackground(string bgAsset, float speed)
@@ -160,6 +191,11 @@ namespace RandomchaosMG2DCrepuscularRays
             if (Keyboard.GetState().IsKeyDown(Keys.N))
                 rays.Weight -= .01f;
 
+            if (Keyboard.GetState().IsKeyDown(Keys.U))
+                rays.BrightThreshold = MathHelper.Min(.99f, rays.BrightThreshold + .01f);
+            if (Keyboard.GetState().IsKeyDown(Keys.M))
+                rays.BrightThreshold = MathHelper.Max(0, rays.BrightThreshold - .01f);
+
             base.Update(gameTime);
         }
 
@@ -169,25 +205,28 @@ namespace RandomchaosMG2DCrepuscularRays
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            // This looks WAY more comlicated than it is, but it's pretty simple,
-            // Draw the objects you wan to have occlude the rays in black and store them in an RT, this creates a mask.
-            // Hand this RT onto the pp manager, it will render all the rays for you to a new RT
-            // Re render the scene in color this time to another RT
-            // Finaly do an additive blend with the godray RT and the scene you just rendered.
             // Give me a shout if you need any help implementing it :D
 
             // Draw the stuff that is in front of the rays source
             GraphicsDevice.SetRenderTarget(scene);
-            GraphicsDevice.Clear(Color.Red);
+            GraphicsDevice.Clear(Color.Transparent);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            // Draw sky texture
+            spriteBatch.Draw(Content.Load<Texture2D>("Textures/Backgrounds/Sky1"), new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+
+            // Draw clouds
+            for (int c = 0; c < clouds.Count; c++)
+                spriteBatch.Draw(Content.Load<Texture2D>(clouds[c]), cloudsPos[c], Color.White);
+
+            // Draw BG
             for (int bg = 0; bg < bgCnt; bg++)
             {
-                spriteBatch.Draw(Content.Load<Texture2D>(backgroundAssets[bg]), new Rectangle((int)bgPos[bg].X, (int)bgPos[bg].Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), new Rectangle(0, 0, Content.Load<Texture2D>(backgroundAssets[bg]).Width, Content.Load<Texture2D>(backgroundAssets[bg]).Height), Color.Black);
-                spriteBatch.Draw(Content.Load<Texture2D>(backgroundAssets[bg]), new Rectangle((int)bgPos2[bg].X, (int)bgPos[bg].Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), new Rectangle(0, 0, Content.Load<Texture2D>(backgroundAssets[bg]).Width, Content.Load<Texture2D>(backgroundAssets[bg]).Height), Color.Black);
+                spriteBatch.Draw(Content.Load<Texture2D>(backgroundAssets[bg]), new Rectangle((int)bgPos[bg].X, (int)bgPos[bg].Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), new Rectangle(0, 0, Content.Load<Texture2D>(backgroundAssets[bg]).Width, Content.Load<Texture2D>(backgroundAssets[bg]).Height), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>(backgroundAssets[bg]), new Rectangle((int)bgPos2[bg].X, (int)bgPos[bg].Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), new Rectangle(0, 0, Content.Load<Texture2D>(backgroundAssets[bg]).Width, Content.Load<Texture2D>(backgroundAssets[bg]).Height), Color.White);
             }
             // Draw mouse icon mask.
-            spriteBatch.Draw(Content.Load<Texture2D>("Textures/mousemask"), new Rectangle(Mouse.GetState().X - 64, Mouse.GetState().Y - 64, 128, 128), Color.Black);
+            spriteBatch.Draw(Content.Load<Texture2D>("Textures/mousemask"), new Rectangle(Mouse.GetState().X - 64, Mouse.GetState().Y - 64, 128, 128), Color.White);
             spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
@@ -196,32 +235,19 @@ namespace RandomchaosMG2DCrepuscularRays
             // Apply the post processing manager (just the rays in this one)
             ppm.Draw(gameTime, scene, null);
 
-
-            // Now blend that source with the scene..
-            GraphicsDevice.SetRenderTarget(scene);
-
-            // Draw the scene in color now
-            GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-
-            for (int bg = 0; bg < bgCnt; bg++)
+            // Move the clouds
+            for (int c = 0; c < clouds.Count; c++)
             {
-                spriteBatch.Draw(Content.Load<Texture2D>(backgroundAssets[bg]), new Rectangle((int)bgPos[bg].X, (int)bgPos[bg].Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), new Rectangle(0, 0, Content.Load<Texture2D>(backgroundAssets[bg]).Width, Content.Load<Texture2D>(backgroundAssets[bg]).Height), Color.White);
-                spriteBatch.Draw(Content.Load<Texture2D>(backgroundAssets[bg]), new Rectangle((int)bgPos2[bg].X, (int)bgPos[bg].Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), new Rectangle(0, 0, Content.Load<Texture2D>(backgroundAssets[bg]).Width, Content.Load<Texture2D>(backgroundAssets[bg]).Height), Color.White);
+                cloudsPos[c] += new Vector2(cloudSpeed[c]*.25f,0);
+
+                if (cloudsPos[c].X > GraphicsDevice.Viewport.Width)
+                {
+                    cloudsPos[c] = new Vector2(-300, rnd.Next(0, GraphicsDevice.Viewport.Height / 4));
+                    cloudSpeed[c] = ((float)rnd.NextDouble() * 5) + .1f;
+        }
             }
-            // Draw mouse icon.
-            spriteBatch.Draw(Content.Load<Texture2D>("Textures/mousemask"), new Rectangle(Mouse.GetState().X - 64, Mouse.GetState().Y - 64, 128, 128), Color.White);
-            spriteBatch.End();
 
-            GraphicsDevice.SetRenderTarget(null);
-
-            GraphicsDevice.Clear(Color.Black);
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            spriteBatch.Draw(ppm.Scene, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            spriteBatch.Draw(scene, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            spriteBatch.End();
-
+            // Move the backgrounds..
             for (int b = 0; b < bgCnt; b++)
             {
                 bgPos[b] -= new Vector2(bgSpeeds[b], 0);
@@ -234,6 +260,7 @@ namespace RandomchaosMG2DCrepuscularRays
                     bgPos2[b] = new Vector2(bgPos[b].X + bgPos2Base[b].X, 0);
             }
 
+            // Render command keys.
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), "F1 - F4 change light source texture", new Vector2(8, Content.Load<SpriteFont>("Fonts/font").LineSpacing * 1), Color.Gold);
             spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), string.Format("WASD move light source [{0}]", rays.lightSource), new Vector2(8, Content.Load<SpriteFont>("Fonts/font").LineSpacing * 2), Color.Gold);
@@ -242,6 +269,7 @@ namespace RandomchaosMG2DCrepuscularRays
             spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), string.Format("R/V Density up/down [{0}]", rays.Density), new Vector2(8, Content.Load<SpriteFont>("Fonts/font").LineSpacing * 5), Color.Gold);
             spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), string.Format("T/B Decay up/down [{0}]", rays.Decay), new Vector2(8, Content.Load<SpriteFont>("Fonts/font").LineSpacing * 6), Color.Gold);
             spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), string.Format("Y/N Weight up/down [{0}]", rays.Weight), new Vector2(8, Content.Load<SpriteFont>("Fonts/font").LineSpacing * 7), Color.Gold);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/font"), string.Format("U/M Bright Pass Threshold up/down [{0}]", rays.BrightThreshold), new Vector2(8, Content.Load<SpriteFont>("Fonts/font").LineSpacing * 8), Color.Gold);
             spriteBatch.End();
         }
     }

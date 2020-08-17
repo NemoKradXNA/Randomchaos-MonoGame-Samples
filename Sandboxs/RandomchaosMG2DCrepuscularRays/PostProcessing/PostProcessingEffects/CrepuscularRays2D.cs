@@ -9,7 +9,10 @@ namespace RandomchaosMG2DCrepuscularRays.PostProcessing.PostProcessingEffects
     public class CrepuscularRays2D : BasePostProcessingEffect
     {
         public LightSourceMask2D lsMask;
+        public LightSceneMask2D mask;
         public LightRay2D rays;
+        public BrightPass bp;
+        public SceneBlend blend;
 
         public Vector2 lightSource
         {
@@ -60,15 +63,26 @@ namespace RandomchaosMG2DCrepuscularRays.PostProcessing.PostProcessingEffects
             set { rays.Exposure = value; }
         }
 
+        public float BrightThreshold
+        {
+            get { return bp.BloomThreshold; }
+            set { bp.BloomThreshold = value; }
+        }
 
-        public CrepuscularRays2D(Game game, Vector2 lightScreenSourcePos, string lightSourceImage, float lightSourceSize, float density, float decay, float weight, float exposure)
+        public CrepuscularRays2D(Game game, Vector2 lightScreenSourcePos, string lightSourceImage, float lightSourceSize, float density, float decay, float weight, float exposure, float brightThreshold)
             : base(game)
         {
             lsMask = new LightSourceMask2D(game, lightScreenSourcePos, lightSourceImage, lightSourceSize);
+            mask = new LightSceneMask2D(game, lightScreenSourcePos);
             rays = new LightRay2D(game, lightScreenSourcePos, density, decay, weight, exposure);
-            
-            AddPostProcess(lsMask);
+            bp = new BrightPass(game, brightThreshold);
+            blend = new SceneBlend(game);
+
+            AddPostProcess(lsMask);            
+            AddPostProcess(mask);
             AddPostProcess(rays);
+            AddPostProcess(bp);
+            AddPostProcess(blend);
         }
 
     }

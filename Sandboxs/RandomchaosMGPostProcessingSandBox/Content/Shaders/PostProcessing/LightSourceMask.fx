@@ -20,7 +20,7 @@ sampler Flare = sampler_state
 
 float4 LightSourceMaskPS(VertexShaderOutput input) : COLOR0
 {
-	float v = tex2D(screen,input.TexCoord) * .001;
+	float4 v = tex2D(screen,input.TexCoord) * .001;
 
 	// Get the scene
 	float4 col = 0;

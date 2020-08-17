@@ -5,10 +5,6 @@
 float3 lightPosition;
 
 
-float4x4 matVP;
-
-float2 halfPixel;
-
 float Density = .5f;
 float Decay = .95f;
 float Weight = 1.0f;
