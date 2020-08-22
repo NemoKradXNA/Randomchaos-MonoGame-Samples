@@ -45,14 +45,14 @@ float4 main(vsOutput input) : COLOR0
 	float3 uv3 = float3(CalcUVAnimation(input.texCoord + float2(0, .5)), 1);
 
 	// Calculate the normals
-	float3 side1 = uv1 - uv3;
-	float3 side2 = uv1 - uv2;
+	float3 side1 = normalize(uv1 - uv3);
+	float3 side2 = normalize(uv1 - uv2);
 
 	// Find the cross product to get the normal..
 	float3 normal = cross(side1, side2);
 
 	// Calculate the diffuse term
-	float3 diffuse = (lightPower * lightColor * saturate(dot(-lightDirection, normal))) * 2;
+	float3 diffuse = (lightPower * lightColor * saturate(dot(-lightDirection, normal)));
 
 	float4 color = tex2D(TextureSampler, uv);
 
