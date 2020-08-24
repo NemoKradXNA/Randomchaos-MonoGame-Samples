@@ -96,7 +96,7 @@ namespace CommunityPost11896
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
             effect.CurrentTechnique.Passes[0].Apply();
             effect.Parameters["DisplacementScroll"].SetValue(DisplacementScroll += scrollVelocity);
-            effect.Parameters["Displacement"].SetValue(Content.Load<Texture2D>("Textures /bumpmap"));
+            effect.Parameters["Displacement"].SetValue(Content.Load<Texture2D>("Textures/bumpmap"));
             spriteBatch.Draw(Content.Load<Texture2D>("Textures/xnauguk"), new Rectangle(s*2, 0, s, s), Color.White);
             spriteBatch.End();
         }

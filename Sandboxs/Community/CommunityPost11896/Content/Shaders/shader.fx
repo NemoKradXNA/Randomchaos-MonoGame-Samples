@@ -29,14 +29,21 @@ struct vsOutput
 float4 main(vsOutput input) : COLOR0
 {
 	// Comment this line out to break the shader!!!
-	float4 v =  tex2D(TextureSampler, input.texCoord);
-	
+	float4 v =  tex2D(TextureSampler, input.texCoord);	
 
 	// Look up the displacement amount.
 	float2 displacement = tex2D(DisplacementSampler, DisplacementScroll + input.texCoord / 3).xy;
 
 	// Offset the main texture coordinates.
 	input.texCoord += displacement * 0.2 - 0.15;
+
+	/* // Optomized version
+	// Look up the displacement amount.
+	float2 displacement = tex2D(DisplacementSampler, DisplacementScroll + input.texCoord).xy;
+
+	// Offset the main texture coordinates.
+	input.texCoord += displacement * .01;
+	*/
 
 	// Look up into the main texture.
 	return tex2D(TextureSampler, input.texCoord) * input.color;
