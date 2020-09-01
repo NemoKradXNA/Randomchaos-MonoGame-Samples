@@ -39,7 +39,7 @@ namespace RandomchaosMGFire
             NoiseFrequency = .10f;
             NoiseStrength = 1.0f;
             TimeScale = 1.0f;
-            NoiseScale = new Vector3(1.0f, 1f, 1.0f);
+            NoiseScale = new Vector3(1.0f, 1f, 1);
             NoiseAnimation = new Vector3(0.0f, -0.1f, 0.0f);
             FlameScale = new Vector3(1, -1.0f, 1);
             FlameTranslation = new Vector3(0.0f, 0.0f, 0.0f);
@@ -84,7 +84,7 @@ namespace RandomchaosMGFire
                 if (flameEffect.Parameters["flameTexture"] != null)
                     flameEffect.Parameters["flameTexture"].SetValue(Game.Content.Load<Texture2D>("Textures/flame"));
                 if (flameEffect.Parameters["ticks"] != null)
-                    flameEffect.Parameters["ticks"].SetValue((float)gameTime.TotalGameTime.TotalMilliseconds * animSpeed);
+                    flameEffect.Parameters["ticks"].SetValue((float)gameTime.TotalGameTime.TotalSeconds * animSpeed);
 
                 if (noiseTxture3D == null)
                 {
@@ -137,7 +137,11 @@ namespace RandomchaosMGFire
             SetEffect(gameTime, effect);
 
             foreach (Base3DQuad flame in flames)
+            {
+                flame.Effect.Parameters["Index"].SetValue(flameOffset + ((float)(flames.IndexOf(flame)+1) / flames.Count) );
+                //flame.Effect.Parameters["Index"].SetValue(flameOffset + (flames.IndexOf(flame) * .5f) * .1f);
                 flame.Draw(gameTime);
+            }
         }
     }
 }

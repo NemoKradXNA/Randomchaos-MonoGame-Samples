@@ -31,8 +31,8 @@ namespace RandomchaosMGFire
 
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            //graphics.PreferredBackBufferWidth = 1920;
+            //graphics.PreferredBackBufferHeight = 1080;
 
             IsMouseVisible = true;
 
@@ -45,8 +45,8 @@ namespace RandomchaosMGFire
 
             Fire3D = new RCLayeredFire(this, 8);
             Fire3D.Scale = new Vector3(2, 6, 8);
-            Fire3D.AnimationSpeed = .01f;
-            Fire3D.FlameOffSet = .2f;
+            Fire3D.AnimationSpeed = 5;// .01f;
+            Fire3D.FlameOffSet = .5f;
 
             Components.Add(Fire3D);
 
@@ -229,19 +229,19 @@ namespace RandomchaosMGFire
                     Fire3D.NoiseFrequency -= .001f;
 
                 if (kbm.KeyDown(Keys.T))
-                    Fire3D.NoiseStrength += .001f;
+                    Fire3D.NoiseStrength += .01f;
                 if (kbm.KeyDown(Keys.G))
-                    Fire3D.NoiseStrength -= .001f;
+                    Fire3D.NoiseStrength -= .01f;
 
                 if (kbm.KeyDown(Keys.Y))
-                    Fire3D.TimeScale += .01f;
+                    Fire3D.FlameOffSet += .001f;
                 if (kbm.KeyDown(Keys.H))
-                    Fire3D.TimeScale -= .01f;
+                    Fire3D.FlameOffSet -= .001f;
 
                 if (kbm.KeyDown(Keys.U))
-                    Fire3D.AnimationSpeed += .0001f;
+                    Fire3D.AnimationSpeed += .01f;
                 if (kbm.KeyDown(Keys.J))
-                    Fire3D.AnimationSpeed -= .0001f;
+                    Fire3D.AnimationSpeed -= .01f;
 
                 if (kbm.KeyDown(Keys.I))
                     Fire3D.Color = SetColor(Fire3D.Color.ToVector4() + new Vector4(0.01f, 0, 0, 1));
@@ -259,9 +259,9 @@ namespace RandomchaosMGFire
                     Fire3D.Color = SetColor(Fire3D.Color.ToVector4() - new Vector4(0, 0, 0.01f, 1));
 
                 Fire3D.NoiseFrequency = MathHelper.Clamp(Fire3D.NoiseFrequency, 0, 1);
-                Fire3D.NoiseStrength = MathHelper.Clamp(Fire3D.NoiseStrength, 0, 1);
-                Fire3D.TimeScale = MathHelper.Clamp(Fire3D.TimeScale, 0, 2);
-                Fire3D.AnimationSpeed = MathHelper.Clamp(Fire3D.AnimationSpeed, 0, 1);
+                Fire3D.NoiseStrength = MathHelper.Clamp(Fire3D.NoiseStrength, 0, 10);
+                Fire3D.FlameOffSet = MathHelper.Clamp(Fire3D.FlameOffSet, 0, 1);
+                Fire3D.AnimationSpeed = MathHelper.Clamp(Fire3D.AnimationSpeed, 0, 10);
             }
         }
 
@@ -297,7 +297,7 @@ namespace RandomchaosMGFire
             {
                 WriteLine($"[R/F] - Flame Noise Frequency +- {Fire3D.NoiseFrequency}", Color.Gold);
                 WriteLine($"[T/G] - Flame Noise Strength +- {Fire3D.NoiseStrength}", Color.Gold);
-                WriteLine($"[Y/H] - Flame Time Scale +- {Fire3D.TimeScale}", Color.Gold);
+                WriteLine($"[Y/H] - Flame Offset +- {Fire3D.FlameOffSet}", Color.Gold);
                 WriteLine($"[U/J] - Flame Animation Speed +- {Fire3D.AnimationSpeed}", Color.Gold);
                 WriteLine($"[I/K] - Flame Color (R) +- : {Fire3D.Color.ToVector4().X}", Color.LimeGreen);
                 WriteLine($"[O/L] - Flame Color (G) +- : {Fire3D.Color.ToVector4().Y}", Color.LimeGreen);
