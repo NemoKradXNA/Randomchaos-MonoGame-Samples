@@ -176,6 +176,25 @@ namespace RandomchaosMGFire
                 paletteTexture.SetData<Color>(palette);
         }
 
+        public void ReBuildPallet()
+        {
+            
+
+            if (!string.IsNullOrEmpty(FlameRampAsset))
+            {
+                paletteTexture = Game.Content.Load<Texture2D>(FlameRampAsset);
+                palette = new Color[paletteTexture.Width * paletteTexture.Height];
+                paletteTexture.GetData<Color>(palette);
+            }
+            else
+            {
+                paletteTexture = new Texture2D(GraphicsDevice, 256, 1);
+                palette = new Color[256];
+                BuildPalette();
+                paletteTexture.SetData<Color>(palette);
+            }
+        }
+
         public virtual void GenerateFireMap(int mapHeight, int mapWidth)
         {
             // Put code here to gen the fire map...

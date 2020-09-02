@@ -52,10 +52,10 @@ namespace RandomchaosMGFire
                     //+ fmap[(x) % w, (y + 2) % h])
                     //* 32) / 129;
 
-                    //fmap[x,y] = ((fmap[(x - 1 + w) % w,(y + 1) % h]
-                    //+ fmap[(x) % w,(y + 2) % h]
+                    //fmap[x, y] = ((fmap[(x - 1 + w) % w, (y + 1) % h]
+                    //+ fmap[(x) % w, (y + 2) % h]
                     //+ fmap[(x + 1) % w, (y + 1) % h]
-                    //+ fmap[(x) % w,(y + 3) % h])
+                    //+ fmap[(x) % w, (y + 3) % h])
                     //* 64) / 257;
 
                     fmap[x, y] = (int)(((fmap[(x - 1 + w) % w, (y + 1) % h]

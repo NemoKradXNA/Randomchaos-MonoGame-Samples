@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -23,6 +25,8 @@ namespace RandomchaosMGFire
         GPUOldSchoolFire Fire2;
         GPUOldSchoolFireBox Fire3;
         RCLayeredFire Fire3D;
+
+        List<string> FlamePAmps = new List<string>() { null, "Textures/FlameRamp1", "Textures/FlameRamp2", "Textures/FlameRamp3", "Textures/FlameRamp4", "Textures/FlameRamp5", "Textures/FlameRamp6" };
 
         public Game1()
         {
@@ -51,7 +55,7 @@ namespace RandomchaosMGFire
             Components.Add(Fire3D);
 
             Fire = new CPUOldSchoolFire(this, new Point(400, 240));
-            //Fire.FlameRampAsset = "Textures/FlameRamp6";
+            Fire.FlameRampAsset = FlamePAmps[0];
             Components.Add(Fire);
 
             Fire2 = new GPUOldSchoolFire(this, new Point(400,240));
@@ -171,6 +175,17 @@ namespace RandomchaosMGFire
                 Fire.Enabled = !Fire3.Enabled;
                 Fire2.Enabled = !Fire3.Enabled;
                 Fire3D.Enabled = !Fire3.Enabled;
+            }
+
+            if (kbm.KeyPress(Keys.D1))
+            {
+                int idx = FlamePAmps.IndexOf(Fire.FlameRampAsset);
+
+                if (idx + 1 == FlamePAmps.Count)
+                    idx = -1;
+
+                Fire.FlameRampAsset = FlamePAmps[idx + 1];
+                Fire.ReBuildPallet();
             }
 
             if (Fire.Enabled || Fire2.Enabled || Fire3.Enabled)
@@ -310,6 +325,10 @@ namespace RandomchaosMGFire
                 WriteLine($"[R/F] Toggle Oxygen: {Fire.Oxygen}",  Color.Gold);
                 WriteLine($"[T/G] Toggle Min Fuel: {Fire.MinFuel}",  Color.Gold);
                 WriteLine($"[Y/H] Toggle Max Fuel: {Fire.MaxFuel}", Color.Gold);
+                if (Fire.FlameRampAsset != null)
+                    WriteLine($"[D1]: {Fire.FlameRampAsset}", Color.Gold);
+                else
+                    WriteLine($"[D1]: None", Color.Gold);
                 WriteLine($"Show Debug: {Fire.ShowDebug}", Color.Gold);
             }
             spriteBatch.End();
