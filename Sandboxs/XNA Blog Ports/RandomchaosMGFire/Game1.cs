@@ -51,6 +51,7 @@ namespace RandomchaosMGFire
             Components.Add(Fire3D);
 
             Fire = new CPUOldSchoolFire(this, new Point(400, 240));
+            //Fire.FlameRampAsset = "Textures/FlameRamp6";
             Components.Add(Fire);
 
             Fire2 = new GPUOldSchoolFire(this, new Point(400,240));

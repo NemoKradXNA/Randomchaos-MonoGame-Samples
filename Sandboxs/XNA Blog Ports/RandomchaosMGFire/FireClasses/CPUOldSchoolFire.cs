@@ -38,7 +38,9 @@ namespace RandomchaosMGFire
             int[] fm = new int[w * h];
 
             for (int x = 0; x < w; x++)
+            {
                 fmap[x, (h - 1)] = rand.Next(minFuel, maxFuel);
+            }
 
             for (int y = 0; y < h; y++)
             {

@@ -65,6 +65,12 @@
     <Content Include="Content\Shaders\SkyBoxShader.fx" />
     <Content Include="Content\Shaders\VolumetricFire.fx" />
     <Content Include="Content\Textures\flame.png" />
+    <Content Include="Content\Textures\FlameRamp1.png" />
+    <Content Include="Content\Textures\FlameRamp2.png" />
+    <Content Include="Content\Textures\FlameRamp3.png" />
+    <Content Include="Content\Textures\FlameRamp4.png" />
+    <Content Include="Content\Textures\FlameRamp5.png" />
+    <Content Include="Content\Textures\FlameRamp6.png" />
     <Content Include="Content\Textures\h2mcpCube.jpg" />
     <Content Include="Content\Textures\h2mcpCubeNormal.jpg" />
     <Content Include="Icon.ico" />
