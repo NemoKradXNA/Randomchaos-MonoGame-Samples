@@ -19,19 +19,8 @@ namespace RandomchaosMGFire
 
         protected Effect effect;
 
-        public GPUOldSchoolFire(Game game) : base(game)
-        {
-            BuildPalette();
-            rand = new Random(DateTime.Now.Millisecond);
-        }
-        public GPUOldSchoolFire(Game game, Point resolution) : base(game)
-        {
-            BuildPalette();
-
-            rand = new Random(DateTime.Now.Millisecond);
-
-            Resolution = resolution;
-        }
+        public GPUOldSchoolFire(Game game) : base(game) { }
+        public GPUOldSchoolFire(Game game, Point resolution) : base(game, resolution) { }
 
         protected override void LoadContent()
         {
@@ -39,7 +28,7 @@ namespace RandomchaosMGFire
 
            
             int[] i = new int[Resolution.X * Resolution.Y];
-            fireMap.SetData<int>(i);
+            fireMap.SetData(i);
 
             effect = Game.Content.Load<Effect>("Shaders/OldSchoolFire");
 
@@ -68,7 +57,7 @@ namespace RandomchaosMGFire
                     d[x + (y * fireMap.Width)] = MathHelper.Clamp((float)rand.NextDouble(), minFuel / 255f, maxFuel / 255f);
             }
 
-            fireMap.SetData<float>(d);
+            fireMap.SetData(d);
         }
 
         public override void Draw(GameTime gameTime)
@@ -99,9 +88,9 @@ namespace RandomchaosMGFire
             GraphicsDevice.SetRenderTarget(null);
 
             // Get the data from the rt and pack it back into the map.
-            rt.GetData<Color>(rtc);
+            rt.GetData(rtc);
             //GraphicsDevice.Textures[1] = null;
-            fireMap.SetData<Color>(rtc);
+            fireMap.SetData(rtc);
 
             // Re draw with color passing in the firemap data
             GraphicsDevice.Clear(Color.Black);

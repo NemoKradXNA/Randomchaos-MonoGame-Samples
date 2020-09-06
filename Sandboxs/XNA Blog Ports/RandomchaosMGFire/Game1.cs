@@ -47,10 +47,11 @@ namespace RandomchaosMGFire
             Components.Add(camera);
             Services.AddService(typeof(Base3DCamera), camera);
 
-            Fire3D = new RCLayeredFire(this, 8);
+            Fire3D = new RCLayeredFire(this, 16);
             Fire3D.Scale = new Vector3(2, 6, 8);
             Fire3D.AnimationSpeed = 5;// .01f;
-            Fire3D.FlameOffSet = .5f;
+            Fire3D.FlameOffSet = .2f;
+            Fire3D.Color = new Color(1, .25f, .0125f, 1);
 
             Components.Add(Fire3D);
 
@@ -186,6 +187,12 @@ namespace RandomchaosMGFire
 
                 Fire.FlameRampAsset = FlamePAmps[idx + 1];
                 Fire.ReBuildPallet();
+
+                Fire2.FlameRampAsset = FlamePAmps[idx + 1];
+                Fire2.ReBuildPallet();
+
+                Fire3.FlameRampAsset = FlamePAmps[idx + 1];
+                Fire3.ReBuildPallet();
             }
 
             if (Fire.Enabled || Fire2.Enabled || Fire3.Enabled)
@@ -295,7 +302,6 @@ namespace RandomchaosMGFire
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-
             base.Draw(gameTime);
 
             line = 0;
@@ -317,13 +323,13 @@ namespace RandomchaosMGFire
                 WriteLine($"[U/J] - Flame Animation Speed +- {Fire3D.AnimationSpeed}", Color.Gold);
                 WriteLine($"[I/K] - Flame Color (R) +- : {Fire3D.Color.ToVector4().X}", Color.LimeGreen);
                 WriteLine($"[O/L] - Flame Color (G) +- : {Fire3D.Color.ToVector4().Y}", Color.LimeGreen);
-                WriteLine($"[P/;] - Flame Color (B) +- : {Fire3D.Color.ToVector4().Z}", Color.LimeGreen);                
+                WriteLine($"[P/;] - Flame Color (B) +- : {Fire3D.Color.ToVector4().Z}", Color.LimeGreen);
             }
             if (Fire.Enabled || Fire2.Enabled || Fire3.Enabled)
             {
                 WriteLine($"Fire Type: " + ((Fire2.Enabled || false) ? "GPU" : "CPU"), Color.Gold);
-                WriteLine($"[R/F] Toggle Oxygen: {Fire.Oxygen}",  Color.Gold);
-                WriteLine($"[T/G] Toggle Min Fuel: {Fire.MinFuel}",  Color.Gold);
+                WriteLine($"[R/F] Toggle Oxygen: {Fire.Oxygen}", Color.Gold);
+                WriteLine($"[T/G] Toggle Min Fuel: {Fire.MinFuel}", Color.Gold);
                 WriteLine($"[Y/H] Toggle Max Fuel: {Fire.MaxFuel}", Color.Gold);
                 if (Fire.FlameRampAsset != null)
                     WriteLine($"[D1]: {Fire.FlameRampAsset}", Color.Gold);
@@ -331,6 +337,7 @@ namespace RandomchaosMGFire
                     WriteLine($"[D1]: None", Color.Gold);
                 WriteLine($"Show Debug: {Fire.ShowDebug}", Color.Gold);
             }
+
             spriteBatch.End();
         }
 

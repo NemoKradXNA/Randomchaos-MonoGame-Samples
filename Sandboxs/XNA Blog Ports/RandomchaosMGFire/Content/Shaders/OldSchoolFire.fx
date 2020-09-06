@@ -8,8 +8,6 @@
 //													//
 //////////////////////////////////////////////////////
 
-bool cap = false;
-
 // Screen pixel values 
 uniform extern texture fireMap;
 sampler map = sampler_state 
@@ -50,28 +48,17 @@ float4 UpdateFireMap(VertexShaderOutput input) : COLOR0
 	float2 pix = float2(1,1) / float2(width,height);
 
 	float4 scrn = tex2D(screen, input.TexCoord);
+
+	
 	// Sample the pixels below me.
-	if (cap)
-	{
-		if ((input.TexCoord.y + pix.y) < 1 - pix.y)
-		{
-			col += tex2D(map,float2(input.TexCoord.x - pix.x,input.TexCoord.y + pix.y));
-			col += tex2D(map,float2(input.TexCoord.x,input.TexCoord.y + (pix.y * 2)));
-			col += tex2D(map,float2(input.TexCoord.x + pix.x,input.TexCoord.y + pix.y));
-			col += tex2D(map,float2(input.TexCoord.x,input.TexCoord.y + (pix.y * 2)));
-		}
-	}
-	if (!cap)
-	{
-		col += tex2D(map,float2(input.TexCoord.x - pix.x,input.TexCoord.y + pix.y));
-		col += tex2D(map,float2(input.TexCoord.x,input.TexCoord.y + (pix.y * 2)));
-		col += tex2D(map,float2(input.TexCoord.x + pix.x,input.TexCoord.y + pix.y));
-		col += tex2D(map,float2(input.TexCoord.x,input.TexCoord.y + (pix.y * 2)));
-	}
+	col += tex2D(map,float2(input.TexCoord.x - pix.x,input.TexCoord.y + pix.y));
+	col += tex2D(map,float2(input.TexCoord.x,input.TexCoord.y + (pix.y * 2)));
+	col += tex2D(map,float2(input.TexCoord.x + pix.x,input.TexCoord.y + pix.y));
+	col += tex2D(map,float2(input.TexCoord.x,input.TexCoord.y + (pix.y * 2)));
 
 	// Divied the sum by the 4 + the oxygen mod.
 	col /= (4 + oxygen);
-
+	
 	// return the map value;
 	return  float4(col, col, col, 1);
 }

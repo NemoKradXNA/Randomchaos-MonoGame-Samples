@@ -1,9 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,7 +15,7 @@ namespace RandomchaosMGFire
 
         protected Random rand;
 
-        protected Point Resolution = new Point(400, 240);
+        public Point Resolution = new Point(400, 240);
         protected float oxygen = .25f;
         protected int minFuel = 0;
         protected int maxFuel = 255;
@@ -76,15 +72,17 @@ namespace RandomchaosMGFire
         {
             for (int x = 0; x < palette.Length; x++)
             {
-                //double saturation = x > 96 ? 0 : 1.0 - x / 128.0;
+                //double saturation = x > 100 ? 0 : 1.0 - x / 200.0; ;
                 //palette[x] = HSBtoRGB(x / 576.0, saturation, Math.Min(1.0, x / 48.0), x * 5);                               
+                //palette[x] = HSBtoRGB(x / 255f, saturation, Math.Min(1.0, (x/255.0)*5), x * 5);
 
-                palette[x] = new Color(255, Math.Min(255, x * 2), x / 3, x * 5);
+                palette[x] = new Color(255, Math.Min(255, x * 2), x , x * 5);
                 //palette[x] = new Color(x / 3, Math.Min(255, x * 2), 255, x * 5);
                 //palette[x] = new Color(x / 3, 255, Math.Min(255, x * 2), x * 5);
                 //palette[x] = new Color(Math.Min(255, x * 2), 255, x / 3, x * 5);
             }
         }
+
         protected Color HSBtoRGB(double hue, double saturation, double brightness, int alpha)
         {
             double r = 0;
@@ -158,6 +156,7 @@ namespace RandomchaosMGFire
 
             return col;
         }
+
         protected override void LoadContent()
         {
             base.LoadContent();
@@ -170,10 +169,10 @@ namespace RandomchaosMGFire
             {
                 paletteTexture = Game.Content.Load<Texture2D>(FlameRampAsset);
                 palette = new Color[paletteTexture.Width * paletteTexture.Height];
-                paletteTexture.GetData<Color>(palette);
+                paletteTexture.GetData(palette);
             }
             else
-                paletteTexture.SetData<Color>(palette);
+                paletteTexture.SetData(palette);
         }
 
         public void ReBuildPallet()
@@ -184,14 +183,14 @@ namespace RandomchaosMGFire
             {
                 paletteTexture = Game.Content.Load<Texture2D>(FlameRampAsset);
                 palette = new Color[paletteTexture.Width * paletteTexture.Height];
-                paletteTexture.GetData<Color>(palette);
+                paletteTexture.GetData(palette);
             }
             else
             {
                 paletteTexture = new Texture2D(GraphicsDevice, 256, 1);
                 palette = new Color[256];
                 BuildPalette();
-                paletteTexture.SetData<Color>(palette);
+                paletteTexture.SetData(palette);
             }
         }
 

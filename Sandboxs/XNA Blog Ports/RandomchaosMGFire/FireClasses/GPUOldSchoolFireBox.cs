@@ -20,7 +20,7 @@ namespace RandomchaosMGFire
         protected SpriteFont font;
 
         public GPUOldSchoolFireBox(Game game) : base(game) { }
-        public GPUOldSchoolFireBox(Game game, Point resolution) : base(game) { }
+        public GPUOldSchoolFireBox(Game game, Point resolution) : base(game,resolution) { }
 
         protected override void LoadContent()
         {
@@ -68,7 +68,6 @@ namespace RandomchaosMGFire
                 return;
 
             effect.Parameters["fireMap"].SetValue(fireMap);
-            effect.Parameters["cap"].SetValue(true);
 
             effect.Parameters["oxygen"].SetValue(oxygen);
             effect.Parameters["paletteMap"].SetValue(paletteTexture);
@@ -108,7 +107,7 @@ namespace RandomchaosMGFire
             spriteBatch.End();
 
             // Debug
-            if(ShowDebug)
+            if (ShowDebug)
                 RenderDebugTextures(paletteTexture, fireMap);
         }
         
@@ -155,7 +154,7 @@ namespace RandomchaosMGFire
             lineShader.VertexColorEnabled = true;
 
             lineShader.CurrentTechnique.Passes[0].Apply();
-            GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, points, 0, points.Length, index, 0, primativeCount);
+            GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineList, points, 0, points.Length, index, 0, primativeCount);
         }
     }
 }

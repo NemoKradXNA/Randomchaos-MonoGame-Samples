@@ -74,7 +74,7 @@ namespace RandomchaosMGFire
                 }
             }
 
-            fireMap.SetData<int>(fm);
+            fireMap.SetData(fm);
         }
 
         public override void Update(GameTime gameTime)
@@ -93,8 +93,9 @@ namespace RandomchaosMGFire
                 for (int x = 0; x < w; x++)
                     fireColor[x + (y * w)] = palette[fmap[x, y]];
 
-            fireTexture.SetData<Color>(fireColor);
+            fireTexture.SetData(fireColor);
         }
+
         public override void Draw(GameTime gameTime)
         {
             if (!Enabled)
@@ -110,6 +111,13 @@ namespace RandomchaosMGFire
                 if (ShowDebug)
                     RenderDebugTextures(paletteTexture, fireMap);
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            fireTexture.Dispose();
         }
     }
 }

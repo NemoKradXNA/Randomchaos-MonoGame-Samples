@@ -52,25 +52,26 @@ sampler2D flameTextureSampler = sampler_state
 // Vector-valued noise
 float4 GenerateNoise4f(float3 Pos : POSITION) : COLOR
 {
-float4 c;
-float3 P = Pos * VOLUME_SIZE;
-c.r = noise(P);
-c.g = noise(P + float3(11, 17, 23));
-c.b = noise(P + float3(57, 93, 65));
-c.a = noise(P + float3(77, 15, 111));
-// return c*0.5+0.5;
-return abs(c);
+	float4 c;
+	float3 P = Pos * VOLUME_SIZE;
+	c.r = noise(P);
+	c.g = noise(P + float3(11, 17, 23));
+	c.b = noise(P + float3(57, 93, 65));
+	c.a = noise(P + float3(77, 15, 111));
+	// return c*0.5+0.5;
+	return abs(c);
 }
 // Scalar noise
 float GenerateNoise1f(float3 Pos : POSITION) : COLOR
 {
-float3 P = Pos * VOLUME_SIZE;
-// return noise(P)*0.5+0.5;
-return abs(noise(P));
+	float3 P = Pos * VOLUME_SIZE;
+	// return noise(P)*0.5+0.5;
+	return abs(noise(P));
 }
 // Tracked matricies
 float4x4 wvp : WorldViewProjection  ;
 float4x4 world : World;
+float4x4 worldId;
 //////////////////////////////
 // Structures
 struct appdata {
@@ -89,8 +90,11 @@ vertexOutput flameVS(appdata IN)
 {
 	vertexOutput OUT;
 	float4 objPos = float4(IN.Position.x, IN.Position.y, IN.Position.z, 1.0);
+	
 	float3 worldPos = mul(objPos, world).xyz;
 	OUT.HPosition = mul(objPos, wvp);
+
+	worldPos = mul(objPos, worldId).xyz;
 	float time = fmod(ticks, 10.0); // avoid large texcoords
 	OUT.NoisePos = worldPos * noiseScale*noiseFreq + time * timeScale*noiseAnim;
 	OUT.FlamePos = (worldPos * flameScale) + flameTrans;
@@ -125,7 +129,7 @@ half4 flamePS(vertexOutput IN) : COLOR
 	uv.y = IN.FlamePos.y;
 	//uv.y += turbulence4(NoiseMap, IN.NoisePos) * noiseStrength;
 	uv.y += turbulence4(noiseTextureSampler, IN.NoisePos) * noiseStrength / uv.x;
-	float4 c = tex2D(flameTextureSampler, uv);
+	float4 c = tex2D(flameTextureSampler, uv).r;
 	c.a = c.rgb;
 	c.rgb *= flameColor.rgb;
 	return c;

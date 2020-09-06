@@ -39,7 +39,7 @@ namespace RandomchaosMGFire
             NoiseFrequency = .10f;
             NoiseStrength = 1.0f;
             TimeScale = 1.0f;
-            NoiseScale = new Vector3(1.0f, 1f, 1);
+            NoiseScale = new Vector3(1.0f, 1f, 0);
             NoiseAnimation = new Vector3(0.0f, -0.1f, 0.0f);
             FlameScale = new Vector3(1, -1.0f, 1);
             FlameTranslation = new Vector3(0.0f, 0.0f, 0.0f);
@@ -50,7 +50,9 @@ namespace RandomchaosMGFire
                 flames[f].Transform.Parent = this;
                 flames[f].ColorAsset = "Textures/flame";
                 flames[f].Rotation = Rotation;
-                flames[f].Position = new Vector3(0, 0, -.01f * ((float)f*.5f));
+                flames[f].Position = new Vector3(0, 0, .01f * f);// ((float)f*.5f));
+
+                flames[f].Transform.SetParent(this);
             }
         }
 
@@ -64,6 +66,9 @@ namespace RandomchaosMGFire
 
         public override void Update(GameTime gameTime)
         {
+            // Look at the camera.
+            //Transform.LookAtLockRotation(camera.Transform.Position, 1, Vector3.Backward, new Vector3(1, 0, 1));
+            
             Transform.Update();
 
             foreach (Base3DQuad flame in flames)
@@ -138,8 +143,9 @@ namespace RandomchaosMGFire
 
             foreach (Base3DQuad flame in flames)
             {
-                flame.Effect.Parameters["Index"].SetValue(flameOffset + ((float)(flames.IndexOf(flame)+1) / flames.Count) );
-                //flame.Effect.Parameters["Index"].SetValue(flameOffset + (flames.IndexOf(flame) * .5f) * .1f);
+                //flame.Effect.Parameters["Index"].SetValue(flameOffset + ((float)(flames.IndexOf(flame)+1) / flames.Count) );
+                flame.Effect.Parameters["Index"].SetValue(flameOffset + (flames.IndexOf(flame) * .5f) * .1f);
+                flame.Effect.Parameters["worldId"].SetValue(Matrix.CreateScale(Scale) * Matrix.Identity * Matrix.CreateTranslation(Position));
                 flame.Draw(gameTime);
             }
         }
