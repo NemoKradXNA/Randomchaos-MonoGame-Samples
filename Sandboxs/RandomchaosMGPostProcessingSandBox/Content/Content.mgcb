@@ -176,6 +176,12 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/PostProcessing/Fog.fx
 
+#begin Shaders/PostProcessing/FXAA.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/PostProcessing/FXAA.fx
+
 #begin Shaders/PostProcessing/GaussianBlur.fx
 /importer:EffectImporter
 /processor:EffectProcessor

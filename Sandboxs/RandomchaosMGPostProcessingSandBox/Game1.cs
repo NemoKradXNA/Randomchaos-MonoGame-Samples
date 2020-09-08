@@ -56,6 +56,8 @@ namespace RandomchaosMGPostProcessingSandBox
         ColorFilterEffect colorFilter;
         BleachEffect bleach;
         ScanLinesEffect scanLines;
+
+        FXAAEffect fxaa;
         #endregion
 
         #region UI bits
@@ -190,6 +192,10 @@ namespace RandomchaosMGPostProcessingSandBox
             deRezed = new DeRezedEffect(this, 128);
             deRezed.Enabled = false;
             ppManager.AddEffect(deRezed);
+
+            fxaa = new FXAAEffect(this);
+            fxaa.Enabled = false;
+            ppManager.AddEffect(fxaa);
         }
 
         /// <summary>
@@ -320,6 +326,9 @@ namespace RandomchaosMGPostProcessingSandBox
 
             if (kbm.KeyPress(Keys.D3))
                 selectedEffect = scanLines;
+
+            if (kbm.KeyPress(Keys.D4))
+                selectedEffect = fxaa;
 
 
             if (selectedEffect != null)
@@ -567,6 +576,7 @@ namespace RandomchaosMGPostProcessingSandBox
             WriteLine($"[D1 ] - Color Filter ON: {colorFilter.Enabled}", x, colorFilter.Enabled ? Color.Yellow : Color.Gold);
             WriteLine($"[D2 ] - Bleach ON: {bleach.Enabled}", x, bleach.Enabled ? Color.Yellow : Color.Gold);
             WriteLine($"[D3 ] - Scan Lines ON: {scanLines.Enabled}", x, scanLines.Enabled ? Color.Yellow : Color.Gold);
+            WriteLine($"[D4 ] - FXAA ON: {fxaa.Enabled}", x, fxaa.Enabled ? Color.Yellow : Color.Gold);
 
             WriteLine($"", x, Color.Gold);
             WriteLine($"", x, Color.Gold);
