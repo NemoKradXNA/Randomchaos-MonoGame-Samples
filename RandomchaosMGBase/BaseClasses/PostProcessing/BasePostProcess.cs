@@ -47,8 +47,12 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
             if (Enabled)
             {
                 spriteBatch.Begin(SortMode, Blend, Sampler, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-                effect.CurrentTechnique.Passes[0].Apply();
-                spriteBatch.Draw(BackBuffer, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height), Color.White);
+                
+                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    spriteBatch.Draw(BackBuffer, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height), Color.White);
+                }
                 spriteBatch.End();
             }
         }

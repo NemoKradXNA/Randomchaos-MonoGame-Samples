@@ -3,15 +3,15 @@
 
 //#define GAMMA_BLENDING
 
-#if defined(LOW_QUALITY)
-	#define EDGE_STEP_COUNT 4
-	#define EDGE_STEPS 1, 1.5, 2, 4
-	#define EDGE_GUESS 12
-#else
+//#if defined(LOW_QUALITY)
+//	#define EDGE_STEP_COUNT 4
+//	#define EDGE_STEPS 1, 1.5, 2, 4
+//	#define EDGE_GUESS 12
+//#else
 	#define EDGE_STEP_COUNT 10
 	#define EDGE_STEPS 1, 1.5, 2, 2, 2, 2, 2, 2, 2, 4
 	#define EDGE_GUESS 8
-#endif
+//#endif
 
 static const float edgeSteps[EDGE_STEP_COUNT] = { EDGE_STEPS };
 
@@ -27,6 +27,10 @@ sampler screen : register(s0)
 
 int width;
 int height;
+
+bool RenderHalfScreen = false;
+
+float VLine;
 
 // Trims the algorithm from processing darks.
 //   0.0833 - upper limit (default, the start of visible unfiltered edges)
@@ -265,28 +269,316 @@ float DetermineEdgeBlendFactor(LuminanceData l, EdgeData e, float2 uv)
 		return 0;
 	}
 
-	return 0.5 - shortestDistance / (pDistance + nDistance);
+	return 0.5 - shortestDistance / (pDistance + nDistance);    
 }
 
-float4 FxaaPS(VertexShaderOutput input) : COLOR0
+float4 BasicLuminancePS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;	    if (uv.x >= VLine || !RenderHalfScreen)
+    {        float4 sample = Sample(uv);
+        sample.rgb = sample.g;
+	
+        return sample;    }	    return 0;}float4 LinearRgbToLuminancePS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;	    if (uv.x >= VLine || !RenderHalfScreen)
+    {        float4 sample = SampleLuminance(uv);
+	
+        return sample;    }    return 0;}float4 ContrastPS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;	    if (uv.x >= VLine || !RenderHalfScreen)
+    {        LuminanceData l = SampleLuminanceNeighborhood(uv);
+	
+        return l.contrast;    }    return 0;}float4 ContrastSkipLowPS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;    if (uv.x >= VLine || !RenderHalfScreen)
+    {        LuminanceData l = SampleLuminanceNeighborhood(uv);
+	
+        float4 retCol = l.contrast;
+        if (l.contrast < _ContrastThreshold)
+        {
+            retCol.r = 1;
+        }
+	    
+        return retCol;    }    return 0;}float4 ContrastSkipHighPS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;	    if (uv.x >= VLine || !RenderHalfScreen)
+    {        LuminanceData l = SampleLuminanceNeighborhood(uv);
+	
+        float4 retCol = l.contrast;
+    
+        if (l.contrast < _RelativeThreshold * l.highest)
+        {
+            retCol.g = 1;
+        }
+    
+        return retCol;    }    return 0;}float4 ContrastSkipBothPS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;	    if (uv.x >= VLine || !RenderHalfScreen)
+    {        LuminanceData l = SampleLuminanceNeighborhood(uv);
+	
+        float4 retCol = l.contrast;
+        if (l.contrast < _ContrastThreshold)
+        {
+            retCol.r = 1;
+        }
+	
+        if (l.contrast < _RelativeThreshold * l.highest)
+        {
+            retCol.g = 1;
+        }
+    
+        return retCol;    }    return 0;}float4 ContrastSkipPS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;	    if (uv.x >= VLine || !RenderHalfScreen)
+    {        LuminanceData l = SampleLuminanceNeighborhood(uv);
+	
+        if (ShouldSkipPixel(l))
+        {
+            return 0;
+        }
+    
+        return l.contrast;    }    return 0;}float4 BlendFactorPS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;	    if (uv.x >= VLine || !RenderHalfScreen)
+    {        LuminanceData l = SampleLuminanceNeighborhood(uv);
+	
+        if (ShouldSkipPixel(l))
+        {
+            return 0;
+        }
+	
+        float pixelBlend = DeterminePixelBlendFactor(l);
+        return pixelBlend;    }    return 0;}float4 BlendFactorHorizontalPS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;	    if (uv.x >= VLine || !RenderHalfScreen)
+    {        LuminanceData l = SampleLuminanceNeighborhood(uv);
+	
+        if (ShouldSkipPixel(l))
+        {
+            return 0;
+        }
+	
+        float pixelBlend = DeterminePixelBlendFactor(l);
+        EdgeData e = DetermineEdge(l);
+        return e.isHorizontal ? float4(1, 0, 0, 0) : 1;    }    return 0;}float4 BlendingPS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;	    if (uv.x >= VLine || !RenderHalfScreen)
+    {        LuminanceData l = SampleLuminanceNeighborhood(uv);
+	
+        if (ShouldSkipPixel(l))
+        {
+            return 0;
+        }
+	
+        float pixelBlend = DeterminePixelBlendFactor(l);
+        EdgeData e = DetermineEdge(l);	        if (e.isHorizontal)
+        {
+            uv.y += e.pixelStep * pixelBlend;
+        }
+        else
+        {
+            uv.x += e.pixelStep * pixelBlend;
+        }
+        return float4(Sample(uv).rgb, l.m);    }    return 0;}float4 EdgeLumincencePS(VertexShaderOutput input) : COLOR0
+{    float2 uv = input.TexCoord;    float2 pix = float2(1, 1) / float2(width, height);	    if (uv.x >= VLine || !RenderHalfScreen)
+    {            LuminanceData l = SampleLuminanceNeighborhood(uv);
+	
+        if (ShouldSkipPixel(l))
+        {
+            return Sample(uv);
+        }
+	
+        float pixelBlend = DeterminePixelBlendFactor(l);
+        EdgeData e = DetermineEdge(l);
+
+        return DetermineEdgeBlendFactor(l, e, uv) - pixelBlend;    }     	return 0;
+}float4 FxaaPS(VertexShaderOutput input) : COLOR0
 {
+    float2 uv = input.TexCoord;
+	
+    if (uv.x >= VLine || !RenderHalfScreen)
+    {
+        LuminanceData l = SampleLuminanceNeighborhood(uv);
+
+        if (ShouldSkipPixel(l)) 
+            return Sample(uv);
+
+        float pixelBlend = DeterminePixelBlendFactor(l);
+
+        EdgeData e = DetermineEdge(l);        float edgeBlend = DetermineEdgeBlendFactor(l, e, uv);
+        float finalBlend = max(pixelBlend, edgeBlend);        if (e.isHorizontal) 
+            uv.y += e.pixelStep * finalBlend;
+        else
+            uv.x += e.pixelStep * finalBlend;
+        return float4(Sample(uv).rgb, l.m);    }	    return 0;}float4 halfPS(VertexShaderOutput input) : COLOR0
+{
+    if (!RenderHalfScreen)
+        return 0;
+	
 	float2 uv = input.TexCoord;
-	LuminanceData l = SampleLuminanceNeighborhood(uv);
+    float2 pix = float2(1, 1) / float2(width, height);
+	
+    if (uv.x >= VLine - pix.x && uv.x <= VLine + pix.x)        return float4(0, 0, 0, 1);
+    else if (uv.x <= VLine)
+        return Sample(uv);
+	else
+        return 0;
 
-	if (ShouldSkipPixel(l)) 
-		return Sample(uv);
+}
+technique BasicLuminance
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL BasicLuminancePS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
 
-	float pixelBlend = DeterminePixelBlendFactor(l);
+technique LinearRgbLuminance
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL LinearRgbToLuminancePS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
 
-	EdgeData e = DetermineEdge(l);	float edgeBlend = DetermineEdgeBlendFactor(l, e, uv);
-	float finalBlend = max(pixelBlend, edgeBlend);	if (e.isHorizontal) 
-		uv.y += e.pixelStep * finalBlend;
-	else 
-		uv.x += e.pixelStep * finalBlend;
-	return float4(Sample(uv).rgb, l.m);}technique FXAA
+technique Contrast
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL ContrastPS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
+
+technique ContrastSkipLow
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL ContrastSkipLowPS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
+
+technique ContrastSkipHigh
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL ContrastSkipHighPS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
+
+technique ContrastSkipBoth
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL ContrastSkipBothPS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
+
+technique ContrastSkip
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL ContrastSkipPS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
+
+technique BlendFactor
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL BlendFactorPS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
+
+technique BlendFactorHorizontal
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL BlendFactorHorizontalPS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
+
+technique Blending
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL BlendingPS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
+
+technique EdgeLumincense
+{
+    pass P0
+    {
+        PixelShader = compile PS_SHADERMODEL EdgeLumincencePS();
+    }
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
+}
+
+technique FXAA
 {
 	pass P0
 	{
 		PixelShader = compile PS_SHADERMODEL FxaaPS();
 	}
+    pass P1
+    {
+        AlphaBlendEnable = true;
+        BlendOp = Subtract;
+        PixelShader = compile PS_SHADERMODEL halfPS();
+    }
 }

@@ -193,7 +193,7 @@ namespace RandomchaosMGPostProcessingSandBox
             deRezed.Enabled = false;
             ppManager.AddEffect(deRezed);
 
-            fxaa = new FXAAEffect(this);
+            fxaa = new FXAAEffect(this,.0312f,.063f,1f, FXAA.Technique.EdgeLumincense);
             fxaa.Enabled = false;
             ppManager.AddEffect(fxaa);
         }
@@ -258,7 +258,7 @@ namespace RandomchaosMGPostProcessingSandBox
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kbm.KeyDown(Keys.Escape))
                 Exit();
 
-            earth.Rotate(Vector3.Up, .0001f);
+            earth.Rotate(Vector3.Up, .01f);
 
             // Camera controls..
             float speedTran = .1f;
@@ -523,7 +523,52 @@ namespace RandomchaosMGPostProcessingSandBox
                     if (kbm.KeyDown(Keys.R))
                         deRezed.NumberOfTiles = MathHelper.Min(deRezed.NumberOfTiles + 1, 1024);
                     if (kbm.KeyDown(Keys.F))
-                        deRezed.NumberOfTiles = MathHelper.Max(deRezed.NumberOfTiles - 1, 1);                    
+                        deRezed.NumberOfTiles = MathHelper.Max(deRezed.NumberOfTiles - 1, 1);
+                }
+                else if (selectedEffect == fxaa)
+                {
+                    if (kbm.KeyPress(Keys.R))
+                    {
+                        int v = (int)fxaa.TechniqueUsed;
+                        v++;
+                        if (v >= (int)FXAA.Technique.MAX_DO_NOT_USE)
+                            v = 0;
+
+                        fxaa.TechniqueUsed = (FXAA.Technique)v;
+                    }
+
+                    if (kbm.KeyPress(Keys.F))
+                    {
+                        int v = (int)fxaa.TechniqueUsed;
+                        v--;
+                        if (v < 0)
+                            v = (int)FXAA.Technique.MAX_DO_NOT_USE-1;
+
+                        fxaa.TechniqueUsed = (FXAA.Technique)v;
+                    }
+
+                    if (kbm.KeyDown(Keys.T))
+                        fxaa.ContrastThreshold = MathHelper.Clamp(fxaa.ContrastThreshold + .001f, 0, 1);
+                    if (kbm.KeyDown(Keys.G))
+                        fxaa.ContrastThreshold = MathHelper.Clamp(fxaa.ContrastThreshold - .001f, 0, 1);
+
+                    if (kbm.KeyDown(Keys.Y))
+                        fxaa.RelativeThreshold = MathHelper.Clamp(fxaa.RelativeThreshold + .001f, 0, 1);
+                    if (kbm.KeyDown(Keys.H))
+                        fxaa.RelativeThreshold = MathHelper.Clamp(fxaa.RelativeThreshold - .001f, 0, 1);
+
+                    if (kbm.KeyDown(Keys.U))
+                        fxaa.SubpixelBlending = MathHelper.Clamp(fxaa.SubpixelBlending + .001f, 0, 1);
+                    if (kbm.KeyDown(Keys.J))
+                        fxaa.SubpixelBlending = MathHelper.Clamp(fxaa.SubpixelBlending - .001f, 0, 1);
+
+                    if (kbm.KeyPress(Keys.I))
+                        fxaa.RenderHalfScreen = !fxaa.RenderHalfScreen;
+
+                    if (kbm.KeyDown(Keys.O))
+                        fxaa.Vline = MathHelper.Clamp(fxaa.Vline + .001f, 0, 1);
+                    if (kbm.KeyDown(Keys.L))
+                        fxaa.Vline = MathHelper.Clamp(fxaa.Vline - .001f, 0, 1);
                 }
             }
         }
@@ -669,6 +714,16 @@ namespace RandomchaosMGPostProcessingSandBox
                     if (selectedEffect == deRezed)
                     {
                         WriteLine($"[R/F] - Number Of Tiles +=: {deRezed.NumberOfTiles}", x, Color.LimeGreen);
+                    }
+
+                    if (selectedEffect == fxaa)
+                    {
+                        WriteLine($"[R/F] - Technique: {fxaa.TechniqueUsed}", x, Color.LimeGreen);
+                        WriteLine($"[T/G] - Contrast Threshold +=: {fxaa.ContrastThreshold}", x, Color.LimeGreen);
+                        WriteLine($"[Y/H] - Relative Threshold +=: {fxaa.RelativeThreshold}", x, Color.LimeGreen);
+                        WriteLine($"[U/J] - Subpixel Blending +=: {fxaa.SubpixelBlending}", x, Color.LimeGreen);
+                        WriteLine($"[I] - Split Screen: {fxaa.RenderHalfScreen}", x, Color.LimeGreen);
+                        WriteLine($"[O/L] - Split At : {fxaa.Vline}", x, Color.LimeGreen);
                     }
                 }
             }
