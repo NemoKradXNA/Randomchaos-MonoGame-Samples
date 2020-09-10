@@ -46,7 +46,7 @@ namespace RandomchaosMGBase.BaseClasses.Primatives
                     };
 
             ib = new short[] { 0, 1, 2, 2, 3, 0 };
-            vb = new VertexBuffer(Game.GraphicsDevice, typeof(VertexPositionTexture), corners.Length, BufferUsage.None);
+            vb = new VertexBuffer(Game.GraphicsDevice, typeof(VertexPositionTexture), corners.Length, BufferUsage.None); 
         }
 
         public virtual void Draw(Vector2 v1, Vector2 v2)
