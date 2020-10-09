@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityPost13420", "Sandb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityPost13424", "Sandboxs\Community\CommunityPost13424\CommunityPost13424.csproj", "{5CAA9529-364B-4BA2-8BC4-233C1E5DA0C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityPost13853", "Sandboxs\Community\CommunityPost13853\CommunityPost13853.csproj", "{C9A2FB1B-602A-4368-A81B-CAD9AD3AB142}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -226,6 +228,13 @@ Global
 		{5CAA9529-364B-4BA2-8BC4-233C1E5DA0C0}.Release|Any CPU.ActiveCfg = Release|x86
 		{5CAA9529-364B-4BA2-8BC4-233C1E5DA0C0}.Release|x86.ActiveCfg = Release|x86
 		{5CAA9529-364B-4BA2-8BC4-233C1E5DA0C0}.Release|x86.Build.0 = Release|x86
+		{C9A2FB1B-602A-4368-A81B-CAD9AD3AB142}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C9A2FB1B-602A-4368-A81B-CAD9AD3AB142}.Debug|Any CPU.Build.0 = Debug|x86
+		{C9A2FB1B-602A-4368-A81B-CAD9AD3AB142}.Debug|x86.ActiveCfg = Debug|x86
+		{C9A2FB1B-602A-4368-A81B-CAD9AD3AB142}.Debug|x86.Build.0 = Debug|x86
+		{C9A2FB1B-602A-4368-A81B-CAD9AD3AB142}.Release|Any CPU.ActiveCfg = Release|x86
+		{C9A2FB1B-602A-4368-A81B-CAD9AD3AB142}.Release|x86.ActiveCfg = Release|x86
+		{C9A2FB1B-602A-4368-A81B-CAD9AD3AB142}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -253,6 +262,7 @@ Global
 		{68044A48-D9C6-48C6-AF58-BF30BCCBA90B} = {5D791364-FEA6-4CB3-95DA-055B292F5306}
 		{F979F42B-0F4B-4061-8A6C-367B76DA8EE2} = {BA380A7B-2AF6-4D2C-9E4E-45DFBB07E23B}
 		{5CAA9529-364B-4BA2-8BC4-233C1E5DA0C0} = {BA380A7B-2AF6-4D2C-9E4E-45DFBB07E23B}
+		{C9A2FB1B-602A-4368-A81B-CAD9AD3AB142} = {BA380A7B-2AF6-4D2C-9E4E-45DFBB07E23B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E75E3A8-AD26-4818-AD83-243C17C79F04}
