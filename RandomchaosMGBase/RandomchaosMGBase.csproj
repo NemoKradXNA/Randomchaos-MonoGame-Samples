@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseClasses\Animation\SpriteSheetAnimationClip.cs" />
+    <Compile Include="BaseClasses\Animation\SpriteSheetAnimationPlayer.cs" />
+    <Compile Include="BaseClasses\Animation\SpriteSheetKeyFrame.cs" />
     <Compile Include="BaseClasses\Base3DQuad.cs" />
     <Compile Include="BaseClasses\Base3DTerrain.cs" />
     <Compile Include="BaseClasses\Base3DCamera.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Interfaces\IHasTransform.cs" />
     <Compile Include="Interfaces\ITransform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpriteAnimationClipGenerator.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="VertexTypes\VertexPositionColorNormalTextureTangent.cs" />
   </ItemGroup>
