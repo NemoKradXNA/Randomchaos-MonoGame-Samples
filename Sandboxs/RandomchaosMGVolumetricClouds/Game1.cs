@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using RandomchaosMGBase.Noise;
 using RandomchaosMGBase.BaseClasses;
 
 namespace RandomchaosMGVolumetricClouds
@@ -60,7 +61,6 @@ namespace RandomchaosMGVolumetricClouds
 
             switch (skyType)
             {
-
                 case SkyType.CloudSplatter:
                     float boxSize = 250;
                     Vector3 flatBase = new Vector3(10, 1, 5);
@@ -150,6 +150,8 @@ namespace RandomchaosMGVolumetricClouds
             base.Initialize();
         }
 
+        Texture2D testNoise;
+
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -160,6 +162,31 @@ namespace RandomchaosMGVolumetricClouds
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            testNoise = new Texture2D(GraphicsDevice, 128, 128);
+
+            INoise noise = new PerlinNoise(0, 8);
+            //noise = new ValueNoise(0, 8);
+            //noise = new SimplexNoise(0, 8);
+            //noise = new VoronoiNoise(0, 8);
+            //noise = new WorleyNoise(0, 8,1.0f);
+
+            FractalNoiseGenerator fractal = new FractalNoiseGenerator(noise, 4, 1);
+
+            Color[] pixels = new Color[testNoise.Width * testNoise.Height];
+
+            for (int y = 0; y < testNoise.Height; y++)
+            {
+                for (int x = 0; x < testNoise.Width; x++)
+                {
+                    float fx = x / (testNoise.Width - 1.0f);
+                    float fy = y / (testNoise.Height - 1.0f);
+
+                    float l = fractal.Sample2D(fx, fy);
+                    pixels[x + (y * testNoise.Width)] = Color.Lerp(Color.Black, Color.White, l);
+                }
+            }
+
+            testNoise.SetData(pixels);            
         }
 
         /// <summary>
@@ -215,6 +242,12 @@ namespace RandomchaosMGVolumetricClouds
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
+
+            spriteBatch.Draw(testNoise, new Rectangle(0, 0, 256, 256), new Rectangle(0, 0, 128, 128), Color.White);
+
+            spriteBatch.End();
         }
     }
 }

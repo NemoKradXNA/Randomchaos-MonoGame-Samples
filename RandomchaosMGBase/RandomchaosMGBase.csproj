@@ -111,6 +111,15 @@
     <Compile Include="Interfaces\IHasName.cs" />
     <Compile Include="Interfaces\IHasTransform.cs" />
     <Compile Include="Interfaces\ITransform.cs" />
+    <Compile Include="Noise\FractalNoiseGenerator.cs" />
+    <Compile Include="Noise\INoise.cs" />
+    <Compile Include="Noise\NoiseBase.cs" />
+    <Compile Include="Noise\PerlinNoise.cs" />
+    <Compile Include="Noise\PermutationTable.cs" />
+    <Compile Include="Noise\SimplexNoise.cs" />
+    <Compile Include="Noise\ValueNoise.cs" />
+    <Compile Include="Noise\VoronoiNoise.cs" />
+    <Compile Include="Noise\WorleyNoise.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpriteAnimationClipGenerator.cs" />
     <Compile Include="Transform.cs" />
