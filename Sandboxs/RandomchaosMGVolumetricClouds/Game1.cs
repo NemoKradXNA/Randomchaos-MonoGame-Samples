@@ -243,11 +243,11 @@ namespace RandomchaosMGVolumetricClouds
 
             base.Draw(gameTime);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
+            //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
 
-            spriteBatch.Draw(testNoise, new Rectangle(0, 0, 256, 256), new Rectangle(0, 0, 128, 128), Color.White);
+            //spriteBatch.Draw(testNoise, new Rectangle(0, 0, 256, 256), new Rectangle(0, 0, 128, 128), Color.White);
 
-            spriteBatch.End();
+            //spriteBatch.End();
         }
     }
 }
