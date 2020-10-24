@@ -1,0 +1,109 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Content\**" />
+    <EmbeddedResource Remove="Content\**" />
+    <None Remove="Content\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="VertexTypes\VertexPositionColorNormalTextureTangent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Animation\SpriteSheetAnimationClip.cs" Link="BaseClasses\Animation\SpriteSheetAnimationClip.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Animation\SpriteSheetAnimationPlayer.cs" Link="BaseClasses\Animation\SpriteSheetAnimationPlayer.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Animation\SpriteSheetKeyFrame.cs" Link="BaseClasses\Animation\SpriteSheetKeyFrame.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Base3DCamera.cs" Link="BaseClasses\Base3DCamera.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Base3DObject.cs" Link="BaseClasses\Base3DObject.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Base3DQuad.cs" Link="BaseClasses\Base3DQuad.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Base3DTerrain.cs" Link="BaseClasses\Base3DTerrain.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\BaseSkyBox.cs" Link="BaseClasses\BaseSkyBox.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\BasePostProcess.cs" Link="BaseClasses\PostProcessing\BasePostProcess.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\BasePostProcessingEffect.cs" Link="BaseClasses\PostProcessing\BasePostProcessingEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\BleachEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\BleachEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\BloomEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\BloomEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\ColorFilterEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\ColorFilterEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\CrepuscularRays.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\CrepuscularRays.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\DepthOfFieldEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\DepthOfFieldEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\DeRezedEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\DeRezedEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\FogEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\FogEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\FXAAEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\FXAAEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\GreyScaleEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\GreyScaleEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\HeatHazeEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\HeatHazeEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\InvertColorEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\InvertColorEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\RadialBlurEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\RadialBlurEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\RippleEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\RippleEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\ScanLinesEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\ScanLinesEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\SepiaEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\SepiaEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingEffects\SunEffect.cs" Link="BaseClasses\PostProcessing\PostProcessingEffects\SunEffect.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcessingManager.cs" Link="BaseClasses\PostProcessing\PostProcessingManager.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\BleachByPass.cs" Link="BaseClasses\PostProcessing\PostProcess\BleachByPass.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\Bloom.cs" Link="BaseClasses\PostProcessing\PostProcess\Bloom.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\BrightPass.cs" Link="BaseClasses\PostProcessing\PostProcess\BrightPass.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\BumpmapDistort.cs" Link="BaseClasses\PostProcessing\PostProcess\BumpmapDistort.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\ColorFilter.cs" Link="BaseClasses\PostProcessing\PostProcess\ColorFilter.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\DepthOfField.cs" Link="BaseClasses\PostProcessing\PostProcess\DepthOfField.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\DeRezed.cs" Link="BaseClasses\PostProcessing\PostProcess\DeRezed.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\Fog.cs" Link="BaseClasses\PostProcessing\PostProcess\Fog.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\FXAA.cs" Link="BaseClasses\PostProcessing\PostProcess\FXAA.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\GaussBlurH.cs" Link="BaseClasses\PostProcessing\PostProcess\GaussBlurH.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\GaussBlurV.cs" Link="BaseClasses\PostProcessing\PostProcess\GaussBlurV.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\GreyScale.cs" Link="BaseClasses\PostProcessing\PostProcess\GreyScale.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\InvertColor.cs" Link="BaseClasses\PostProcessing\PostProcess\InvertColor.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\LightRay.cs" Link="BaseClasses\PostProcessing\PostProcess\LightRay.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\LightSceneMask.cs" Link="BaseClasses\PostProcessing\PostProcess\LightSceneMask.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\LightSourceMask.cs" Link="BaseClasses\PostProcessing\PostProcess\LightSourceMask.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\PoissonDiscBlur.cs" Link="BaseClasses\PostProcessing\PostProcess\PoissonDiscBlur.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\RadialBlur.cs" Link="BaseClasses\PostProcessing\PostProcess\RadialBlur.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\Ripple.cs" Link="BaseClasses\PostProcessing\PostProcess\Ripple.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\ScanLines.cs" Link="BaseClasses\PostProcessing\PostProcess\ScanLines.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\SceneBlend.cs" Link="BaseClasses\PostProcessing\PostProcess\SceneBlend.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\Sepia.cs" Link="BaseClasses\PostProcessing\PostProcess\Sepia.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\PostProcessing\PostProcess\Sun.cs" Link="BaseClasses\PostProcessing\PostProcess\Sun.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\Capsule.cs" Link="BaseClasses\Primatives\Capsule.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\Cube.cs" Link="BaseClasses\Primatives\Cube.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\Cylinder.cs" Link="BaseClasses\Primatives\Cylinder.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\Plane.cs" Link="BaseClasses\Primatives\Plane.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\PrimativeBase.cs" Link="BaseClasses\Primatives\PrimativeBase.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\Pyramid.cs" Link="BaseClasses\Primatives\Pyramid.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\Quad.cs" Link="BaseClasses\Primatives\Quad.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\ScreenQuad.cs" Link="BaseClasses\Primatives\ScreenQuad.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\Sphere.cs" Link="BaseClasses\Primatives\Sphere.cs" />
+    <Compile Include="..\RandomchaosMGBase\BaseClasses\Primatives\Triangle.cs" Link="BaseClasses\Primatives\Triangle.cs" />
+    <Compile Include="..\RandomchaosMGBase\GameComponentHelper.cs" Link="GameComponentHelper.cs" />
+    <Compile Include="..\RandomchaosMGBase\InputManagers\KeyboardStateManager.cs" Link="InputManagers\KeyboardStateManager.cs" />
+    <Compile Include="..\RandomchaosMGBase\InputManagers\MouseRenderer.cs" Link="InputManagers\MouseRenderer.cs" />
+    <Compile Include="..\RandomchaosMGBase\InputManagers\MouseStateManager.cs" Link="InputManagers\MouseStateManager.cs" />
+    <Compile Include="..\RandomchaosMGBase\Interfaces\IHasName.cs" Link="Interfaces\IHasName.cs" />
+    <Compile Include="..\RandomchaosMGBase\Interfaces\IHasTransform.cs" Link="Interfaces\IHasTransform.cs" />
+    <Compile Include="..\RandomchaosMGBase\Interfaces\ITransform.cs" Link="Interfaces\ITransform.cs" />
+    <Compile Include="..\RandomchaosMGBase\Noise\FractalNoiseGenerator.cs" Link="Noise\FractalNoiseGenerator.cs" />
+    <Compile Include="..\RandomchaosMGBase\Noise\INoise.cs" Link="Noise\INoise.cs" />
+    <Compile Include="..\RandomchaosMGBase\Noise\NoiseBase.cs" Link="Noise\NoiseBase.cs" />
+    <Compile Include="..\RandomchaosMGBase\Noise\PerlinNoise.cs" Link="Noise\PerlinNoise.cs" />
+    <Compile Include="..\RandomchaosMGBase\Noise\PermutationTable.cs" Link="Noise\PermutationTable.cs" />
+    <Compile Include="..\RandomchaosMGBase\Noise\SimplexNoise.cs" Link="Noise\SimplexNoise.cs" />
+    <Compile Include="..\RandomchaosMGBase\Noise\ValueNoise.cs" Link="Noise\ValueNoise.cs" />
+    <Compile Include="..\RandomchaosMGBase\Noise\VoronoiNoise.cs" Link="Noise\VoronoiNoise.cs" />
+    <Compile Include="..\RandomchaosMGBase\Noise\WorleyNoise.cs" Link="Noise\WorleyNoise.cs" />
+    <Compile Include="..\RandomchaosMGBase\SpriteAnimationClipGenerator.cs" Link="SpriteAnimationClipGenerator.cs" />
+    <Compile Include="..\RandomchaosMGBase\Transform.cs" Link="Transform.cs" />
+    <Compile Include="..\RandomchaosMGBase\VertexTypes\VertexPositionColorNormalTextureTangent.cs" Link="VertexTypes\VertexPositionColorNormalTextureTangent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BaseClasses\Animation\" />
+    <Folder Include="BaseClasses\PostProcessing\PostProcessingEffects\" />
+    <Folder Include="BaseClasses\PostProcessing\PostProcess\" />
+    <Folder Include="BaseClasses\Primatives\" />
+    <Folder Include="InputManagers\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Noise\" />
+    <Folder Include="VertexTypes\" />
+  </ItemGroup>
+</Project>

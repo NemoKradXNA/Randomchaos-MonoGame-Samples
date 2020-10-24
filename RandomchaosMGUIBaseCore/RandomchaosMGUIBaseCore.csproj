@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\RandomchaosMGUIBase\Delegates\UIDelegates.cs" Link="Delegates\UIDelegates.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\Enums\ScrollBarTypesEnum.cs" Link="Enums\ScrollBarTypesEnum.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\Enums\WindowCloseStatesEnum.cs" Link="Enums\WindowCloseStatesEnum.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\ButtonBase.cs" Link="UIBaseClasses\ButtonBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\ControlBase.cs" Link="UIBaseClasses\ControlBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\FileWindowsBase.cs" Link="UIBaseClasses\FileWindowsBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\ImageBase.cs" Link="UIBaseClasses\ImageBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\LabelBase.cs" Link="UIBaseClasses\LabelBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\ListBoxBase.cs" Link="UIBaseClasses\ListBoxBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\ListItemBase.cs" Link="UIBaseClasses\ListItemBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\ScreenCanvasBase.cs" Link="UIBaseClasses\ScreenCanvasBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\ScrollBarBase.cs" Link="UIBaseClasses\ScrollBarBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\ScrollRectangleBase.cs" Link="UIBaseClasses\ScrollRectangleBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\TextBoxBase.cs" Link="UIBaseClasses\TextBoxBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\WindowBase.cs" Link="UIBaseClasses\WindowBase.cs" />
+    <Compile Include="..\RandomchaosMGUIBase\UIBaseClasses\WindowTitleBar.cs" Link="UIBaseClasses\WindowTitleBar.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Delegates\" />
+    <Folder Include="Enums\" />
+    <Folder Include="UIBaseClasses\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RandomchaosMGBaseCore\RandomchaosMGBaseCore.csproj" />
+  </ItemGroup>
+</Project>

@@ -140,11 +140,13 @@ namespace RandomchaosMGUIBase.UIBaseClasses
                         if (key == Keys.V && KeyboardManager.CtrlIsDown)
                         {
                             // Clipboard
-                            AddTextAtCursor(Clipboard.GetText());                            
+                            // Not supported in .NET Core
+                            //AddTextAtCursor(Clipboard.GetText());                            
                         }
                         else if (key == Keys.C && KeyboardManager.CtrlIsDown)
                         {
-                            Clipboard.SetText(SelectedText);
+                            // Not supported in .NET Core
+                            //Clipboard.SetText(SelectedText);
                         }
                         else
                         {
