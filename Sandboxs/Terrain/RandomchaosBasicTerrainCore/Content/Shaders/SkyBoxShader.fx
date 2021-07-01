@@ -1,3 +1,13 @@
+#if OPENGL
+#define SV_POSITION POSITION
+#define VS_SHADERMODEL vs_2_0
+#define PS_SHADERMODEL ps_2_0
+#else
+#define VS_SHADERMODEL vs_4_0_level_9_1
+#define PS_SHADERMODEL ps_4_0_level_9_1
+#endif
+
+
 texture surfaceTexture;
 samplerCUBE TextureSampler = sampler_state 
 { 
@@ -73,7 +83,7 @@ technique Sky
     pass P0
     {
 		FILLMODE = SOLID;
-        VertexShader = compile vs_4_0 Transform();
-        PixelShader  = compile ps_4_0 BasicShader();
+        VertexShader = compile VS_SHADERMODEL Transform();
+        PixelShader = compile PS_SHADERMODEL BasicShader();
     }
 }
