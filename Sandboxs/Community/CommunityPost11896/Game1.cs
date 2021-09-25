@@ -17,6 +17,9 @@ namespace CommunityPost11896
         Vector2 DisplacementScroll;
         Vector2 scrollVelocity = new Vector2(0, .001f);
 
+        public string CurrentBumpMap = "bumpmap";
+        public string CurrentTexture = "xnauguk";
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -76,6 +79,17 @@ namespace CommunityPost11896
 
             // TODO: Add your update logic here
 
+            if (Keyboard.GetState().IsKeyUp(Keys.F1))
+            {
+                CurrentTexture = "xnauguk";
+                CurrentBumpMap = "bumpmap";
+            }
+            else
+            {
+                CurrentTexture = "textImage";
+                CurrentBumpMap = "blenderTest";
+            }
+
             base.Update(gameTime);
         }
 
@@ -89,15 +103,15 @@ namespace CommunityPost11896
 
             int s = (int)(GraphicsDevice.PresentationParameters.BackBufferWidth / 3f);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
-            spriteBatch.Draw(Content.Load<Texture2D>("Textures/xnauguk"), new Rectangle(0, 0, s, s), Color.White);
-            spriteBatch.Draw(Content.Load<Texture2D>("Textures/bumpmap"), new Rectangle(s, 0, s, s), Color.White);
+            spriteBatch.Draw(Content.Load<Texture2D>($"Textures/{CurrentTexture}"), new Rectangle(0, 0, s, s), Color.White);
+            spriteBatch.Draw(Content.Load<Texture2D>($"Textures/{CurrentBumpMap}"), new Rectangle(s, 0, s, s), Color.White);
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
             effect.CurrentTechnique.Passes[0].Apply();
             effect.Parameters["DisplacementScroll"].SetValue(DisplacementScroll += scrollVelocity);
-            effect.Parameters["Displacement"].SetValue(Content.Load<Texture2D>("Textures/bumpmap"));
-            spriteBatch.Draw(Content.Load<Texture2D>("Textures/xnauguk"), new Rectangle(s*2, 0, s, s), Color.White);
+            effect.Parameters["Displacement"].SetValue(Content.Load<Texture2D>($"Textures/{CurrentBumpMap}"));
+            spriteBatch.Draw(Content.Load<Texture2D>($"Textures/{CurrentTexture}"), new Rectangle(s*2, 0, s, s), Color.White);
             spriteBatch.End();
         }
     }

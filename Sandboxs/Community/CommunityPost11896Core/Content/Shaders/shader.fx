@@ -32,10 +32,11 @@ float4 main(vsOutput input) : COLOR0
 	float4 v =  tex2D(TextureSampler, input.texCoord);	
 
 	// Look up the displacement amount.
-	float2 displacement = tex2D(DisplacementSampler, DisplacementScroll + input.texCoord / 3).xy;
+    float3 tv = tex2D(DisplacementSampler, DisplacementScroll + input.texCoord / 3);
+	float2 displacement = tv.xy * tv.z;
 
 	// Offset the main texture coordinates.
-	input.texCoord += displacement * 0.2 - 0.15;
+    input.texCoord += displacement * 0.2 - 0.15;
 
 	/* // Optomized version
 	// Look up the displacement amount.

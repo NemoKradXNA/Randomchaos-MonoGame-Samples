@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Shaders\shader.fx" />
+    <Content Include="Content\Textures\blenderTest.png" />
     <Content Include="Content\Textures\xnauguk.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
