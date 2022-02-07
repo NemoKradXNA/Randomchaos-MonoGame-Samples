@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGBaseCore", "RandomchaosMGBaseCore\RandomchaosMGBaseCore.csproj", "{3D911403-FC1D-404F-B4EB-B3E0A2EDBF55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGBaseCore", "RandomchaosMGBaseCore\RandomchaosMGBaseCore.csproj", "{3D911403-FC1D-404F-B4EB-B3E0A2EDBF55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGUIBaseCore", "RandomchaosMGUIBaseCore\RandomchaosMGUIBaseCore.csproj", "{F4BD5291-6859-474E-B243-DCE43FBC470D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGUIBaseCore", "RandomchaosMGUIBaseCore\RandomchaosMGUIBaseCore.csproj", "{F4BD5291-6859-474E-B243-DCE43FBC470D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandboxs", "Sandboxs", "{40D4CB70-0496-49A6-8DA6-449B605BED42}"
 EndProject
@@ -15,41 +15,45 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Terrain", "Terrain", "{A065
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XNA Blog Ports", "XNA Blog Ports", "{D583DB24-9057-4A66-A764-E194F2C62DBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityPost11895Core", "Sandboxs\Community\CommunityPost11895Core\CommunityPost11895Core.csproj", "{D9BE247D-6C7D-4010-BB63-DE172E0F913A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityPost11895Core", "Sandboxs\Community\CommunityPost11895Core\CommunityPost11895Core.csproj", "{D9BE247D-6C7D-4010-BB63-DE172E0F913A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityPost11896Core", "Sandboxs\Community\CommunityPost11896Core\CommunityPost11896Core.csproj", "{95C1FC66-5898-4CBD-A408-63ED9FA36FC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityPost11896Core", "Sandboxs\Community\CommunityPost11896Core\CommunityPost11896Core.csproj", "{95C1FC66-5898-4CBD-A408-63ED9FA36FC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityPost13420Core", "Sandboxs\Community\CommunityPost13420Core\CommunityPost13420Core.csproj", "{1F942520-3911-4A5C-B462-E3A5C93F4ADB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityPost13420Core", "Sandboxs\Community\CommunityPost13420Core\CommunityPost13420Core.csproj", "{1F942520-3911-4A5C-B462-E3A5C93F4ADB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityPost13424Core", "Sandboxs\Community\CommunityPost13424Core\CommunityPost13424Core.csproj", "{AEC57C23-792C-44A6-B72A-07250B70A41A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityPost13424Core", "Sandboxs\Community\CommunityPost13424Core\CommunityPost13424Core.csproj", "{AEC57C23-792C-44A6-B72A-07250B70A41A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityPost13853Core", "Sandboxs\Community\CommunityPost13853Core\CommunityPost13853Core.csproj", "{B8819AD6-0AD3-4A9E-AAD6-1325874C9C8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityPost13853Core", "Sandboxs\Community\CommunityPost13853Core\CommunityPost13853Core.csproj", "{B8819AD6-0AD3-4A9E-AAD6-1325874C9C8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosBasicTerrainCore", "Sandboxs\Terrain\RandomchaosBasicTerrainCore\RandomchaosBasicTerrainCore.csproj", "{A2402B52-12FA-4856-9CF9-5CB88185508D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosBasicTerrainCore", "Sandboxs\Terrain\RandomchaosBasicTerrainCore\RandomchaosBasicTerrainCore.csproj", "{A2402B52-12FA-4856-9CF9-5CB88185508D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosGeoClipMappingCore", "Sandboxs\Terrain\RandomchaosGeoClipMappingCore\RandomchaosGeoClipMappingCore.csproj", "{73F973EA-D804-4F33-AFE5-1B6A66F25A9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosGeoClipMappingCore", "Sandboxs\Terrain\RandomchaosGeoClipMappingCore\RandomchaosGeoClipMappingCore.csproj", "{73F973EA-D804-4F33-AFE5-1B6A66F25A9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGBasicWaterCore", "Sandboxs\XNA Blog Ports\RandomchaosMGBasicWaterCore\RandomchaosMGBasicWaterCore.csproj", "{8662EF03-8DBA-4BFB-8516-406CB7380BBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGBasicWaterCore", "Sandboxs\XNA Blog Ports\RandomchaosMGBasicWaterCore\RandomchaosMGBasicWaterCore.csproj", "{8662EF03-8DBA-4BFB-8516-406CB7380BBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGFireCore", "Sandboxs\XNA Blog Ports\RandomchaosMGFireCore\RandomchaosMGFireCore.csproj", "{9E9ACB0A-C9C1-47A8-B553-AA4CA0CEDD5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGFireCore", "Sandboxs\XNA Blog Ports\RandomchaosMGFireCore\RandomchaosMGFireCore.csproj", "{9E9ACB0A-C9C1-47A8-B553-AA4CA0CEDD5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGLightAndShadeCore", "Sandboxs\XNA Blog Ports\RandomchaosMGLightAndShadeCore\RandomchaosMGLightAndShadeCore.csproj", "{BC8BB7D7-2FD0-4D4F-9E60-86A478371E1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGLightAndShadeCore", "Sandboxs\XNA Blog Ports\RandomchaosMGLightAndShadeCore\RandomchaosMGLightAndShadeCore.csproj", "{BC8BB7D7-2FD0-4D4F-9E60-86A478371E1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGSkySphereCore", "Sandboxs\XNA Blog Ports\RandomchaosMGSkySphereCore\RandomchaosMGSkySphereCore.csproj", "{051EB1AA-740E-4D0A-8FAC-0D7F02268FC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGSkySphereCore", "Sandboxs\XNA Blog Ports\RandomchaosMGSkySphereCore\RandomchaosMGSkySphereCore.csproj", "{051EB1AA-740E-4D0A-8FAC-0D7F02268FC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMG2DCrepuscularRaysCore", "Sandboxs\RandomchaosMG2DCrepuscularRaysCore\RandomchaosMG2DCrepuscularRaysCore.csproj", "{916BF6EC-7C74-4183-A4B1-81EBABCE5CB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMG2DCrepuscularRaysCore", "Sandboxs\RandomchaosMG2DCrepuscularRaysCore\RandomchaosMG2DCrepuscularRaysCore.csproj", "{916BF6EC-7C74-4183-A4B1-81EBABCE5CB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGDeferredLightingCore", "Sandboxs\RandomchaosMGDeferredLightingCore\RandomchaosMGDeferredLightingCore.csproj", "{5987B300-7DB9-4CAA-A07F-A65E5C6E87ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGDeferredLightingCore", "Sandboxs\RandomchaosMGDeferredLightingCore\RandomchaosMGDeferredLightingCore.csproj", "{5987B300-7DB9-4CAA-A07F-A65E5C6E87ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGPostProcessingSandBoxCore", "Sandboxs\RandomchaosMGPostProcessingSandBoxCore\RandomchaosMGPostProcessingSandBoxCore.csproj", "{EB6A4876-8900-4994-AC0E-8EA24CFAD16F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGPostProcessingSandBoxCore", "Sandboxs\RandomchaosMGPostProcessingSandBoxCore\RandomchaosMGPostProcessingSandBoxCore.csproj", "{EB6A4876-8900-4994-AC0E-8EA24CFAD16F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGRayPickingCore", "Sandboxs\RandomchaosMGRayPickingCore\RandomchaosMGRayPickingCore.csproj", "{AE9E8367-A537-4553-BCE6-6A10909AA06F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGRayPickingCore", "Sandboxs\RandomchaosMGRayPickingCore\RandomchaosMGRayPickingCore.csproj", "{AE9E8367-A537-4553-BCE6-6A10909AA06F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGShaderPlaygroundCore", "Sandboxs\RandomchaosMGShaderPlaygroundCore\RandomchaosMGShaderPlaygroundCore.csproj", "{6E60753E-DAAB-4F72-8AEF-FCC9940A15D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGShaderPlaygroundCore", "Sandboxs\RandomchaosMGShaderPlaygroundCore\RandomchaosMGShaderPlaygroundCore.csproj", "{6E60753E-DAAB-4F72-8AEF-FCC9940A15D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGUIBaseSandBoxCore", "Sandboxs\RandomchaosMGUIBaseSandBoxCore\RandomchaosMGUIBaseSandBoxCore.csproj", "{DAF2A162-A6B5-4BEA-9492-D4F5D7EF031F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGUIBaseSandBoxCore", "Sandboxs\RandomchaosMGUIBaseSandBoxCore\RandomchaosMGUIBaseSandBoxCore.csproj", "{DAF2A162-A6B5-4BEA-9492-D4F5D7EF031F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomchaosMGVolumetricCloudsCore", "Sandboxs\RandomchaosMGVolumetricCloudsCore\RandomchaosMGVolumetricCloudsCore.csproj", "{8E623BBD-ADB3-46E9-A3DE-66A45260AF25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomchaosMGVolumetricCloudsCore", "Sandboxs\RandomchaosMGVolumetricCloudsCore\RandomchaosMGVolumetricCloudsCore.csproj", "{8E623BBD-ADB3-46E9-A3DE-66A45260AF25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requests", "Requests", "{5E3A6544-4E57-4C70-BDE9-16A62C9C7003}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicRuntimeGeometry", "BasicRuntimeGeometry\BasicRuntimeGeometry.csproj", "{F64B1468-D779-41C4-858F-523210396FE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +141,10 @@ Global
 		{8E623BBD-ADB3-46E9-A3DE-66A45260AF25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E623BBD-ADB3-46E9-A3DE-66A45260AF25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E623BBD-ADB3-46E9-A3DE-66A45260AF25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F64B1468-D779-41C4-858F-523210396FE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F64B1468-D779-41C4-858F-523210396FE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F64B1468-D779-41C4-858F-523210396FE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F64B1468-D779-41C4-858F-523210396FE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,6 +171,8 @@ Global
 		{6E60753E-DAAB-4F72-8AEF-FCC9940A15D8} = {40D4CB70-0496-49A6-8DA6-449B605BED42}
 		{DAF2A162-A6B5-4BEA-9492-D4F5D7EF031F} = {40D4CB70-0496-49A6-8DA6-449B605BED42}
 		{8E623BBD-ADB3-46E9-A3DE-66A45260AF25} = {40D4CB70-0496-49A6-8DA6-449B605BED42}
+		{5E3A6544-4E57-4C70-BDE9-16A62C9C7003} = {40D4CB70-0496-49A6-8DA6-449B605BED42}
+		{F64B1468-D779-41C4-858F-523210396FE0} = {5E3A6544-4E57-4C70-BDE9-16A62C9C7003}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4DBB40D-681C-4614-A61D-9A58DD76FDD8}
