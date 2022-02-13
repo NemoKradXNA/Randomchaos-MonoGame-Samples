@@ -23,7 +23,7 @@ namespace BasicRuntimeGeometry
 
         public Transform Transform { get; set; }
 
-        public Cube(Game game, string texture, string effectAsset) : base(game)
+        public Cube(Game game, string texture, string effectAsset, List<Vector2> uvMap = null) : base(game)
         {
             Transform = new Transform();
             _texture = texture;
@@ -51,15 +51,20 @@ namespace BasicRuntimeGeometry
                 Vector3.Right,Vector3.Right,Vector3.Right,Vector3.Right,
             };
 
-            _meshData.TextCoords = new List<Vector2>()
+            if (uvMap == null)
             {
-                new Vector2(0, 0),new Vector2(1, 0),new Vector2(1, 1),new Vector2(0, 1),
-                new Vector2(1, 0),new Vector2(0, 0),new Vector2(0, 1),new Vector2(1, 1),
-                new Vector2(0, 1),new Vector2(1, 1),new Vector2(1, 0),new Vector2(0, 0),
-                new Vector2(0, 0),new Vector2(1, 0),new Vector2(1, 1),new Vector2(0, 1),
-                new Vector2(0, 0),new Vector2(1, 0),new Vector2(1, 1),new Vector2(0, 1),
-                new Vector2(1, 0),new Vector2(0, 0),new Vector2(0, 1),new Vector2(1, 1),
-            };
+                _meshData.TextCoords = new List<Vector2>()
+                {
+                    new Vector2(0, 0),new Vector2(1, 0),new Vector2(1, 1),new Vector2(0, 1),
+                    new Vector2(1, 0),new Vector2(0, 0),new Vector2(0, 1),new Vector2(1, 1),
+                    new Vector2(0, 1),new Vector2(1, 1),new Vector2(1, 0),new Vector2(0, 0),
+                    new Vector2(0, 0),new Vector2(1, 0),new Vector2(1, 1),new Vector2(0, 1),
+                    new Vector2(0, 0),new Vector2(1, 0),new Vector2(1, 1),new Vector2(0, 1),
+                    new Vector2(1, 0),new Vector2(0, 0),new Vector2(0, 1),new Vector2(1, 1),
+                };
+            }
+            else
+                _meshData.TextCoords = uvMap;
 
             _meshData.Colors = new List<Color>();
             for (int v = 0; v < _meshData.Vertices.Count; v++)

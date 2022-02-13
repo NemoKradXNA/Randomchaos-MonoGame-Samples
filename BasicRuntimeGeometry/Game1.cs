@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RandomchaosMGBase.BaseClasses;
 using RandomchaosMGBase.InputManagers;
+using System.Collections.Generic;
 
 namespace BasicRuntimeGeometry
 {
@@ -15,6 +16,7 @@ namespace BasicRuntimeGeometry
         Base3DCamera camera;
 
         Cube cube;
+        Cube cubeMapped;
 
         public Game1()
         {
@@ -30,7 +32,23 @@ namespace BasicRuntimeGeometry
             Services.AddService(typeof(Base3DCamera), camera);
 
             cube = new Cube(this, "Textures/monoGameLogo", "Shaders/BasicShader");
+            cube.Transform.Position = Vector3.Left;
             Components.Add(cube);
+
+            // Set the uv values based on the texture we want from our texture atlas.
+            List<Vector2> uvMap = new List<Vector2>()
+            {
+                new Vector2(0, 0),new Vector2(.25f, 0),new Vector2(.25f, .25f),new Vector2(0, .25f), // Front Face: Top left texture (white)
+                new Vector2(.5f, 0),new Vector2(.25f, 0),new Vector2(.25f, .25f),new Vector2(.5f, .25f), // Back Face: black
+                new Vector2(.5f, 0),new Vector2(.75f, .25f),new Vector2(.75f, 0),new Vector2(.5f, 0), // Top Face: pink
+                new Vector2(.75f, .25f),new Vector2(1, .25f),new Vector2(1, .5f),new Vector2(.75f, .5f), // Bottom Face :   Yellow
+                new Vector2(0, .5f),new Vector2(.25f, .5f),new Vector2(.25f, .75f),new Vector2(0, .75f), // LEft Face : Green
+                new Vector2(1, .75f),new Vector2(.75f, .75f),new Vector2(.75f, 1),new Vector2(1, 1), // Right Face : Dark Red
+            };
+
+            cubeMapped = new Cube(this, "Textures/atlas", "Shaders/BasicShader", uvMap);
+            cubeMapped.Transform.Position = Vector3.Right;
+            Components.Add(cubeMapped);
         }
 
         protected override void Initialize()
