@@ -33,6 +33,20 @@ namespace RandomchaosMGBase.VertexTypes
 
         #region IVertexType Members
 
+        public static VertexDeclaration VertDec
+        {
+            get
+            {
+                return new VertexDeclaration
+                        (
+                        new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+                        new VertexElement(4 * 3, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
+                        new VertexElement(4 * 6, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0),
+                        new VertexElement(4 * 8, VertexElementFormat.Vector3, VertexElementUsage.Tangent, 0),
+                        new VertexElement(4 * 11, VertexElementFormat.Vector4, VertexElementUsage.Color, 0)
+                        );
+            }
+        }
 
         public VertexDeclaration VertexDeclaration
         {

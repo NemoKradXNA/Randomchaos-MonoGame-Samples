@@ -12,7 +12,7 @@ namespace RandomchaosMGBase.BaseClasses.PostProcessing
         public LightSourceMask(Game game, Vector3 sourcePos, string lightSourceasset, float lightSize)
             : base(game)
         {
-            UsesVertexShader = true;
+            //UsesVertexShader = true;
             lighSourcePos = sourcePos;
             this.lightSourceasset = lightSourceasset;
             this.lightSize = lightSize;

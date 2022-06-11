@@ -79,11 +79,11 @@ namespace RandomchaosMGBase.BaseClasses
         /// <summary>
         /// View ports min depth
         /// </summary>
-        protected float minDepth;
+        public float minDepth;
         /// <summary>
         /// Viewports max depth.
         /// </summary>
-        protected float maxDepth;
+        public float maxDepth;
 
         /// <summary>
         /// ctor

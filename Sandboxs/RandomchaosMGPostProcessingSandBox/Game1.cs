@@ -137,7 +137,8 @@ namespace RandomchaosMGPostProcessingSandBox
             fog.Enabled = false;
             ppManager.AddEffect(fog);
 
-            GodRays = new CrepuscularRays(this, LightPosition, "Textures/flare", 1500, .99f, .99f, .5f, .12f, .25f);
+            //GodRays = new CrepuscularRays(this, LightPosition, "Textures/flare", 1500, .99f, .99f, .5f, .12f, .25f);
+            GodRays = new CrepuscularRays(this, new Vector3(10,10,100), "Textures/flare", 100, .99f, .99f, .5f, .12f, .25f);
             GodRays.Enabled = false;
             ppManager.AddEffect(GodRays);
 
